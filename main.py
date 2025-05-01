@@ -1,11 +1,23 @@
 import requests
 import json
+from datetime import datetime, timedelta
 from constants import (
     PATIENT_SEARCH_URL, 
     APPOINTMENT_SEARCH_URL, 
     APPOINTMENT_TYPES, 
     DOCTORS, 
     ROOMS
+)
+import logging
+
+# Logging-Konfiguration
+with open("config.json", "r", encoding="utf-8") as f:
+    config = json.load(f)
+logging.basicConfig(
+    filename=config.get("log_file", "calldoc_export.log"),
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    encoding="utf-8"
 )
 
 
@@ -160,32 +172,24 @@ def enrich_appointments_with_patients(from_date, to_date, appointment_type_id=24
     return result
 
 
+def get_next_monday():
+    today = datetime.now()
+    next_monday = today + timedelta(days=(7 - today.weekday()))
+    return next_monday.strftime("%Y-%m-%d")
+
+
 if __name__ == "__main__":
-    # Export für alle Werktage der nächsten Woche (appointment_type_id=24)
     from weekly_appointment_exporter import WeeklyAppointmentExporter
-    import datetime
-    today = datetime.date.today()
-    next_week = today.isocalendar().week + 1
-    year = today.year
+    week_start = get_next_monday()
     exporter = WeeklyAppointmentExporter(
-        year=year,
-        week=next_week,
-        appointment_type_id=24
+        week_start=week_start,
+        appointment_type_id=config["appointment_type_id"],
+        doctor_id=config.get("doctor_id"),
+        room_id=config.get("room_id"),
+        skip_holidays=config.get("skip_holidays", True),
+        export_directory=config.get("export_directory"),
+        country=config.get("country", "DE"),
+        subdiv=config.get("subdiv", "BY")
     )
     exporter.export_week()
-
-    # Export für alle Werktage der übernächsten Woche (appointment_type_id=24)
-    # Prüfe auf Jahreswechsel
-    import calendar
-    weeks_in_year = datetime.date(year, 12, 28).isocalendar().week
-    week_after_next = next_week + 1
-    year2 = year
-    if week_after_next > weeks_in_year:
-        week_after_next = 1
-        year2 = year + 1
-    exporter2 = WeeklyAppointmentExporter(
-        year=year2,
-        week=week_after_next,
-        appointment_type_id=24
-    )
-    exporter2.export_week()
+    logging.info("Wochexport abgeschlossen.")

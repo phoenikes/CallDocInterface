@@ -22,7 +22,6 @@ imports:
  &#8226;   <a href="#_collections_abc">_collections_abc</a>
  &#8226;   <a href="#_weakrefset">_weakrefset</a>
  &#8226;   <a href="#abc">abc</a>
- &#8226;   <a href="#calendar">calendar</a>
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#collections">collections</a>
  &#8226;   <a href="#collections.abc">collections.abc</a>
@@ -160,6 +159,7 @@ imports:
  &#8226;   <a href="#keyword">keyword</a>
  &#8226;   <a href="#linecache">linecache</a>
  &#8226;   <a href="#locale">locale</a>
+ &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#ntpath">ntpath</a>
  &#8226;   <a href="#operator">operator</a>
  &#8226;   <a href="#os">os</a>
@@ -1190,6 +1190,7 @@ imports:
     <a href="#constants">constants</a>
  &#8226;   <a href="#csv">csv</a>
  &#8226;   <a href="#json">json</a>
+ &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#main">main</a>
  &#8226;   <a href="#os">os</a>
  &#8226;   <a href="#typing">typing</a>
@@ -1434,8 +1435,6 @@ imported by:
     <a href="#_strptime">_strptime</a>
  &#8226;   <a href="#email._parseaddr">email._parseaddr</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
- &#8226;   <a href="#main">main</a>
- &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#requests.cookies">requests.cookies</a>
  &#8226;   <a href="#ssl">ssl</a>
 
@@ -1998,6 +1997,7 @@ imported by:
     <a href="#appointment_patient_enricher">appointment_patient_enricher</a>
  &#8226;   <a href="#main">main</a>
  &#8226;   <a href="#main.py">main.py</a>
+ &#8226;   <a href="#weekly_appointment_exporter">weekly_appointment_exporter</a>
 
   </div>
 
@@ -6255,6 +6255,7 @@ imported by:
  &#8226;   <a href="#urllib3.contrib.emscripten.fetch">urllib3.contrib.emscripten.fetch</a>
  &#8226;   <a href="#urllib3.contrib.emscripten.response">urllib3.contrib.emscripten.response</a>
  &#8226;   <a href="#urllib3.response">urllib3.response</a>
+ &#8226;   <a href="#weekly_appointment_exporter">weekly_appointment_exporter</a>
 
   </div>
 
@@ -6406,12 +6407,15 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#charset_normalizer">charset_normalizer</a>
+    <a href="#appointment_patient_enricher">appointment_patient_enricher</a>
+ &#8226;   <a href="#charset_normalizer">charset_normalizer</a>
  &#8226;   <a href="#charset_normalizer.api">charset_normalizer.api</a>
  &#8226;   <a href="#charset_normalizer.md">charset_normalizer.md</a>
  &#8226;   <a href="#charset_normalizer.utils">charset_normalizer.utils</a>
  &#8226;   <a href="#hashlib">hashlib</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
+ &#8226;   <a href="#main">main</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#requests">requests</a>
  &#8226;   <a href="#urllib3">urllib3</a>
  &#8226;   <a href="#urllib3.connection">urllib3.connection</a>
@@ -6422,6 +6426,7 @@ imported by:
  &#8226;   <a href="#urllib3.poolmanager">urllib3.poolmanager</a>
  &#8226;   <a href="#urllib3.response">urllib3.response</a>
  &#8226;   <a href="#urllib3.util.retry">urllib3.util.retry</a>
+ &#8226;   <a href="#weekly_appointment_exporter">weekly_appointment_exporter</a>
 
   </div>
 
@@ -6454,10 +6459,10 @@ imported by:
   <a target="code" href="///C:/Users/administrator.PRAXIS/PycharmProjects/calldocinterface/main.py" type="text/plain"><tt>main</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#calendar">calendar</a>
- &#8226;   <a href="#constants">constants</a>
+    <a href="#constants">constants</a>
  &#8226;   <a href="#datetime">datetime</a>
  &#8226;   <a href="#json">json</a>
+ &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#requests">requests</a>
  &#8226;   <a href="#weekly_appointment_exporter">weekly_appointment_exporter</a>
 
@@ -6764,6 +6769,7 @@ imported by:
  &#8226;   <a href="#urllib3.filepost">urllib3.filepost</a>
  &#8226;   <a href="#urllib3.util.ssl_">urllib3.util.ssl_</a>
  &#8226;   <a href="#uu">uu</a>
+ &#8226;   <a href="#weekly_appointment_exporter">weekly_appointment_exporter</a>
  &#8226;   <a href="#zipfile">zipfile</a>
 
   </div>
@@ -8481,7 +8487,6 @@ imported by:
  &#8226;   <a href="#urllib3.util.timeout">urllib3.util.timeout</a>
  &#8226;   <a href="#urllib3.util.url">urllib3.util.url</a>
  &#8226;   <a href="#urllib3.util.util">urllib3.util.util</a>
- &#8226;   <a href="#weekly_appointment_exporter">weekly_appointment_exporter</a>
 
   </div>
 
@@ -9855,9 +9860,12 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#appointment_patient_enricher">appointment_patient_enricher</a>
+ &#8226;   <a href="#constants">constants</a>
  &#8226;   <a href="#datetime">datetime</a>
  &#8226;   <a href="#holidays">holidays</a>
- &#8226;   <a href="#typing">typing</a>
+ &#8226;   <a href="#json">json</a>
+ &#8226;   <a href="#logging">logging</a>
+ &#8226;   <a href="#os">os</a>
 
   </div>
   <div class="import">

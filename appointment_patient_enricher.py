@@ -4,24 +4,29 @@ import json
 from typing import Optional, List
 import os
 import csv
+import logging
 
 class AppointmentPatientEnricher:
     """
     Sucht Termine und reichert sie mit Patientendaten an. Validiert IDs gegen Konstanten.
     Bietet Export- und Utility-Methoden.
     """
-    def __init__(self, from_date: str, to_date: str, appointment_type_id: int, doctor_id: Optional[int] = None, room_id: Optional[int] = None):
+    def __init__(self, from_date: str, to_date: str, appointment_type_id: int, doctor_id: Optional[int] = None, room_id: Optional[int] = None, patient_cache: Optional[dict] = None):
         """
         Initialisiert den Enricher für einen bestimmten Zeitraum und Filter.
         - from_date, to_date: Zeitraum im Format YYYY-MM-DD
         - appointment_type_id: Pflicht, muss in APPOINTMENT_TYPES enthalten sein
         - doctor_id, room_id: Optional, falls gesetzt Validierung gegen DOCTORS/ROOMS
+        - patient_cache: Optionales Dict für Caching von Patientendaten
         """
         if appointment_type_id not in APPOINTMENT_TYPES.values():
+            logging.error(f"Ungültiger appointment_type_id: {appointment_type_id}")
             raise ValueError(f"Ungültiger appointment_type_id: {appointment_type_id}")
         if doctor_id is not None and doctor_id not in DOCTORS.values():
+            logging.error(f"Ungültiger doctor_id: {doctor_id}")
             raise ValueError(f"Ungültiger doctor_id: {doctor_id}")
         if room_id is not None and room_id not in ROOMS.values():
+            logging.error(f"Ungültiger room_id: {room_id}")
             raise ValueError(f"Ungültiger room_id: {room_id}")
         self.from_date = from_date
         self.to_date = to_date
@@ -31,6 +36,7 @@ class AppointmentPatientEnricher:
         self.interface = CallDocInterface(from_date=from_date, to_date=to_date)
         self.raw_appointments = None
         self.enriched_appointments = None
+        self.patient_cache = patient_cache if patient_cache is not None else {}
 
     def fetch_appointments(self):
         """
@@ -43,7 +49,12 @@ class AppointmentPatientEnricher:
             params["employee_id"] = self.doctor_id
         if self.room_id:
             params["room_id"] = self.room_id
-        self.raw_appointments = self.interface.appointment_search(**params)
+        try:
+            self.raw_appointments = self.interface.appointment_search(**params)
+            logging.info(f"Termine geladen: {len(self.raw_appointments.get('data', []))} für {self.from_date}")
+        except Exception as e:
+            logging.error(f"Fehler beim Laden der Termine: {e}")
+            self.raw_appointments = {"data": []}
         return self.raw_appointments
 
     def enrich_with_patients(self):
@@ -59,7 +70,17 @@ class AppointmentPatientEnricher:
         for appt in appointments:
             piz = appt.get("piz")
             if piz and piz not in piz_set:
-                patient_data = self.interface.get_patient_by_piz(piz)
+                if piz in self.patient_cache:
+                    patient_data = self.patient_cache[piz]
+                    logging.debug(f"Patientendaten aus Cache für piz {piz}")
+                else:
+                    try:
+                        patient_data = self.interface.get_patient_by_piz(piz)
+                        self.patient_cache[piz] = patient_data
+                        logging.info(f"Patientendaten geladen für piz {piz}")
+                    except Exception as e:
+                        logging.error(f"Fehler beim Laden der Patientendaten für piz {piz}: {e}")
+                        patient_data = None
                 last_name = first_name = date_of_birth = None
                 if patient_data and isinstance(patient_data, dict):
                     patients_list = patient_data.get("patients")
