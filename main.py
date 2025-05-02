@@ -1,3 +1,18 @@
+"""
+Hauptmodul für den CallDoc-Export.
+
+- Unterstützt Wochen- und Einzel-Tages-Export auf Basis von Konfigurationsdateien.
+- Beim Start ohne Argumente werden automatisch alle config*.json im aktuellen Verzeichnis verarbeitet.
+- Fehler werden abgefangen und ausgegeben, das Fenster bleibt am Ende offen.
+
+Benutzung:
+- Per Doppelklick oder Kommandozeile starten. Standardmäßig werden alle config*.json verarbeitet.
+- Alternativ können gezielt Konfigurationsdateien als Argumente übergeben werden:
+    main.exe config.json config2.json
+
+Konfigurationsbeispiele siehe README.md
+"""
+
 import requests
 import json
 from datetime import datetime, timedelta
@@ -9,6 +24,7 @@ from constants import (
     ROOMS
 )
 import logging
+import glob
 
 # Logging-Konfiguration
 with open("config.json", "r", encoding="utf-8") as f:
@@ -181,39 +197,53 @@ def get_next_monday():
 if __name__ == "__main__":
     import sys
     from weekly_appointment_exporter import WeeklyAppointmentExporter
-    config_files = sys.argv[1:] if len(sys.argv) > 1 else ["config.json"]
-    for config_file in config_files:
-        with open(config_file, "r", encoding="utf-8") as f:
-            config = json.load(f)
+    try:
+        if len(sys.argv) > 1:
+            config_files = sys.argv[1:]
+        else:
+            # Alle config*.json im aktuellen Verzeichnis verwenden
+            config_files = sorted(glob.glob("config*.json"))
+            if not config_files:
+                print("Keine Konfigurationsdateien (config*.json) gefunden!")
+                input("Drücken Sie Enter zum Beenden...")
+                sys.exit(1)
+        for config_file in config_files:
+            with open(config_file, "r", encoding="utf-8") as f:
+                config = json.load(f)
 
-        # Einzel-Tag-Export, falls from_date und to_date gesetzt sind
-        if config.get("from_date") and config.get("to_date"):
-            from_date = config["from_date"]
-            to_date = config["to_date"]
-            print(f"Starte Einzel-Tages-Export für {config_file}: {from_date}")
-            enrich_appointments_with_patients(
-                from_date=from_date,
-                to_date=to_date,
+            # Einzel-Tag-Export, falls from_date und to_date gesetzt sind
+            if config.get("from_date") and config.get("to_date"):
+                from_date = config["from_date"]
+                to_date = config["to_date"]
+                print(f"Starte Einzel-Tages-Export für {config_file}: {from_date}")
+                enrich_appointments_with_patients(
+                    from_date=from_date,
+                    to_date=to_date,
+                    appointment_type_id=config["appointment_type_id"],
+                    output_path=f"{config.get('export_directory', '.')}/{from_date}_{to_date}_{config['appointment_type_id']}_{config.get('doctor_id','none')}_{config.get('room_id','none')}.json"
+                )
+                logging.info(f"Einzeltag-Export abgeschlossen für {config_file}.")
+                continue
+
+            # Wochen-Export (Standard)
+            week_offset = config.get("week_offset", 0)
+            week_start = datetime.now() + timedelta(days=(7 - datetime.now().weekday()) + week_offset*7)
+            week_start_str = week_start.strftime("%Y-%m-%d")
+            exporter = WeeklyAppointmentExporter(
+                week_start=week_start_str,
                 appointment_type_id=config["appointment_type_id"],
-                output_path=f"{config.get('export_directory', '.')}/{from_date}_{to_date}_{config['appointment_type_id']}_{config.get('doctor_id','none')}_{config.get('room_id','none')}.json"
+                doctor_id=config.get("doctor_id"),
+                room_id=config.get("room_id"),
+                skip_holidays=config.get("skip_holidays", True),
+                export_directory=config.get("export_directory"),
+                country=config.get("country", "DE"),
+                subdiv=config.get("subdiv", "BY")
             )
-            logging.info(f"Einzeltag-Export abgeschlossen für {config_file}.")
-            continue
-
-        # Wochen-Export (Standard)
-        week_offset = config.get("week_offset", 0)
-        week_start = datetime.now() + timedelta(days=(7 - datetime.now().weekday()) + week_offset*7)
-        week_start_str = week_start.strftime("%Y-%m-%d")
-        exporter = WeeklyAppointmentExporter(
-            week_start=week_start_str,
-            appointment_type_id=config["appointment_type_id"],
-            doctor_id=config.get("doctor_id"),
-            room_id=config.get("room_id"),
-            skip_holidays=config.get("skip_holidays", True),
-            export_directory=config.get("export_directory"),
-            country=config.get("country", "DE"),
-            subdiv=config.get("subdiv", "BY")
-        )
-        print(f"Starte Export für Config: {config_file}")
-        exporter.export_week()
-        logging.info(f"Wochexport abgeschlossen für {config_file}.")
+            print(f"Starte Export für Config: {config_file}")
+            exporter.export_week()
+            logging.info(f"Wochexport abgeschlossen für {config_file}.")
+    except Exception as e:
+        print("Fehler beim Export:", e)
+        import traceback
+        traceback.print_exc()
+    input("\nFertig. Drücken Sie Enter zum Beenden...")
