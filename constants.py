@@ -1,5 +1,24 @@
 """
-Konstanten für die CallDocInterface Klasse
+Konstanten und zentrale Einstellungen für die CallDoc-Schnittstelle und Export-Logik.
+
+Dieses Modul enthält:
+- Die zentralen API-URLs für Patientensuche und Terminsuche
+- Die Zuordnung von sprechenden Namen zu Appointment-Typ-IDs
+- (Erweiterbar: Konstanten für Ärzte, Räume etc.)
+
+Verwendung:
+- Die Konstanten werden in der gesamten Anwendung verwendet, um konsistente und wartbare Filter und API-Aufrufe zu ermöglichen.
+- Änderungen an den IDs oder neuen Typen werden zentral gepflegt.
+
+API-Basis-URL:
+- Die Basis-URL verweist auf das Backend des CallDoc-Systems.
+
+Appointment-Typen:
+- Die Zuordnung APPOINTMENT_TYPES ermöglicht es, sprechende Namen im Code zu verwenden und so die Lesbarkeit zu erhöhen.
+- Beispiel: APPOINTMENT_TYPES["HERZKATHETERUNTERSUCHUNG"] ergibt 24
+
+Erweiterung:
+- Für Ärzte, Räume etc. können weitere Dictionaries analog gepflegt werden.
 """
 
 # API URLs

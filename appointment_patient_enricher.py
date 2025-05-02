@@ -89,6 +89,15 @@ class AppointmentPatientEnricher:
                         last_name = pat.get("surname")
                         first_name = pat.get("name")
                         date_of_birth = pat.get("date_of_birth")
+                        # Zusätzliche Felder übernehmen, falls sie noch nicht im Termin sind
+                        extra_fields = [
+                            'insurance_number', 'insurance_provider', 'gender', 'address',
+                            'insured_type', 'billing_vknr', 'cost_bearer_id',
+                            'last_card_read', 'emails', 'phones'
+                        ]
+                        for field in extra_fields:
+                            if field not in appt:
+                                appt[field] = pat.get(field)
                 appt["last_name"] = last_name
                 appt["first_name"] = first_name
                 appt["date_of_birth"] = date_of_birth
@@ -106,11 +115,11 @@ class AppointmentPatientEnricher:
     def get_filename(self):
         """
         Erzeugt den Dateinamen für den Export auf Basis der gesetzten Filter und des Zeitraums.
-        Format: FROM_TO_APPOINTMENTTYPE_DOCTOR_ROOM.json (0 als Platzhalter falls kein Filter gesetzt)
+        Format: FROM_TO_APPOINTMENTTYPE_DOCTOR_ROOM.json ("none" als Platzhalter falls kein Filter gesetzt)
         """
-        atype = self.appointment_type_id if self.appointment_type_id is not None else 0
-        doctor = self.doctor_id if self.doctor_id is not None else 0
-        room = self.room_id if self.room_id is not None else 0
+        atype = self.appointment_type_id if self.appointment_type_id is not None else "none"
+        doctor = self.doctor_id if self.doctor_id is not None else "none"
+        room = self.room_id if self.room_id is not None else "none"
         return f"{self.from_date}_{self.to_date}_{atype}_{doctor}_{room}.json"
 
     def to_json(self, directory: str = r"P:/imports/cathlab/json_heydoc"):

@@ -110,3 +110,639 @@
 2025-05-01 16:07:48,712 INFO Patientendaten geladen für piz 1649366
 2025-05-01 16:07:48,797 INFO Patientendaten geladen für piz 1678123
 2025-05-01 16:07:48,800 INFO Export erfolgreich für 2025-05-09
+2025-05-01 20:41:38,164 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 20:41:38,249 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 20:41:38,355 INFO Patientendaten geladen für piz 1678864
+2025-05-01 20:41:38,455 INFO Patientendaten geladen für piz 789018
+2025-05-01 20:41:38,532 INFO Patientendaten geladen für piz 1679380
+2025-05-01 20:41:38,609 INFO Patientendaten geladen für piz 821830
+2025-05-01 20:41:38,686 INFO Patientendaten geladen für piz 1680193
+2025-05-01 20:41:38,762 INFO Patientendaten geladen für piz 812998
+2025-05-01 20:41:38,838 INFO Patientendaten geladen für piz 1609766
+2025-05-01 20:41:38,842 INFO Export erfolgreich für 2025-05-05
+2025-05-01 20:41:38,869 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 20:41:38,872 INFO Export erfolgreich für 2025-05-06
+2025-05-01 20:41:38,967 INFO Termine geladen: 18 für 2025-05-07
+2025-05-01 20:41:39,057 INFO Patientendaten geladen für piz 1663995
+2025-05-01 20:41:39,135 INFO Patientendaten geladen für piz 1680454
+2025-05-01 20:41:39,213 INFO Patientendaten geladen für piz 1680584
+2025-05-01 20:41:39,287 INFO Patientendaten geladen für piz 1646580
+2025-05-01 20:41:39,362 INFO Patientendaten geladen für piz 1676283
+2025-05-01 20:41:39,436 INFO Patientendaten geladen für piz 838001
+2025-05-01 20:41:39,510 INFO Patientendaten geladen für piz 1681124
+2025-05-01 20:41:39,583 INFO Patientendaten geladen für piz 1681181
+2025-05-01 20:41:39,666 INFO Patientendaten geladen für piz 1677788
+2025-05-01 20:41:39,753 INFO Patientendaten geladen für piz 715574
+2025-05-01 20:41:39,832 INFO Patientendaten geladen für piz 402753
+2025-05-01 20:41:39,912 INFO Patientendaten geladen für piz 1680047
+2025-05-01 20:41:39,990 INFO Patientendaten geladen für piz 1681239
+2025-05-01 20:41:40,079 INFO Patientendaten geladen für piz 1655667
+2025-05-01 20:41:40,159 INFO Patientendaten geladen für piz 1680281
+2025-05-01 20:41:40,238 INFO Patientendaten geladen für piz 508081
+2025-05-01 20:41:40,314 INFO Patientendaten geladen für piz 515005
+2025-05-01 20:41:40,319 INFO Export erfolgreich für 2025-05-07
+2025-05-01 20:41:40,422 INFO Termine geladen: 14 für 2025-05-08
+2025-05-01 20:41:40,503 INFO Patientendaten geladen für piz 1674634
+2025-05-01 20:41:40,588 INFO Patientendaten geladen für piz 1629965
+2025-05-01 20:41:40,673 INFO Patientendaten geladen für piz 1614436
+2025-05-01 20:41:40,757 INFO Patientendaten geladen für piz 1680554
+2025-05-01 20:41:40,861 INFO Patientendaten geladen für piz 503912
+2025-05-01 20:41:40,957 INFO Patientendaten geladen für piz 781555
+2025-05-01 20:41:41,049 INFO Patientendaten geladen für piz 1675042
+2025-05-01 20:41:41,144 INFO Patientendaten geladen für piz 502337
+2025-05-01 20:41:41,238 INFO Patientendaten geladen für piz 1626758
+2025-05-01 20:41:41,317 INFO Patientendaten geladen für piz 1642874
+2025-05-01 20:41:41,395 INFO Patientendaten geladen für piz 1654035
+2025-05-01 20:41:41,471 INFO Patientendaten geladen für piz 1610199
+2025-05-01 20:41:41,559 INFO Patientendaten geladen für piz 1680675
+2025-05-01 20:41:41,648 INFO Patientendaten geladen für piz 1679556
+2025-05-01 20:41:41,653 INFO Export erfolgreich für 2025-05-08
+2025-05-01 20:41:41,729 INFO Termine geladen: 7 für 2025-05-09
+2025-05-01 20:41:41,809 INFO Patientendaten geladen für piz 1671756
+2025-05-01 20:41:41,892 INFO Patientendaten geladen für piz 1678249
+2025-05-01 20:41:41,975 INFO Patientendaten geladen für piz 527581
+2025-05-01 20:41:42,062 INFO Patientendaten geladen für piz 794060
+2025-05-01 20:41:42,154 INFO Patientendaten geladen für piz 1680456
+2025-05-01 20:41:42,235 INFO Patientendaten geladen für piz 1649366
+2025-05-01 20:41:42,320 INFO Patientendaten geladen für piz 1678123
+2025-05-01 20:41:42,329 INFO Export erfolgreich für 2025-05-09
+2025-05-01 20:41:42,329 INFO Wochexport abgeschlossen.
+2025-05-01 20:41:49,955 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 20:41:50,020 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 20:41:50,092 INFO Patientendaten geladen für piz 1678864
+2025-05-01 20:41:50,162 INFO Patientendaten geladen für piz 789018
+2025-05-01 20:41:50,243 INFO Patientendaten geladen für piz 1679380
+2025-05-01 20:41:50,321 INFO Patientendaten geladen für piz 821830
+2025-05-01 20:41:50,398 INFO Patientendaten geladen für piz 1680193
+2025-05-01 20:41:50,485 INFO Patientendaten geladen für piz 812998
+2025-05-01 20:41:50,561 INFO Patientendaten geladen für piz 1609766
+2025-05-01 20:41:50,565 INFO Export erfolgreich für 2025-05-05
+2025-05-01 20:41:50,591 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 20:41:50,593 INFO Export erfolgreich für 2025-05-06
+2025-05-01 20:41:50,729 INFO Termine geladen: 18 für 2025-05-07
+2025-05-01 20:41:50,805 INFO Patientendaten geladen für piz 1663995
+2025-05-01 20:41:50,874 INFO Patientendaten geladen für piz 1680454
+2025-05-01 20:41:50,950 INFO Patientendaten geladen für piz 1680584
+2025-05-01 20:41:51,018 INFO Patientendaten geladen für piz 1646580
+2025-05-01 20:41:51,107 INFO Patientendaten geladen für piz 1676283
+2025-05-01 20:41:51,184 INFO Patientendaten geladen für piz 838001
+2025-05-01 20:41:51,259 INFO Patientendaten geladen für piz 1681124
+2025-05-01 20:41:51,360 INFO Patientendaten geladen für piz 1681181
+2025-05-01 20:41:51,449 INFO Patientendaten geladen für piz 1677788
+2025-05-01 20:41:51,533 INFO Patientendaten geladen für piz 715574
+2025-05-01 20:41:51,624 INFO Patientendaten geladen für piz 402753
+2025-05-01 20:41:51,704 INFO Patientendaten geladen für piz 1680047
+2025-05-01 20:41:51,780 INFO Patientendaten geladen für piz 1681239
+2025-05-01 20:41:51,851 INFO Patientendaten geladen für piz 1655667
+2025-05-01 20:41:51,921 INFO Patientendaten geladen für piz 1680281
+2025-05-01 20:41:52,000 INFO Patientendaten geladen für piz 508081
+2025-05-01 20:41:52,082 INFO Patientendaten geladen für piz 515005
+2025-05-01 20:41:52,087 INFO Export erfolgreich für 2025-05-07
+2025-05-01 20:41:52,200 INFO Termine geladen: 14 für 2025-05-08
+2025-05-01 20:41:52,287 INFO Patientendaten geladen für piz 1674634
+2025-05-01 20:41:52,365 INFO Patientendaten geladen für piz 1629965
+2025-05-01 20:41:52,437 INFO Patientendaten geladen für piz 1614436
+2025-05-01 20:41:52,517 INFO Patientendaten geladen für piz 1680554
+2025-05-01 20:41:52,598 INFO Patientendaten geladen für piz 503912
+2025-05-01 20:41:52,672 INFO Patientendaten geladen für piz 781555
+2025-05-01 20:41:52,745 INFO Patientendaten geladen für piz 1675042
+2025-05-01 20:41:52,829 INFO Patientendaten geladen für piz 502337
+2025-05-01 20:41:52,910 INFO Patientendaten geladen für piz 1626758
+2025-05-01 20:41:52,988 INFO Patientendaten geladen für piz 1642874
+2025-05-01 20:41:53,072 INFO Patientendaten geladen für piz 1654035
+2025-05-01 20:41:53,156 INFO Patientendaten geladen für piz 1610199
+2025-05-01 20:41:53,253 INFO Patientendaten geladen für piz 1680675
+2025-05-01 20:41:53,328 INFO Patientendaten geladen für piz 1679556
+2025-05-01 20:41:53,332 INFO Export erfolgreich für 2025-05-08
+2025-05-01 20:41:53,423 INFO Termine geladen: 7 für 2025-05-09
+2025-05-01 20:41:53,505 INFO Patientendaten geladen für piz 1671756
+2025-05-01 20:41:53,579 INFO Patientendaten geladen für piz 1678249
+2025-05-01 20:41:53,654 INFO Patientendaten geladen für piz 527581
+2025-05-01 20:41:53,723 INFO Patientendaten geladen für piz 794060
+2025-05-01 20:41:53,794 INFO Patientendaten geladen für piz 1680456
+2025-05-01 20:41:53,868 INFO Patientendaten geladen für piz 1649366
+2025-05-01 20:41:53,948 INFO Patientendaten geladen für piz 1678123
+2025-05-01 20:41:53,951 INFO Export erfolgreich für 2025-05-09
+2025-05-01 20:41:53,951 INFO Wochexport abgeschlossen.
+2025-05-01 20:43:33,216 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 20:43:33,295 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 20:43:33,369 INFO Patientendaten geladen für piz 1678864
+2025-05-01 20:43:33,436 INFO Patientendaten geladen für piz 789018
+2025-05-01 20:43:33,505 INFO Patientendaten geladen für piz 1679380
+2025-05-01 20:43:33,583 INFO Patientendaten geladen für piz 821830
+2025-05-01 20:43:33,655 INFO Patientendaten geladen für piz 1680193
+2025-05-01 20:43:33,725 INFO Patientendaten geladen für piz 812998
+2025-05-01 20:43:33,796 INFO Patientendaten geladen für piz 1609766
+2025-05-01 20:43:33,800 INFO Export erfolgreich für 2025-05-05
+2025-05-01 20:43:33,829 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 20:43:33,832 INFO Export erfolgreich für 2025-05-06
+2025-05-01 20:43:33,948 INFO Termine geladen: 18 für 2025-05-07
+2025-05-01 20:43:34,025 INFO Patientendaten geladen für piz 1663995
+2025-05-01 20:43:34,098 INFO Patientendaten geladen für piz 1680454
+2025-05-01 20:43:34,167 INFO Patientendaten geladen für piz 1680584
+2025-05-01 20:43:34,242 INFO Patientendaten geladen für piz 1646580
+2025-05-01 20:43:34,309 INFO Patientendaten geladen für piz 1676283
+2025-05-01 20:43:34,376 INFO Patientendaten geladen für piz 838001
+2025-05-01 20:43:34,440 INFO Patientendaten geladen für piz 1681124
+2025-05-01 20:43:34,510 INFO Patientendaten geladen für piz 1681181
+2025-05-01 20:43:34,582 INFO Patientendaten geladen für piz 1677788
+2025-05-01 20:43:34,652 INFO Patientendaten geladen für piz 715574
+2025-05-01 20:43:34,734 INFO Patientendaten geladen für piz 402753
+2025-05-01 20:43:34,807 INFO Patientendaten geladen für piz 1680047
+2025-05-01 20:43:34,878 INFO Patientendaten geladen für piz 1681239
+2025-05-01 20:43:34,955 INFO Patientendaten geladen für piz 1655667
+2025-05-01 20:43:35,021 INFO Patientendaten geladen für piz 1680281
+2025-05-01 20:43:35,086 INFO Patientendaten geladen für piz 508081
+2025-05-01 20:43:35,158 INFO Patientendaten geladen für piz 515005
+2025-05-01 20:43:35,163 INFO Export erfolgreich für 2025-05-07
+2025-05-01 20:43:35,254 INFO Termine geladen: 14 für 2025-05-08
+2025-05-01 20:43:35,326 INFO Patientendaten geladen für piz 1674634
+2025-05-01 20:43:35,403 INFO Patientendaten geladen für piz 1629965
+2025-05-01 20:43:35,470 INFO Patientendaten geladen für piz 1614436
+2025-05-01 20:43:35,550 INFO Patientendaten geladen für piz 1680554
+2025-05-01 20:43:35,651 INFO Patientendaten geladen für piz 503912
+2025-05-01 20:43:35,740 INFO Patientendaten geladen für piz 781555
+2025-05-01 20:43:35,826 INFO Patientendaten geladen für piz 1675042
+2025-05-01 20:43:35,917 INFO Patientendaten geladen für piz 502337
+2025-05-01 20:43:36,000 INFO Patientendaten geladen für piz 1626758
+2025-05-01 20:43:36,073 INFO Patientendaten geladen für piz 1642874
+2025-05-01 20:43:36,143 INFO Patientendaten geladen für piz 1654035
+2025-05-01 20:43:36,210 INFO Patientendaten geladen für piz 1610199
+2025-05-01 20:43:36,280 INFO Patientendaten geladen für piz 1680675
+2025-05-01 20:43:36,351 INFO Patientendaten geladen für piz 1679556
+2025-05-01 20:43:36,355 INFO Export erfolgreich für 2025-05-08
+2025-05-01 20:43:36,401 INFO Termine geladen: 7 für 2025-05-09
+2025-05-01 20:43:36,481 INFO Patientendaten geladen für piz 1671756
+2025-05-01 20:43:36,559 INFO Patientendaten geladen für piz 1678249
+2025-05-01 20:43:36,635 INFO Patientendaten geladen für piz 527581
+2025-05-01 20:43:36,718 INFO Patientendaten geladen für piz 794060
+2025-05-01 20:43:36,795 INFO Patientendaten geladen für piz 1680456
+2025-05-01 20:43:36,867 INFO Patientendaten geladen für piz 1649366
+2025-05-01 20:43:36,945 INFO Patientendaten geladen für piz 1678123
+2025-05-01 20:43:36,948 INFO Export erfolgreich für 2025-05-09
+2025-05-01 20:43:36,948 INFO Wochexport abgeschlossen.
+2025-05-01 21:11:36,943 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 21:11:37,030 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 21:11:37,125 INFO Patientendaten geladen für piz 1678864
+2025-05-01 21:11:37,199 INFO Patientendaten geladen für piz 789018
+2025-05-01 21:11:37,265 INFO Patientendaten geladen für piz 1679380
+2025-05-01 21:11:37,332 INFO Patientendaten geladen für piz 821830
+2025-05-01 21:11:37,403 INFO Patientendaten geladen für piz 1680193
+2025-05-01 21:11:37,472 INFO Patientendaten geladen für piz 812998
+2025-05-01 21:11:37,545 INFO Patientendaten geladen für piz 1609766
+2025-05-01 21:11:37,549 INFO Export erfolgreich für 2025-05-05
+2025-05-01 21:11:37,596 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 21:11:37,599 INFO Export erfolgreich für 2025-05-06
+2025-05-01 21:11:37,787 INFO Termine geladen: 18 für 2025-05-07
+2025-05-01 21:11:37,865 INFO Patientendaten geladen für piz 1663995
+2025-05-01 21:11:37,940 INFO Patientendaten geladen für piz 1680454
+2025-05-01 21:11:38,008 INFO Patientendaten geladen für piz 1680584
+2025-05-01 21:11:38,078 INFO Patientendaten geladen für piz 1646580
+2025-05-01 21:11:38,159 INFO Patientendaten geladen für piz 1676283
+2025-05-01 21:11:38,230 INFO Patientendaten geladen für piz 838001
+2025-05-01 21:11:38,298 INFO Patientendaten geladen für piz 1681124
+2025-05-01 21:11:38,380 INFO Patientendaten geladen für piz 1681181
+2025-05-01 21:11:38,457 INFO Patientendaten geladen für piz 1677788
+2025-05-01 21:11:38,533 INFO Patientendaten geladen für piz 715574
+2025-05-01 21:11:38,602 INFO Patientendaten geladen für piz 402753
+2025-05-01 21:11:38,691 INFO Patientendaten geladen für piz 1680047
+2025-05-01 21:11:38,770 INFO Patientendaten geladen für piz 1681239
+2025-05-01 21:11:38,862 INFO Patientendaten geladen für piz 1655667
+2025-05-01 21:11:38,952 INFO Patientendaten geladen für piz 1680281
+2025-05-01 21:11:39,029 INFO Patientendaten geladen für piz 508081
+2025-05-01 21:11:39,099 INFO Patientendaten geladen für piz 515005
+2025-05-01 21:11:39,104 INFO Export erfolgreich für 2025-05-07
+2025-05-01 21:11:39,326 INFO Termine geladen: 14 für 2025-05-08
+2025-05-01 21:11:39,419 INFO Patientendaten geladen für piz 1674634
+2025-05-01 21:11:39,548 INFO Patientendaten geladen für piz 1629965
+2025-05-01 21:11:39,630 INFO Patientendaten geladen für piz 1614436
+2025-05-01 21:11:39,708 INFO Patientendaten geladen für piz 1680554
+2025-05-01 21:11:39,777 INFO Patientendaten geladen für piz 503912
+2025-05-01 21:11:39,852 INFO Patientendaten geladen für piz 781555
+2025-05-01 21:11:39,925 INFO Patientendaten geladen für piz 1675042
+2025-05-01 21:11:39,996 INFO Patientendaten geladen für piz 502337
+2025-05-01 21:11:40,064 INFO Patientendaten geladen für piz 1626758
+2025-05-01 21:11:40,143 INFO Patientendaten geladen für piz 1642874
+2025-05-01 21:11:40,214 INFO Patientendaten geladen für piz 1654035
+2025-05-01 21:11:40,289 INFO Patientendaten geladen für piz 1610199
+2025-05-01 21:11:40,374 INFO Patientendaten geladen für piz 1680675
+2025-05-01 21:11:40,448 INFO Patientendaten geladen für piz 1679556
+2025-05-01 21:11:40,453 INFO Export erfolgreich für 2025-05-08
+2025-05-01 21:11:40,509 INFO Termine geladen: 7 für 2025-05-09
+2025-05-01 21:11:40,580 INFO Patientendaten geladen für piz 1671756
+2025-05-01 21:11:40,649 INFO Patientendaten geladen für piz 1678249
+2025-05-01 21:11:40,720 INFO Patientendaten geladen für piz 527581
+2025-05-01 21:11:40,796 INFO Patientendaten geladen für piz 794060
+2025-05-01 21:11:40,879 INFO Patientendaten geladen für piz 1680456
+2025-05-01 21:11:40,952 INFO Patientendaten geladen für piz 1649366
+2025-05-01 21:11:41,024 INFO Patientendaten geladen für piz 1678123
+2025-05-01 21:11:41,028 INFO Export erfolgreich für 2025-05-09
+2025-05-01 21:11:41,028 INFO Wochexport abgeschlossen für config.json.
+2025-05-01 21:11:41,028 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 21:11:41,028 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Fehler beim Export für 2025-05-05: Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Fehler beim Export für 2025-05-06: Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Fehler beim Export für 2025-05-07: Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Fehler beim Export für 2025-05-08: Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 ERROR Fehler beim Export für 2025-05-09: Ungültiger appointment_type_id: None
+2025-05-01 21:11:41,028 INFO Wochexport abgeschlossen für config2.json.
+2025-05-01 21:13:43,864 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 21:13:43,945 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 21:13:44,023 INFO Patientendaten geladen für piz 1678864
+2025-05-01 21:13:44,100 INFO Patientendaten geladen für piz 789018
+2025-05-01 21:13:44,171 INFO Patientendaten geladen für piz 1679380
+2025-05-01 21:13:44,255 INFO Patientendaten geladen für piz 821830
+2025-05-01 21:13:44,332 INFO Patientendaten geladen für piz 1680193
+2025-05-01 21:13:44,413 INFO Patientendaten geladen für piz 812998
+2025-05-01 21:13:44,493 INFO Patientendaten geladen für piz 1609766
+2025-05-01 21:13:44,497 INFO Export erfolgreich für 2025-05-05
+2025-05-01 21:13:44,525 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 21:13:44,528 INFO Export erfolgreich für 2025-05-06
+2025-05-01 21:13:44,642 INFO Termine geladen: 18 für 2025-05-07
+2025-05-01 21:13:44,714 INFO Patientendaten geladen für piz 1663995
+2025-05-01 21:13:44,783 INFO Patientendaten geladen für piz 1680454
+2025-05-01 21:13:44,852 INFO Patientendaten geladen für piz 1680584
+2025-05-01 21:13:44,924 INFO Patientendaten geladen für piz 1646580
+2025-05-01 21:13:45,001 INFO Patientendaten geladen für piz 1676283
+2025-05-01 21:13:45,072 INFO Patientendaten geladen für piz 838001
+2025-05-01 21:13:45,145 INFO Patientendaten geladen für piz 1681124
+2025-05-01 21:13:45,217 INFO Patientendaten geladen für piz 1681181
+2025-05-01 21:13:45,287 INFO Patientendaten geladen für piz 1677788
+2025-05-01 21:13:45,359 INFO Patientendaten geladen für piz 715574
+2025-05-01 21:13:45,431 INFO Patientendaten geladen für piz 402753
+2025-05-01 21:13:45,498 INFO Patientendaten geladen für piz 1680047
+2025-05-01 21:13:45,567 INFO Patientendaten geladen für piz 1681239
+2025-05-01 21:13:45,636 INFO Patientendaten geladen für piz 1655667
+2025-05-01 21:13:45,707 INFO Patientendaten geladen für piz 1680281
+2025-05-01 21:13:45,782 INFO Patientendaten geladen für piz 508081
+2025-05-01 21:13:45,850 INFO Patientendaten geladen für piz 515005
+2025-05-01 21:13:45,854 INFO Export erfolgreich für 2025-05-07
+2025-05-01 21:13:45,950 INFO Termine geladen: 14 für 2025-05-08
+2025-05-01 21:13:46,022 INFO Patientendaten geladen für piz 1674634
+2025-05-01 21:13:46,095 INFO Patientendaten geladen für piz 1629965
+2025-05-01 21:13:46,176 INFO Patientendaten geladen für piz 1614436
+2025-05-01 21:13:46,250 INFO Patientendaten geladen für piz 1680554
+2025-05-01 21:13:46,341 INFO Patientendaten geladen für piz 503912
+2025-05-01 21:13:46,427 INFO Patientendaten geladen für piz 781555
+2025-05-01 21:13:46,514 INFO Patientendaten geladen für piz 1675042
+2025-05-01 21:13:46,612 INFO Patientendaten geladen für piz 502337
+2025-05-01 21:13:46,693 INFO Patientendaten geladen für piz 1626758
+2025-05-01 21:13:46,772 INFO Patientendaten geladen für piz 1642874
+2025-05-01 21:13:46,843 INFO Patientendaten geladen für piz 1654035
+2025-05-01 21:13:46,914 INFO Patientendaten geladen für piz 1610199
+2025-05-01 21:13:46,983 INFO Patientendaten geladen für piz 1680675
+2025-05-01 21:13:47,054 INFO Patientendaten geladen für piz 1679556
+2025-05-01 21:13:47,058 INFO Export erfolgreich für 2025-05-08
+2025-05-01 21:13:47,119 INFO Termine geladen: 7 für 2025-05-09
+2025-05-01 21:13:47,190 INFO Patientendaten geladen für piz 1671756
+2025-05-01 21:13:47,259 INFO Patientendaten geladen für piz 1678249
+2025-05-01 21:13:47,331 INFO Patientendaten geladen für piz 527581
+2025-05-01 21:13:47,400 INFO Patientendaten geladen für piz 794060
+2025-05-01 21:13:47,468 INFO Patientendaten geladen für piz 1680456
+2025-05-01 21:13:47,538 INFO Patientendaten geladen für piz 1649366
+2025-05-01 21:13:47,610 INFO Patientendaten geladen für piz 1678123
+2025-05-01 21:13:47,614 INFO Export erfolgreich für 2025-05-09
+2025-05-01 21:13:47,614 INFO Wochexport abgeschlossen für config.json.
+2025-05-01 21:13:47,614 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 21:13:47,614 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Fehler beim Export für 2025-05-05: Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Fehler beim Export für 2025-05-06: Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Fehler beim Export für 2025-05-07: Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Fehler beim Export für 2025-05-08: Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,614 ERROR Fehler beim Export für 2025-05-09: Ungültiger appointment_type_id: None
+2025-05-01 21:13:47,615 INFO Wochexport abgeschlossen für config2.json.
+2025-05-01 21:16:08,779 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 21:17:17,500 INFO Termine geladen: 0 für 2025-05-05
+2025-05-01 21:17:17,524 INFO Termine geladen: 0 für 2025-05-05
+2025-05-01 21:18:01,698 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 21:18:01,724 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 21:18:58,737 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 21:20:20,855 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 21:21:15,714 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 21:23:23,482 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 21:23:23,563 INFO Termine geladen: 8 für 2025-05-05
+2025-05-01 21:23:23,632 INFO Patientendaten geladen für piz 1678864
+2025-05-01 21:23:23,700 INFO Patientendaten geladen für piz 789018
+2025-05-01 21:23:23,772 INFO Patientendaten geladen für piz 1679380
+2025-05-01 21:23:23,840 INFO Patientendaten geladen für piz 821830
+2025-05-01 21:23:23,911 INFO Patientendaten geladen für piz 1680193
+2025-05-01 21:23:23,982 INFO Patientendaten geladen für piz 812998
+2025-05-01 21:23:24,052 INFO Patientendaten geladen für piz 1609766
+2025-05-01 21:23:24,056 INFO Export erfolgreich für 2025-05-05
+2025-05-01 21:23:24,093 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 21:23:24,096 INFO Export erfolgreich für 2025-05-06
+2025-05-01 21:23:24,234 INFO Termine geladen: 18 für 2025-05-07
+2025-05-01 21:23:24,313 INFO Patientendaten geladen für piz 1663995
+2025-05-01 21:23:24,384 INFO Patientendaten geladen für piz 1680454
+2025-05-01 21:23:24,468 INFO Patientendaten geladen für piz 1680584
+2025-05-01 21:23:24,551 INFO Patientendaten geladen für piz 1646580
+2025-05-01 21:23:24,630 INFO Patientendaten geladen für piz 1676283
+2025-05-01 21:23:24,704 INFO Patientendaten geladen für piz 838001
+2025-05-01 21:23:24,799 INFO Patientendaten geladen für piz 1681124
+2025-05-01 21:23:24,883 INFO Patientendaten geladen für piz 1681181
+2025-05-01 21:23:24,968 INFO Patientendaten geladen für piz 1677788
+2025-05-01 21:23:25,048 INFO Patientendaten geladen für piz 715574
+2025-05-01 21:23:25,158 INFO Patientendaten geladen für piz 402753
+2025-05-01 21:23:25,237 INFO Patientendaten geladen für piz 1680047
+2025-05-01 21:23:25,314 INFO Patientendaten geladen für piz 1681239
+2025-05-01 21:23:25,409 INFO Patientendaten geladen für piz 1655667
+2025-05-01 21:23:25,493 INFO Patientendaten geladen für piz 1680281
+2025-05-01 21:23:25,579 INFO Patientendaten geladen für piz 508081
+2025-05-01 21:23:25,659 INFO Patientendaten geladen für piz 515005
+2025-05-01 21:23:25,664 INFO Export erfolgreich für 2025-05-07
+2025-05-01 21:23:25,742 INFO Termine geladen: 14 für 2025-05-08
+2025-05-01 21:23:25,823 INFO Patientendaten geladen für piz 1674634
+2025-05-01 21:23:25,897 INFO Patientendaten geladen für piz 1629965
+2025-05-01 21:23:25,974 INFO Patientendaten geladen für piz 1614436
+2025-05-01 21:23:26,041 INFO Patientendaten geladen für piz 1680554
+2025-05-01 21:23:26,116 INFO Patientendaten geladen für piz 503912
+2025-05-01 21:23:26,193 INFO Patientendaten geladen für piz 781555
+2025-05-01 21:23:26,283 INFO Patientendaten geladen für piz 1675042
+2025-05-01 21:23:26,352 INFO Patientendaten geladen für piz 502337
+2025-05-01 21:23:26,433 INFO Patientendaten geladen für piz 1626758
+2025-05-01 21:23:26,501 INFO Patientendaten geladen für piz 1642874
+2025-05-01 21:23:26,572 INFO Patientendaten geladen für piz 1654035
+2025-05-01 21:23:26,656 INFO Patientendaten geladen für piz 1610199
+2025-05-01 21:23:26,727 INFO Patientendaten geladen für piz 1680675
+2025-05-01 21:23:26,805 INFO Patientendaten geladen für piz 1679556
+2025-05-01 21:23:26,811 INFO Export erfolgreich für 2025-05-08
+2025-05-01 21:23:26,861 INFO Termine geladen: 7 für 2025-05-09
+2025-05-01 21:23:26,932 INFO Patientendaten geladen für piz 1671756
+2025-05-01 21:23:26,999 INFO Patientendaten geladen für piz 1678249
+2025-05-01 21:23:27,070 INFO Patientendaten geladen für piz 527581
+2025-05-01 21:23:27,137 INFO Patientendaten geladen für piz 794060
+2025-05-01 21:23:27,222 INFO Patientendaten geladen für piz 1680456
+2025-05-01 21:23:27,294 INFO Patientendaten geladen für piz 1649366
+2025-05-01 21:23:27,362 INFO Patientendaten geladen für piz 1678123
+2025-05-01 21:23:27,366 INFO Export erfolgreich für 2025-05-09
+2025-05-01 21:23:27,366 INFO Wochexport abgeschlossen für config.json.
+2025-05-01 21:23:27,366 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-01 21:23:27,389 INFO Termine geladen: 0 für 2025-05-05
+2025-05-01 21:23:27,392 INFO Export erfolgreich für 2025-05-05
+2025-05-01 21:23:27,417 INFO Termine geladen: 0 für 2025-05-06
+2025-05-01 21:23:27,427 INFO Export erfolgreich für 2025-05-06
+2025-05-01 21:23:27,472 INFO Termine geladen: 6 für 2025-05-07
+2025-05-01 21:23:27,560 INFO Patientendaten geladen für piz 1663995
+2025-05-01 21:23:27,639 INFO Patientendaten geladen für piz 1676283
+2025-05-01 21:23:27,723 INFO Patientendaten geladen für piz 838001
+2025-05-01 21:23:27,799 INFO Patientendaten geladen für piz 1677788
+2025-05-01 21:23:27,870 INFO Patientendaten geladen für piz 402753
+2025-05-01 21:23:27,874 INFO Export erfolgreich für 2025-05-07
+2025-05-01 21:23:27,922 INFO Termine geladen: 8 für 2025-05-08
+2025-05-01 21:23:27,992 INFO Patientendaten geladen für piz 1674634
+2025-05-01 21:23:28,070 INFO Patientendaten geladen für piz 1629965
+2025-05-01 21:23:28,140 INFO Patientendaten geladen für piz 1614436
+2025-05-01 21:23:28,209 INFO Patientendaten geladen für piz 1680554
+2025-05-01 21:23:28,285 INFO Patientendaten geladen für piz 503912
+2025-05-01 21:23:28,366 INFO Patientendaten geladen für piz 781555
+2025-05-01 21:23:28,437 INFO Patientendaten geladen für piz 1675042
+2025-05-01 21:23:28,506 INFO Patientendaten geladen für piz 502337
+2025-05-01 21:23:28,510 INFO Export erfolgreich für 2025-05-08
+2025-05-01 21:23:28,569 INFO Termine geladen: 7 für 2025-05-09
+2025-05-01 21:23:28,644 INFO Patientendaten geladen für piz 1671756
+2025-05-01 21:23:28,715 INFO Patientendaten geladen für piz 1678249
+2025-05-01 21:23:28,789 INFO Patientendaten geladen für piz 527581
+2025-05-01 21:23:28,855 INFO Patientendaten geladen für piz 794060
+2025-05-01 21:23:28,925 INFO Patientendaten geladen für piz 1680456
+2025-05-01 21:23:28,994 INFO Patientendaten geladen für piz 1649366
+2025-05-01 21:23:29,063 INFO Patientendaten geladen für piz 1678123
+2025-05-01 21:23:29,066 INFO Export erfolgreich für 2025-05-09
+2025-05-01 21:23:29,066 INFO Wochexport abgeschlossen für config2.json.
+2025-05-02 13:09:30,888 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-02 13:09:30,968 INFO Termine geladen: 8 für 2025-05-05
+2025-05-02 13:09:31,059 INFO Patientendaten geladen für piz 1678864
+2025-05-02 13:09:31,151 INFO Patientendaten geladen für piz 789018
+2025-05-02 13:09:31,243 INFO Patientendaten geladen für piz 1679380
+2025-05-02 13:09:31,328 INFO Patientendaten geladen für piz 821830
+2025-05-02 13:09:31,416 INFO Patientendaten geladen für piz 1680193
+2025-05-02 13:09:31,506 INFO Patientendaten geladen für piz 812998
+2025-05-02 13:09:31,594 INFO Patientendaten geladen für piz 1609766
+2025-05-02 13:09:31,601 INFO Export erfolgreich für 2025-05-05
+2025-05-02 13:09:31,639 INFO Termine geladen: 0 für 2025-05-06
+2025-05-02 13:09:31,642 INFO Export erfolgreich für 2025-05-06
+2025-05-02 13:09:31,821 INFO Termine geladen: 18 für 2025-05-07
+2025-05-02 13:09:31,905 INFO Patientendaten geladen für piz 1663995
+2025-05-02 13:09:31,995 INFO Patientendaten geladen für piz 1680454
+2025-05-02 13:09:32,097 INFO Patientendaten geladen für piz 1680584
+2025-05-02 13:09:32,181 INFO Patientendaten geladen für piz 1646580
+2025-05-02 13:09:32,273 INFO Patientendaten geladen für piz 1676283
+2025-05-02 13:09:32,357 INFO Patientendaten geladen für piz 838001
+2025-05-02 13:09:32,477 INFO Patientendaten geladen für piz 1681124
+2025-05-02 13:09:32,572 INFO Patientendaten geladen für piz 1681181
+2025-05-02 13:09:32,665 INFO Patientendaten geladen für piz 1677788
+2025-05-02 13:09:32,751 INFO Patientendaten geladen für piz 715574
+2025-05-02 13:09:32,845 INFO Patientendaten geladen für piz 402753
+2025-05-02 13:09:32,943 INFO Patientendaten geladen für piz 1680047
+2025-05-02 13:09:33,036 INFO Patientendaten geladen für piz 1681239
+2025-05-02 13:09:33,131 INFO Patientendaten geladen für piz 1655667
+2025-05-02 13:09:33,225 INFO Patientendaten geladen für piz 1680281
+2025-05-02 13:09:33,325 INFO Patientendaten geladen für piz 508081
+2025-05-02 13:09:33,423 INFO Patientendaten geladen für piz 515005
+2025-05-02 13:09:33,430 INFO Export erfolgreich für 2025-05-07
+2025-05-02 13:09:33,775 INFO Termine geladen: 16 für 2025-05-08
+2025-05-02 13:09:33,884 INFO Patientendaten geladen für piz 1674634
+2025-05-02 13:09:33,984 INFO Patientendaten geladen für piz 1629965
+2025-05-02 13:09:34,075 INFO Patientendaten geladen für piz 1614436
+2025-05-02 13:09:34,164 INFO Patientendaten geladen für piz 1680554
+2025-05-02 13:09:34,265 INFO Patientendaten geladen für piz 503912
+2025-05-02 13:09:34,350 INFO Patientendaten geladen für piz 781555
+2025-05-02 13:09:34,464 INFO Patientendaten geladen für piz 1675042
+2025-05-02 13:09:34,570 INFO Patientendaten geladen für piz 521571
+2025-05-02 13:09:34,670 INFO Patientendaten geladen für piz 502337
+2025-05-02 13:09:34,754 INFO Patientendaten geladen für piz 1626758
+2025-05-02 13:09:34,864 INFO Patientendaten geladen für piz 823467
+2025-05-02 13:09:34,951 INFO Patientendaten geladen für piz 1642874
+2025-05-02 13:09:35,050 INFO Patientendaten geladen für piz 1654035
+2025-05-02 13:09:35,156 INFO Patientendaten geladen für piz 1610199
+2025-05-02 13:09:35,255 INFO Patientendaten geladen für piz 1680675
+2025-05-02 13:09:35,348 INFO Patientendaten geladen für piz 1679556
+2025-05-02 13:09:35,353 INFO Export erfolgreich für 2025-05-08
+2025-05-02 13:09:35,457 INFO Termine geladen: 7 für 2025-05-09
+2025-05-02 13:09:35,537 INFO Patientendaten geladen für piz 1671756
+2025-05-02 13:09:35,630 INFO Patientendaten geladen für piz 1678249
+2025-05-02 13:09:35,713 INFO Patientendaten geladen für piz 527581
+2025-05-02 13:09:35,804 INFO Patientendaten geladen für piz 794060
+2025-05-02 13:09:35,896 INFO Patientendaten geladen für piz 1680456
+2025-05-02 13:09:35,984 INFO Patientendaten geladen für piz 1649366
+2025-05-02 13:09:36,082 INFO Patientendaten geladen für piz 1678123
+2025-05-02 13:09:36,086 INFO Export erfolgreich für 2025-05-09
+2025-05-02 13:09:36,086 INFO Wochexport abgeschlossen für config.json.
+2025-05-02 13:09:36,087 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-02 13:09:36,122 INFO Termine geladen: 0 für 2025-05-05
+2025-05-02 13:09:36,128 INFO Export erfolgreich für 2025-05-05
+2025-05-02 13:09:36,156 INFO Termine geladen: 0 für 2025-05-06
+2025-05-02 13:09:36,159 INFO Export erfolgreich für 2025-05-06
+2025-05-02 13:09:36,227 INFO Termine geladen: 6 für 2025-05-07
+2025-05-02 13:09:36,353 INFO Patientendaten geladen für piz 1663995
+2025-05-02 13:09:36,433 INFO Patientendaten geladen für piz 1676283
+2025-05-02 13:09:36,527 INFO Patientendaten geladen für piz 838001
+2025-05-02 13:09:36,617 INFO Patientendaten geladen für piz 1677788
+2025-05-02 13:09:36,700 INFO Patientendaten geladen für piz 402753
+2025-05-02 13:09:36,704 INFO Export erfolgreich für 2025-05-07
+2025-05-02 13:09:36,822 INFO Termine geladen: 10 für 2025-05-08
+2025-05-02 13:09:36,918 INFO Patientendaten geladen für piz 1674634
+2025-05-02 13:09:37,007 INFO Patientendaten geladen für piz 1629965
+2025-05-02 13:09:37,092 INFO Patientendaten geladen für piz 1614436
+2025-05-02 13:09:37,177 INFO Patientendaten geladen für piz 1680554
+2025-05-02 13:09:37,273 INFO Patientendaten geladen für piz 503912
+2025-05-02 13:09:37,372 INFO Patientendaten geladen für piz 781555
+2025-05-02 13:09:37,467 INFO Patientendaten geladen für piz 1675042
+2025-05-02 13:09:37,565 INFO Patientendaten geladen für piz 521571
+2025-05-02 13:09:37,666 INFO Patientendaten geladen für piz 502337
+2025-05-02 13:09:37,778 INFO Patientendaten geladen für piz 823467
+2025-05-02 13:09:37,782 INFO Export erfolgreich für 2025-05-08
+2025-05-02 13:09:37,892 INFO Termine geladen: 7 für 2025-05-09
+2025-05-02 13:09:37,996 INFO Patientendaten geladen für piz 1671756
+2025-05-02 13:09:38,098 INFO Patientendaten geladen für piz 1678249
+2025-05-02 13:09:38,192 INFO Patientendaten geladen für piz 527581
+2025-05-02 13:09:38,286 INFO Patientendaten geladen für piz 794060
+2025-05-02 13:09:38,370 INFO Patientendaten geladen für piz 1680456
+2025-05-02 13:09:38,471 INFO Patientendaten geladen für piz 1649366
+2025-05-02 13:09:38,576 INFO Patientendaten geladen für piz 1678123
+2025-05-02 13:09:38,585 INFO Export erfolgreich für 2025-05-09
+2025-05-02 13:09:38,585 INFO Wochexport abgeschlossen für config2.json.
+2025-05-02 13:09:38,586 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-02 13:09:38,776 INFO Termine geladen: 8 für 2025-05-05
+2025-05-02 13:09:38,879 INFO Patientendaten geladen für piz 1678864
+2025-05-02 13:09:38,965 INFO Patientendaten geladen für piz 789018
+2025-05-02 13:09:39,054 INFO Patientendaten geladen für piz 1679380
+2025-05-02 13:09:39,151 INFO Patientendaten geladen für piz 821830
+2025-05-02 13:09:39,230 INFO Patientendaten geladen für piz 1680193
+2025-05-02 13:09:39,331 INFO Patientendaten geladen für piz 812998
+2025-05-02 13:09:39,415 INFO Patientendaten geladen für piz 1609766
+2025-05-02 13:09:39,419 INFO Export erfolgreich für 2025-05-05
+2025-05-02 13:09:39,456 INFO Termine geladen: 0 für 2025-05-06
+2025-05-02 13:09:39,460 INFO Export erfolgreich für 2025-05-06
+2025-05-02 13:09:39,760 INFO Termine geladen: 18 für 2025-05-07
+2025-05-02 13:09:39,850 INFO Patientendaten geladen für piz 1663995
+2025-05-02 13:09:39,926 INFO Patientendaten geladen für piz 1680454
+2025-05-02 13:09:40,015 INFO Patientendaten geladen für piz 1680584
+2025-05-02 13:09:40,097 INFO Patientendaten geladen für piz 1646580
+2025-05-02 13:09:40,202 INFO Patientendaten geladen für piz 1676283
+2025-05-02 13:09:40,288 INFO Patientendaten geladen für piz 838001
+2025-05-02 13:09:40,375 INFO Patientendaten geladen für piz 1681124
+2025-05-02 13:09:40,477 INFO Patientendaten geladen für piz 1681181
+2025-05-02 13:09:40,571 INFO Patientendaten geladen für piz 1677788
+2025-05-02 13:09:40,693 INFO Patientendaten geladen für piz 715574
+2025-05-02 13:09:40,794 INFO Patientendaten geladen für piz 402753
+2025-05-02 13:09:40,886 INFO Patientendaten geladen für piz 1680047
+2025-05-02 13:09:40,967 INFO Patientendaten geladen für piz 1681239
+2025-05-02 13:09:41,052 INFO Patientendaten geladen für piz 1655667
+2025-05-02 13:09:41,151 INFO Patientendaten geladen für piz 1680281
+2025-05-02 13:09:41,252 INFO Patientendaten geladen für piz 508081
+2025-05-02 13:09:41,337 INFO Patientendaten geladen für piz 515005
+2025-05-02 13:09:41,342 INFO Export erfolgreich für 2025-05-07
+2025-05-02 13:09:41,607 INFO Termine geladen: 16 für 2025-05-08
+2025-05-02 13:09:41,695 INFO Patientendaten geladen für piz 1674634
+2025-05-02 13:09:41,786 INFO Patientendaten geladen für piz 1629965
+2025-05-02 13:09:41,869 INFO Patientendaten geladen für piz 1614436
+2025-05-02 13:09:41,957 INFO Patientendaten geladen für piz 1680554
+2025-05-02 13:09:42,040 INFO Patientendaten geladen für piz 503912
+2025-05-02 13:09:42,121 INFO Patientendaten geladen für piz 781555
+2025-05-02 13:09:42,213 INFO Patientendaten geladen für piz 1675042
+2025-05-02 13:09:42,316 INFO Patientendaten geladen für piz 521571
+2025-05-02 13:09:42,412 INFO Patientendaten geladen für piz 502337
+2025-05-02 13:09:42,506 INFO Patientendaten geladen für piz 1626758
+2025-05-02 13:09:42,599 INFO Patientendaten geladen für piz 823467
+2025-05-02 13:09:42,688 INFO Patientendaten geladen für piz 1642874
+2025-05-02 13:09:42,789 INFO Patientendaten geladen für piz 1654035
+2025-05-02 13:09:42,874 INFO Patientendaten geladen für piz 1610199
+2025-05-02 13:09:42,964 INFO Patientendaten geladen für piz 1680675
+2025-05-02 13:09:43,061 INFO Patientendaten geladen für piz 1679556
+2025-05-02 13:09:43,066 INFO Export erfolgreich für 2025-05-08
+2025-05-02 13:09:43,156 INFO Termine geladen: 7 für 2025-05-09
+2025-05-02 13:09:43,243 INFO Patientendaten geladen für piz 1671756
+2025-05-02 13:09:43,346 INFO Patientendaten geladen für piz 1678249
+2025-05-02 13:09:43,464 INFO Patientendaten geladen für piz 527581
+2025-05-02 13:09:43,569 INFO Patientendaten geladen für piz 794060
+2025-05-02 13:09:43,666 INFO Patientendaten geladen für piz 1680456
+2025-05-02 13:09:43,751 INFO Patientendaten geladen für piz 1649366
+2025-05-02 13:09:43,868 INFO Patientendaten geladen für piz 1678123
+2025-05-02 13:09:43,872 INFO Export erfolgreich für 2025-05-09
+2025-05-02 13:09:43,872 INFO Wochexport abgeschlossen für config3.json.
+2025-05-02 13:31:27,123 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-02 13:31:27,227 INFO Termine geladen: 8 für 2025-05-05
+2025-05-02 13:31:27,331 INFO Patientendaten geladen für piz 1678864
+2025-05-02 13:31:27,426 INFO Patientendaten geladen für piz 789018
+2025-05-02 13:31:27,528 INFO Patientendaten geladen für piz 1679380
+2025-05-02 13:31:27,623 INFO Patientendaten geladen für piz 821830
+2025-05-02 13:31:27,729 INFO Patientendaten geladen für piz 1680193
+2025-05-02 13:31:27,814 INFO Patientendaten geladen für piz 812998
+2025-05-02 13:31:27,900 INFO Patientendaten geladen für piz 1609766
+2025-05-02 13:31:27,904 INFO Export erfolgreich für 2025-05-05
+2025-05-02 13:31:27,935 INFO Termine geladen: 0 für 2025-05-06
+2025-05-02 13:31:27,938 INFO Export erfolgreich für 2025-05-06
+2025-05-02 13:31:28,130 INFO Termine geladen: 18 für 2025-05-07
+2025-05-02 13:31:28,236 INFO Patientendaten geladen für piz 1663995
+2025-05-02 13:31:28,336 INFO Patientendaten geladen für piz 1680454
+2025-05-02 13:31:28,424 INFO Patientendaten geladen für piz 1680584
+2025-05-02 13:31:28,520 INFO Patientendaten geladen für piz 1646580
+2025-05-02 13:31:28,604 INFO Patientendaten geladen für piz 1676283
+2025-05-02 13:31:28,698 INFO Patientendaten geladen für piz 838001
+2025-05-02 13:31:28,787 INFO Patientendaten geladen für piz 1681124
+2025-05-02 13:31:28,878 INFO Patientendaten geladen für piz 1681181
+2025-05-02 13:31:28,965 INFO Patientendaten geladen für piz 1677788
+2025-05-02 13:31:29,050 INFO Patientendaten geladen für piz 715574
+2025-05-02 13:31:29,157 INFO Patientendaten geladen für piz 402753
+2025-05-02 13:31:29,267 INFO Patientendaten geladen für piz 1680047
+2025-05-02 13:31:29,375 INFO Patientendaten geladen für piz 1681239
+2025-05-02 13:31:29,489 INFO Patientendaten geladen für piz 1655667
+2025-05-02 13:31:29,573 INFO Patientendaten geladen für piz 1680281
+2025-05-02 13:31:29,663 INFO Patientendaten geladen für piz 508081
+2025-05-02 13:31:29,754 INFO Patientendaten geladen für piz 515005
+2025-05-02 13:31:29,758 INFO Export erfolgreich für 2025-05-07
+2025-05-02 13:31:29,945 INFO Termine geladen: 16 für 2025-05-08
+2025-05-02 13:31:30,031 INFO Patientendaten geladen für piz 1674634
+2025-05-02 13:31:30,115 INFO Patientendaten geladen für piz 1629965
+2025-05-02 13:31:30,209 INFO Patientendaten geladen für piz 1614436
+2025-05-02 13:31:30,311 INFO Patientendaten geladen für piz 1680554
+2025-05-02 13:31:30,392 INFO Patientendaten geladen für piz 503912
+2025-05-02 13:31:30,483 INFO Patientendaten geladen für piz 781555
+2025-05-02 13:31:30,578 INFO Patientendaten geladen für piz 1675042
+2025-05-02 13:31:30,675 INFO Patientendaten geladen für piz 521571
+2025-05-02 13:31:30,774 INFO Patientendaten geladen für piz 502337
+2025-05-02 13:31:30,895 INFO Patientendaten geladen für piz 1626758
+2025-05-02 13:31:30,998 INFO Patientendaten geladen für piz 823467
+2025-05-02 13:31:31,085 INFO Patientendaten geladen für piz 1642874
+2025-05-02 13:31:31,186 INFO Patientendaten geladen für piz 1654035
+2025-05-02 13:31:31,287 INFO Patientendaten geladen für piz 1610199
+2025-05-02 13:31:31,379 INFO Patientendaten geladen für piz 1680675
+2025-05-02 13:31:31,468 INFO Patientendaten geladen für piz 1679556
+2025-05-02 13:31:31,473 INFO Export erfolgreich für 2025-05-08
+2025-05-02 13:31:31,566 INFO Termine geladen: 7 für 2025-05-09
+2025-05-02 13:31:31,674 INFO Patientendaten geladen für piz 1671756
+2025-05-02 13:31:31,777 INFO Patientendaten geladen für piz 1678249
+2025-05-02 13:31:31,878 INFO Patientendaten geladen für piz 527581
+2025-05-02 13:31:31,987 INFO Patientendaten geladen für piz 794060
+2025-05-02 13:31:32,085 INFO Patientendaten geladen für piz 1680456
+2025-05-02 13:31:32,201 INFO Patientendaten geladen für piz 1649366
+2025-05-02 13:31:32,287 INFO Patientendaten geladen für piz 1678123
+2025-05-02 13:31:32,290 INFO Export erfolgreich für 2025-05-09
+2025-05-02 13:31:32,290 INFO Wochexport abgeschlossen für config.json.
+2025-05-02 13:31:32,292 WARNING Feiertagsprüfung nicht möglich: Paket 'holidays' nicht installiert.
+2025-05-02 13:31:32,325 INFO Termine geladen: 0 für 2025-05-12
+2025-05-02 13:31:32,328 INFO Export erfolgreich für 2025-05-12
+2025-05-02 13:31:32,352 INFO Termine geladen: 0 für 2025-05-13
+2025-05-02 13:31:32,355 INFO Export erfolgreich für 2025-05-13
+2025-05-02 13:31:32,406 INFO Termine geladen: 4 für 2025-05-14
+2025-05-02 13:31:32,525 INFO Patientendaten geladen für piz 713205
+2025-05-02 13:31:32,630 INFO Patientendaten geladen für piz 1665774
+2025-05-02 13:31:32,739 INFO Patientendaten geladen für piz 505043
+2025-05-02 13:31:32,742 INFO Export erfolgreich für 2025-05-14
+2025-05-02 13:31:32,793 INFO Termine geladen: 3 für 2025-05-15
+2025-05-02 13:31:32,883 INFO Patientendaten geladen für piz 824920
+2025-05-02 13:31:32,982 INFO Patientendaten geladen für piz 1680533
+2025-05-02 13:31:33,080 INFO Patientendaten geladen für piz 1673004
+2025-05-02 13:31:33,084 INFO Export erfolgreich für 2025-05-15
+2025-05-02 13:31:33,126 INFO Termine geladen: 1 für 2025-05-16
+2025-05-02 13:31:33,130 INFO Export erfolgreich für 2025-05-16
+2025-05-02 13:31:33,130 INFO Wochexport abgeschlossen für config2.json.
+2025-05-02 13:31:35,063 INFO Einzeltag-Export abgeschlossen für config3.json.
