@@ -1,0 +1,195 @@
+{
+  "total": 31,
+  "success": 31,
+  "failed": 0,
+  "updated": 31,
+  "inserted": 0,
+  "details": [
+    {
+      "appointment_id": 222707,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 233523,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 231672,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 228344,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 253984,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 235371,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 235660,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 228197,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 228461,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 235224,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 237543,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 239127,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 236662,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 228694,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 235771,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 237728,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 229730,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 236735,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 232865,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 236677,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 238064,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 238285,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 238634,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 233070,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 238647,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 238953,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 253300,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 233501,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 251041,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 239914,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    },
+    {
+      "appointment_id": 242603,
+      "patient_id": "Aktualisiert",
+      "success": true,
+      "message": "Patient aktualisiert"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+M1Ziffer,Patient,CallDoc ID,CallDoc Status,SQLHK UntersuchungID,SQLHK UntersuchungartID,Übereinstimmung
+,Unbekannt,222707,in_progress,,,X
+,Unbekannt,233523,finished_final,,,X
+,Unbekannt,231672,finished_final,,,X
+,Unbekannt,228344,canceled,,,X
+,Unbekannt,253984,pending,,,X
+,Unbekannt,235371,finished_final,,,X
+,Unbekannt,235660,finished_final,,,X
+,Unbekannt,228197,pending,,,X
+,Unbekannt,228461,pending,,,X
+,Unbekannt,235224,finished_final,,,X
+,Unbekannt,237543,finished_final,,,X
+,Unbekannt,239127,finished_final,,,X
+,Unbekannt,236662,finished_final,,,X
+,Unbekannt,228694,pending,,,X
+,Unbekannt,235771,finished_final,,,X
+,Unbekannt,237728,finished_final,,,X
+,Unbekannt,229730,pending,,,X
+,Unbekannt,236735,finished_final,,,X
+,Unbekannt,232865,pending,,,X
+,Unbekannt,236677,finished_final,,,X
+,Unbekannt,238064,canceled,,,X
+,Unbekannt,238285,canceled,,,X
+,Unbekannt,238634,finished_final,,,X
+,Unbekannt,233070,pending,,,X
+,Unbekannt,238647,finished_final,,,X
+,Unbekannt,238953,finished_final,,,X
+,Unbekannt,253300,created,,,X
+,Unbekannt,233501,pending,,,X
+,Unbekannt,251041,finished_final,,,X
+,Unbekannt,239914,finished_final,,,X
+,Unbekannt,242603,finished_final,,,X
+1695672,"Matern, Olga",,,17719,1,X
+1696767,"Eysell-Planer, Andrea",,,17720,1,X
+1696738,"Diehl, Anette",,,17721,1,X
+1696795,"Huschek, Daniel",,,17722,1,X
+1696852,"Wildhirt, Herbert",,,17724,2,X
+1696852,"Wildhirt, Herbert",,,17747,1,X
+1697012,"Ayala-Vega, Robert",,,17725,1,X
+1697677,"Pfeifer, Friedrich",,,17726,1,X
+1697705,"Hitzel, Karl-Heinz",,,17731,1,X
+1697825,"Lorenz, Helga",,,17732,1,X
+1700732,"Schmid, Pius-Wilhelm-Gerorg",,,17733,1,X
+1693403,"Karch, Jakob",,,17734,1,X
+834900,"Edelmann, Gabriela",,,17735,1,X
+815461,"Appel, Bernd",,,17736,1,X
+1696832,"Härtl, Lydia",,,17737,1,X
+1700889,"Pozimski, Dominik",,,17738,2,X
+1700889,"Pozimski, Dominik",,,17742,1,X
+632902,"Stich, Josef",,,17739,1,X
+808089,"Laurer, Ernst",,,17740,2,X
+808089,"Laurer, Ernst",,,17743,1,X
+808089,"Laurer, Ernst",,,17744,1,X
+780468,"Lerzer, Erna",,,17741,1,X
+400489,"Drechsel, Peter",,,17745,2,X
+400489,"Drechsel, Peter",,,17748,1,X
+1684127,"Wilke, Frank",,,17746,5,X
+1698658,"Kaslik, Zsolt",,,17749,1,X
+1696781,"Friedrich, Klaus",,,17750,1,X
+1698490,"Landgraf, Stefan",,,17751,1,X
+1698735,"Ströhl, Georg",,,17752,1,X
+1697743,"Karabag, Eylem",,,17753,1,X
+801330,"Piekatz, Irena",,,17754,1,X
+1698118,"Happ, Klaus-Dieter",,,17755,1,X
+1668390,"Meier, Margarete",,,17756,1,X
+1696222,"Elzenbeck, Dirk",,,17757,1,X

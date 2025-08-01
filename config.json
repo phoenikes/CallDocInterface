@@ -1,10 +1,15 @@
 {
-    "export_directory": "P:/imports/cathlab/json_heydoc",
     "log_file": "calldoc_export.log",
     "appointment_type_id": 24,
     "doctor_id": null,
     "room_id": null,
+    "week_offset": 0,
     "skip_holidays": true,
+    "export_directory": ".",
     "country": "DE",
-    "subdiv": "BY"
+    "subdiv": "BY",
+    "scheduler": {
+        "interval_hours": 1,
+        "run_on_startup": true
+    }
 }

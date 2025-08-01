@@ -1,5 +1,6 @@
 from constants import APPOINTMENT_TYPES, DOCTORS, ROOMS
-from main import CallDocInterface
+#from main import CallDocInterface
+from calldoc_interface import CallDocInterface
 import json
 from typing import Optional, List
 import os
@@ -122,7 +123,7 @@ class AppointmentPatientEnricher:
         room = self.room_id if self.room_id is not None else "none"
         return f"{self.from_date}_{self.to_date}_{atype}_{doctor}_{room}.json"
 
-    def to_json(self, directory: str = r"P:/imports/cathlab/json_heydoc"):
+    def to_json(self, directory: str = r"P:/imports/json_heydoc"):
         """
         Speichert das angereicherte Ergebnis als JSON-Datei im Zielverzeichnis.
         Der Dateiname wird automatisch generiert.

@@ -1,0 +1,164 @@
+{
+  "total": 31,
+  "success": 0,
+  "failed": 31,
+  "updated": 0,
+  "inserted": 0,
+  "details": [
+    {
+      "appointment_id": 222707,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 233523,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 231672,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 228344,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 253984,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 235371,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 235660,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 228197,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 228461,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 235224,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 237543,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 239127,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 236662,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 228694,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 235771,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 237728,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 229730,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 236735,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 232865,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 236677,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 238064,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 238285,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 238634,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 233070,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 238647,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 238953,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 253300,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 233501,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 251041,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 239914,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    },
+    {
+      "appointment_id": 242603,
+      "success": false,
+      "message": "Fehler beim Anlegen eines neuen Patienten"
+    }
+  ]
+}

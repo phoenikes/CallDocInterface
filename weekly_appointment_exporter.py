@@ -25,7 +25,7 @@ class WeeklyAppointmentExporter:
         self.doctor_id = doctor_id
         self.room_id = room_id
         self.skip_holidays = skip_holidays
-        self.export_directory = export_directory or r"P:/imports/cathlab/json_heydoc"
+        self.export_directory = export_directory or r"P:/imports/json_heydoc"
         self.country = country
         self.subdiv = subdiv
         self.holiday_set = set()
