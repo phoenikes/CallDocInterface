@@ -159,11 +159,24 @@ class UntersuchungSynchronizer:
         
         # Standard-Werte für Pflichtfelder
         untersuchung["ZuweiserID"] = 2  # Standard-Zuweiser
-        untersuchung["UntersuchungartID"] = 1  # Standard-Untersuchungsart
         untersuchung["Roentgen"] = 1
         untersuchung["Herzteam"] = 1
         untersuchung["Materialpreis"] = 0
         untersuchung["DRGID"] = 1
+        
+        # UntersuchungartID dynamisch ermitteln anhand der appointment_type_id
+        appointment_type_id = appointment.get("appointment_type_id")
+        if appointment_type_id:
+            untersuchungart_id = self._get_untersuchungart_id_by_appointment_type_id(appointment_type_id)
+            if untersuchungart_id:
+                untersuchung["UntersuchungartID"] = untersuchungart_id
+                logger.info(f"UntersuchungartID {untersuchungart_id} für appointment_type_id {appointment_type_id} gefunden")
+            else:
+                untersuchung["UntersuchungartID"] = 1  # Standard-Untersuchungsart
+                logger.warning(f"Verwende Standard-UntersuchungartID 1, da keine für appointment_type_id {appointment_type_id} gefunden wurde")
+        else:
+            untersuchung["UntersuchungartID"] = 1  # Standard-Untersuchungsart
+            logger.warning("Keine appointment_type_id im Termin vorhanden, verwende Standard-UntersuchungartID 1")
         
         # HerzkatheterID dynamisch ermitteln anhand der room_id
         room_id = appointment.get("room_id")
@@ -377,6 +390,45 @@ class UntersuchungSynchronizer:
             
         except Exception as e:
             logger.error(f"Fehler bei der Herzkathetersuche mit room_id {room_id}: {str(e)}")
+            return None
+            
+    def _get_untersuchungart_id_by_appointment_type_id(self, appointment_type_id: int) -> Optional[int]:
+        """
+        Ermittelt die UntersuchungartID anhand der appointment_type_id aus CallDoc.
+        Das Feld appointment_type in der Tabelle Untersuchungart ist ein JSON-Feld,
+        in dem der Key "1" den Wert der appointment_type_id enthält.
+        
+        Args:
+            appointment_type_id: Appointment Type ID aus CallDoc
+            
+        Returns:
+            UntersuchungartID oder None, wenn keine Untersuchungsart gefunden wurde
+        """
+        try:
+            # SQL-Abfrage für die Untersuchungsartsuche mit JSON-Vergleich
+            query = f"""
+                SELECT 
+                    UntersuchungartID, UntersuchungartName, appointment_type
+                FROM 
+                    [SQLHK].[dbo].[Untersuchungart]
+                WHERE 
+                    JSON_VALUE(appointment_type, '$."1"') = '{appointment_type_id}'
+            """
+            
+            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            
+            if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
+                untersuchungart = result["rows"][0]
+                untersuchungart_id = untersuchungart.get("UntersuchungartID")
+                name = untersuchungart.get("UntersuchungartName")
+                logger.info(f"Untersuchungsart mit appointment_type_id {appointment_type_id} gefunden: UntersuchungartID = {untersuchungart_id}, Name: {name}")
+                return untersuchungart_id
+            
+            logger.warning(f"Keine Untersuchungsart mit appointment_type_id {appointment_type_id} gefunden")
+            return None
+            
+        except Exception as e:
+            logger.error(f"Fehler bei der Untersuchungsartsuche mit appointment_type_id {appointment_type_id}: {str(e)}")
             return None
     
     def _map_status(self, calldoc_status: Optional[str]) -> str:
