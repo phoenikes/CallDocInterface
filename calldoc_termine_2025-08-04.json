@@ -38,7 +38,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "V015626912",
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 236624,
@@ -79,7 +85,13 @@
     "next": null,
     "prev": null,
     "room_id": 19,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "R616452062",
+    "patient_insurance_provider": "BARMER",
+    "patient_insurance_type": "ego",
+    "patient_insured_type": "retiree",
+    "patient_billing_vknr": "72601",
+    "patient_cost_bearer_id": "108380007"
   },
   {
     "id": 206307,
@@ -120,7 +132,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "Y519239740",
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 241416,
@@ -161,7 +179,13 @@
     "next": null,
     "prev": null,
     "room_id": 19,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "V645815915",
+    "patient_insurance_provider": "AOK Bayern",
+    "patient_insurance_type": "bmae",
+    "patient_insured_type": "retiree",
+    "patient_billing_vknr": "71101",
+    "patient_cost_bearer_id": "108310400"
   },
   {
     "id": 212282,
@@ -202,7 +226,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 219689,
@@ -218,7 +248,7 @@
     "duration_in_minutes": 30,
     "relation_status": "self",
     "booking_number": 16071,
-    "name": "Jäger",
+    "name": "J\u00e4ger",
     "surname": "Birgit",
     "date_of_birth": "1964-04-20",
     "city_code": "",
@@ -243,7 +273,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 239139,
@@ -260,7 +296,7 @@
     "relation_status": "self",
     "booking_number": 85691,
     "name": "Gerhard",
-    "surname": "Fröhlich",
+    "surname": "Fr\u00f6hlich",
     "date_of_birth": "1953-09-13",
     "city_code": "",
     "email": "",
@@ -284,7 +320,13 @@
     "next": null,
     "prev": null,
     "room_id": 19,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 241576,
@@ -325,7 +367,13 @@
     "next": null,
     "prev": null,
     "room_id": 19,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 223710,
@@ -366,7 +414,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "Z483314877",
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 243459,
@@ -407,7 +461,13 @@
     "next": null,
     "prev": null,
     "room_id": 19,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "N797763288",
+    "patient_insurance_provider": "AOK Bayern",
+    "patient_insurance_type": "bmae",
+    "patient_insured_type": "member",
+    "patient_billing_vknr": "71101",
+    "patient_cost_bearer_id": "108310400"
   },
   {
     "id": 225333,
@@ -448,7 +508,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 225369,
@@ -489,7 +555,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 253330,
@@ -530,7 +602,13 @@
     "next": null,
     "prev": null,
     "room_id": 19,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "S935167522",
+    "patient_insurance_provider": "AOK Bayern",
+    "patient_insurance_type": "bmae",
+    "patient_insured_type": "member",
+    "patient_billing_vknr": "71101",
+    "patient_cost_bearer_id": "108310400"
   },
   {
     "id": 226696,
@@ -571,7 +649,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 253418,
@@ -612,7 +696,13 @@
     "next": null,
     "prev": null,
     "room_id": 19,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "Y602678489",
+    "patient_insurance_provider": "AOK Bayern",
+    "patient_insurance_type": "bmae",
+    "patient_insured_type": "retiree",
+    "patient_billing_vknr": "71101",
+    "patient_cost_bearer_id": "108310400"
   },
   {
     "id": 227563,
@@ -653,7 +743,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 252043,
@@ -694,6 +790,12 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   }
 ]

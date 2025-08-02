@@ -385,6 +385,26 @@ class CallDocSQLHKSynchronizer:
                 writer.writerow(row)
         
         logger.info(f"Tabelle wurde als {filename} gespeichert.")
+        
+    def save_comparison_as_csv(self, table, filename):
+        """
+        Speichert eine Vergleichstabelle als CSV-Datei.
+        
+        Args:
+            table: PrettyTable-Objekt mit der Vergleichstabelle
+            filename: Name der CSV-Datei
+        """
+        if table is None:
+            logger.error("Keine Vergleichstabelle übergeben.")
+            return
+            
+        with open(filename, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(table.field_names)
+            for row in table._rows:
+                writer.writerow(row)
+        
+        logger.info(f"Vergleichstabelle wurde als {filename} gespeichert.")
     
     def save_data_to_json(self, calldoc_filename, sqlhk_filename):
         """

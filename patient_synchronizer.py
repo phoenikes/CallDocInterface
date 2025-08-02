@@ -5,20 +5,58 @@ Dieses Modul enthält die Klasse PatientSynchronizer, die für die Synchronisati
 von Patientendaten zwischen CallDoc und der SQLHK-Datenbank zuständig ist.
 
 Die Klasse bietet Funktionen zum:
-1. Abrufen von Patientendaten aus CallDoc
+1. Abrufen von Patientendaten aus CallDoc-Terminen
 2. Abrufen von Patientendaten aus SQLHK
-3. Vergleichen der Patientendaten
+3. Mapping der Datenstrukturen zwischen beiden Systemen
 4. Aktualisieren oder Einfügen (Upsert) von Patientendaten in SQLHK
+5. Synchronisieren von Patientendaten aus einer Liste von Terminen
 
-Verwendung:
+Unterstützte Felder für die Synchronisation:
+- Nachname, Vorname
+- Geburtsdatum
+- Adresse (PLZ, Stadt, Straße)
+- Geschlecht
+- Versichertennummer (insurance_number)
+- Mobiltelefonnummer (erste Mobilnummer aus dem phones-Array)
+- E-Mail-Adresse (erste E-Mail aus dem emails-Array)
+- M1Ziffer/heydokid als eindeutige Kennung
+
+PatientSynchronizer - Synchronisiert Patientendaten zwischen CallDoc und SQLHK
+
+Diese Klasse ermöglicht die Synchronisation von Patientendaten aus CallDoc-Terminen
+in die SQLHK-Datenbank. Sie extrahiert relevante Patientenfelder aus den Terminen,
+mappt sie auf das SQLHK-Format und führt dann Insert- oder Update-Operationen durch.
+
+Unterstützte Felder:
+- Vorname (name)
+- Nachname (surname)
+- Geburtsdatum (date_of_birth)
+- M1Ziffer/PIZ (piz)
+- Versichertennummer (insurance_number)
+- Telefonnummer (phone_number, aus phones-Array)
+- E-Mail-Adresse (email, aus emails-Array)
+- PLZ (city_code)
+
+Zukünftig zu implementierende Felder:
+- CallDoc Patienten-ID (patient) - Eindeutige ID des Patienten in CallDoc
+  Diese ID könnte als zusätzliches Identifikationsmerkmal neben der M1Ziffer
+  verwendet werden, um Patienten zuverlässiger zu identifizieren.
+
+Beispiel:
     synchronizer = PatientSynchronizer()
-    synchronizer.synchronize_patient(calldoc_patient_id)
+    appointments = calldoc.appointment_search(appointment_type_id=24)
+    stats = synchronizer.synchronize_patients_from_appointments(appointments)
+    print(f"Synchronisiert: {stats['success']}, Fehlgeschlagen: {stats['failed']}")
+
+Autor: Markus
+Version: 1.0 (2025-08-01)
 """
 
 import json
 import requests
 from datetime import datetime
 import logging
+import time
 from constants import API_BASE_URL, SQLHK_API_BASE_URL
 
 # Logger konfigurieren
@@ -120,11 +158,27 @@ class PatientSynchronizer:
         """
         Mappt die Patientendaten aus einem CallDoc-Termin auf das SQLHK-Format.
         
+        Diese Methode extrahiert alle relevanten Patientendaten direkt aus dem appointment-Objekt
+        und konvertiert sie in das Format, das von der SQLHK-Datenbank erwartet wird.
+        
+        Folgende Felder werden extrahiert und gemappt:
+        - Nachname: aus surname oder last_name
+        - Vorname: aus name oder first_name
+        - Geburtsdatum: aus date_of_birth (konvertiert von YYYY-MM-DD zu DD.MM.YYYY)
+        - PLZ: aus city_code
+        - Stadt: aus city
+        - Straße: aus street + house_number
+        - Geschlecht: aus gender (0=unbekannt, 1=männlich, 2=weiblich)
+        - E-Mail: aus email oder dem ersten Eintrag im emails-Array
+        - Handy: erste Mobilnummer aus dem phones-Array mit phone_type="Mobile"
+        - M1Ziffer/heydokid: aus piz (Patient-Identifikationsnummer)
+        - Versichertennummer: aus insurance_number
+        
         Args:
-            appointment: Die Termindaten aus CallDoc
+            appointment (dict): Die Termindaten aus CallDoc mit den Patienteninformationen
             
         Returns:
-            dict: Die gemappten Patientendaten im SQLHK-Format
+            dict: Die gemappten Patientendaten im SQLHK-Format, bereinigt von None-Werten
         """
         logger = logging.getLogger("patient_synchronizer")
         if not appointment:
@@ -155,8 +209,8 @@ class PatientSynchronizer:
         email = appointment.get("email")
         versicherung = appointment.get("insurance_provider")
         
-        # Versichertennummer aus insurance_number
-        versichertennr = appointment.get("insurance_number")
+        # Versichertennummer aus patient_insurance_number
+        versichertennr = appointment.get("patient_insurance_number")
         
         # Handy-Nummer aus phones-Array extrahieren (erste Mobilnummer)
         if "phones" in appointment and isinstance(appointment["phones"], list) and appointment["phones"]:
@@ -178,8 +232,9 @@ class PatientSynchronizer:
             elif appointment.get("gender").lower() in ["w", "weiblich", "female"]:
                 geschlecht = 2  # weiblich
         
-        # PIZ als m1ziffer und heydokid verwenden
+        # PIZ als M1Ziffer und ID als heydokid verwenden
         piz = appointment.get("piz")
+        patient_id = appointment.get("id")
         
         # Mapping auf SQLHK-Format entsprechend der Datenbankstruktur
         sqlhk_patient = {
@@ -193,7 +248,7 @@ class PatientSynchronizer:
             "email": email,
             "handy": handy,
             "M1Ziffer": piz,  # PIZ als M1Ziffer (eindeutiges Suchkriterium)
-            "heydokid": piz,  # Wir verwenden die PIZ auch als heydokid
+            "heydokid": patient_id,  # Wir verwenden die CallDoc-ID als heydokid
             "versichertennr": versichertennr  # Versichertennummer aus insurance_number
         }
         
@@ -267,6 +322,7 @@ class PatientSynchronizer:
             dict: Die Antwort der API oder None bei Fehler
         """
         logger = logging.getLogger("patient_synchronizer")
+        start_zeit = time.time()
         try:
             if patient_id:
                 # Update eines bestehenden Patienten
@@ -353,15 +409,30 @@ class PatientSynchronizer:
     
     def synchronize_patients_from_appointments(self, appointments):
         """
-        Synchronisiert Patienten aus einer Liste von Terminen.
+        Synchronisiert Patienten aus einer Liste von CallDoc-Terminen mit der SQLHK-Datenbank.
+        
+        Diese Methode durchläuft alle übergebenen Termine und extrahiert die Patientendaten.
+        Für jeden Patienten wird geprüft, ob er bereits in der SQLHK-Datenbank existiert:
+        1. Zuerst wird nach der M1Ziffer (PIZ) gesucht
+        2. Falls nicht gefunden, wird nach Name, Vorname und Geburtsdatum gesucht
+        
+        Abhängig vom Ergebnis wird der Patient entweder aktualisiert oder neu angelegt.
+        Die Methode führt eine detaillierte Statistik über alle Vorgänge.
         
         Args:
-            appointments: Liste von CallDoc-Terminen
+            appointments (list): Liste von CallDoc-Terminen mit Patientendaten
             
         Returns:
-            dict: Statistik über die Synchronisation
+            dict: Statistik über die Synchronisation mit folgenden Schlüsseln:
+                - total: Gesamtzahl der verarbeiteten Patienten
+                - success: Anzahl der erfolgreich synchronisierten Patienten
+                - failed: Anzahl der fehlgeschlagenen Synchronisationen
+                - updated: Anzahl der aktualisierten Patienten
+                - inserted: Anzahl der neu angelegten Patienten
+                - details: Liste mit Details zu jedem verarbeiteten Patienten
         """
         logger = logging.getLogger("patient_synchronizer")
+        gesamt_start_zeit = time.time()
         
         stats = {
             "total": 0,
@@ -376,8 +447,10 @@ class PatientSynchronizer:
             return stats
         
         for appointment in appointments:
+            patient_start_zeit = time.time()
             stats["total"] += 1
             appointment_id = appointment.get("id")
+            logger.info(f"Starte Verarbeitung von Patient {stats['total']} (Termin-ID: {appointment_id})")
             
             # Prüfen, ob die notwendigen Patientendaten im Termin vorhanden sind
             if not appointment.get("surname") or not appointment.get("name") or not appointment.get("date_of_birth"):
@@ -390,7 +463,10 @@ class PatientSynchronizer:
                 continue
             
             # Patientendaten aus dem Termin extrahieren und auf SQLHK-Format mappen
+            mapping_start = time.time()
             sqlhk_patient = self.map_appointment_to_sqlhk(appointment)
+            mapping_ende = time.time()
+            logger.info(f"Mapping der Patientendaten: {mapping_ende - mapping_start:.2f} Sekunden")
             
             if not sqlhk_patient:
                 stats["failed"] += 1
@@ -408,50 +484,53 @@ class PatientSynchronizer:
                 "Geburtsdatum": sqlhk_patient.get("Geburtsdatum")
             }
             
-            # Zuerst nach M1Ziffer suchen (eindeutiges Suchkriterium)
+            # Optimierte Suche: Wir suchen zuerst nach M1Ziffer und dann nach Name+Geburtsdatum in einer einzigen Anfrage
+            suche_start = time.time()
             existing_patient = None
+            search_conditions = []
+            search_params_dict = {}
+            
+            # M1Ziffer-Suche vorbereiten
             if "M1Ziffer" in sqlhk_patient and sqlhk_patient["M1Ziffer"]:
-                # Suche nach Patienten mit der gleichen M1Ziffer
-                m1ziffer = sqlhk_patient["M1Ziffer"]
-                sql_query = f"SELECT * FROM Patient WHERE M1Ziffer = @M1Ziffer"
+                search_conditions.append("M1Ziffer = @M1Ziffer")
+                search_params_dict["M1Ziffer"] = sqlhk_patient["M1Ziffer"]
+            
+            # Name+Geburtsdatum-Suche als Alternative vorbereiten
+            name_conditions = []
+            if search_params["Nachname"]:
+                name_conditions.append("Nachname = @Nachname")
+                search_params_dict["Nachname"] = search_params["Nachname"]
+            
+            if search_params["Vorname"]:
+                name_conditions.append("Vorname = @Vorname")
+                search_params_dict["Vorname"] = search_params["Vorname"]
+            
+            if search_params["Geburtsdatum"]:
+                name_conditions.append("Geburtsdatum = @Geburtsdatum")
+                search_params_dict["Geburtsdatum"] = search_params["Geburtsdatum"]
+            
+            # Name+Geburtsdatum-Bedingung zusammenfügen
+            if name_conditions:
+                name_where = " AND ".join(name_conditions)
+                search_conditions.append(f"({name_where})")
+            
+            # Gesamte Suchbedingung erstellen
+            if search_conditions:
+                where_clause = " OR ".join(search_conditions)
+                sql_query = f"SELECT * FROM Patient WHERE {where_clause}"
                 url = f"{self.sqlhk_api_base}/execute_sql"
-                search_result = requests.post(url, json={"query": sql_query, "params": {"M1Ziffer": m1ziffer}, "database": "SQLHK"})
+                search_result = requests.post(url, json={"query": sql_query, "params": search_params_dict, "database": "SQLHK"})
                 
                 if search_result.status_code == 200:
                     result = search_result.json()
                     if "rows" in result and result["rows"] and len(result["rows"]) > 0:
                         existing_patient = result["rows"][0]
-                        logger.info(f"Patient mit M1Ziffer {m1ziffer} gefunden (PatientID: {existing_patient.get('PatientID')})")
             
-            # Wenn kein Patient über M1Ziffer gefunden wurde, nach Name und Geburtsdatum suchen
-            if not existing_patient:
-                conditions = []
-                params = {}
-                
-                if search_params["Nachname"]:
-                    conditions.append("Nachname = @Nachname")
-                    params["Nachname"] = search_params["Nachname"]
-                
-                if search_params["Vorname"]:
-                    conditions.append("Vorname = @Vorname")
-                    params["Vorname"] = search_params["Vorname"]
-                
-                if search_params["Geburtsdatum"]:
-                    conditions.append("Geburtsdatum = @Geburtsdatum")
-                    params["Geburtsdatum"] = search_params["Geburtsdatum"]
-                
-                if conditions:
-                    where_clause = " AND ".join(conditions)
-                    sql_query = f"SELECT * FROM Patient WHERE {where_clause}"
-                    url = f"{self.sqlhk_api_base}/execute_sql"
-                    search_result = requests.post(url, json={"query": sql_query, "params": params, "database": "SQLHK"})
-                    
-                    if search_result.status_code == 200:
-                        result = search_result.json()
-                        if "rows" in result and result["rows"] and len(result["rows"]) > 0:
-                            existing_patient = result["rows"][0]
+            suche_ende = time.time()
+            logger.info(f"Suche nach existierendem Patienten: {suche_ende - suche_start:.2f} Sekunden")
             
             # Patient aktualisieren oder neu anlegen
+            db_operation_start = time.time()
             if existing_patient:
                 # Patient aktualisieren
                 patient_id = existing_patient.get("PatientID")
@@ -477,6 +556,9 @@ class PatientSynchronizer:
                         "message": "Fehler beim Aktualisieren des Patienten"
                     })
                     logger.error(f"Fehler beim Aktualisieren des Patienten mit ID {patient_id}")
+                
+                db_operation_ende = time.time()
+                logger.info(f"Aktualisierung des Patienten: {db_operation_ende - db_operation_start:.2f} Sekunden")
             else:
                 logger.info(f"Lege neuen Patienten mit M1Ziffer {sqlhk_patient.get('M1Ziffer')} an")
                 insert_result = self.upsert_patient(sqlhk_patient)
@@ -513,6 +595,16 @@ class PatientSynchronizer:
                         "message": "Fehler beim Anlegen eines neuen Patienten"
                     })
                     logger.error(f"Fehler beim Anlegen eines neuen Patienten mit M1Ziffer {sqlhk_patient.get('M1Ziffer')}")
+                
+                db_operation_ende = time.time()
+                logger.info(f"Anlegen des neuen Patienten: {db_operation_ende - db_operation_start:.2f} Sekunden")
+            
+            patient_ende_zeit = time.time()
+            logger.info(f"Gesamtzeit für Patient {stats['total']}: {patient_ende_zeit - patient_start_zeit:.2f} Sekunden\n")
+        
+        gesamt_ende_zeit = time.time()
+        logger.info(f"Gesamtzeit für alle {stats['total']} Patienten: {gesamt_ende_zeit - gesamt_start_zeit:.2f} Sekunden")
+        logger.info(f"Durchschnittliche Zeit pro Patient: {(gesamt_ende_zeit - gesamt_start_zeit) / max(stats['total'], 1):.2f} Sekunden")
         
         return stats
 

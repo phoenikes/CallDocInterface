@@ -57,7 +57,8 @@ class UntersuchungSynchronizer:
             "inserted": 0,
             "updated": 0,
             "deleted": 0,
-            "errors": 0
+            "errors": 0,
+            "success": 0
         }
     
     def load_appointment_type_mapping(self) -> None:
@@ -473,36 +474,82 @@ class UntersuchungSynchronizer:
         calldoc_appointments = self.get_calldoc_appointments(date_str)
         sqlhk_untersuchungen = self.get_sqlhk_untersuchungen(date_str)
         
-        # Indizes erstellen für schnellen Zugriff
-        calldoc_index = {str(app.get("id")): app for app in calldoc_appointments}
-        sqlhk_index = {}
+        # Statistik zurücksetzen
+        self.stats = {
+            "total_calldoc": len(calldoc_appointments),
+            "total_sqlhk": len(sqlhk_untersuchungen),
+            "to_insert": 0,
+            "to_update": 0,
+            "to_delete": 0,
+            "inserted": 0,
+            "updated": 0,
+            "deleted": 0,
+            "errors": 0,
+            "success": 0
+        }
         
-        # Da die Untersuchungstabelle kein ExterneID-Feld hat, können wir keine direkte Zuordnung machen
-        # Wir gehen davon aus, dass alle Termine neu angelegt werden müssen
-        logger.info(f"Keine direkte Zuordnung zwischen CallDoc-Terminen und SQLHK-Untersuchungen möglich")
-        logger.info(f"Alle Termine werden als neu betrachtet und angelegt")
+        # Aktive Termine identifizieren (nicht storniert)
+        active_appointments = [app for app in calldoc_appointments if app.get("status") != "canceled"]
+        logger.info(f"{len(active_appointments)} aktive Termine gefunden")
         
-        # Identifizieren der Operationen
+        # Obsolete Untersuchungen identifizieren und löschen
+        # Dies sind Untersuchungen, die in der Datenbank existieren, aber keinen aktiven Termin mehr haben
+        deleted_count = self._delete_obsolete_untersuchungen(active_appointments, sqlhk_untersuchungen, date_str)
+        self.stats["deleted"] = deleted_count
+        
+        # Für jeden aktiven Termin prüfen, ob er bereits in SQLHK existiert
         to_insert = []
         to_update = []
-        to_delete = []
         
-        # Da wir keine direkte Zuordnung haben, betrachten wir alle Termine als neu
-        # Wir versuchen, für jeden Termin eine Untersuchung anzulegen
-        for app_id, appointment in calldoc_index.items():
-            # Wir fügen alle Termine zur Verarbeitung hinzu
-            to_insert.append(appointment)
-        
-        # Keine Updates oder Löschungen, da wir keine Zuordnung haben
-        to_update = []
-        to_delete = []
+        for appointment in active_appointments:
+            # Untersuchungsdaten aus dem Termin mappen
+            mapped_untersuchung = self.map_appointment_to_untersuchung(appointment)
+            
+            # Prüfen, ob eine entsprechende Untersuchung bereits existiert
+            # Wir verwenden eine Kombination aus Datum, PatientID, UntersucherID, etc. als Schlüssel
+            datum = mapped_untersuchung.get("Datum")
+            patient_id = mapped_untersuchung.get("PatientID")
+            untersucher_id = mapped_untersuchung.get("UntersucherAbrechnungID")
+            herzkatheter_id = mapped_untersuchung.get("HerzkatheterID")
+            untersuchungart_id = mapped_untersuchung.get("UntersuchungartID")
+            
+            if not all([datum, patient_id, untersucher_id, herzkatheter_id, untersuchungart_id]):
+                logger.warning(f"Nicht alle erforderlichen Felder für die Identifikation der Untersuchung vorhanden: "
+                              f"Datum={datum}, PatientID={patient_id}, UntersucherAbrechnungID={untersucher_id}, "
+                              f"HerzkatheterID={herzkatheter_id}, UntersuchungartID={untersuchungart_id}")
+                continue
+            
+            # SQL-Abfrage, um zu prüfen, ob die Untersuchung bereits existiert
+            query = f"""
+                SELECT 
+                    UntersuchungID, Datum, PatientID, UntersucherAbrechnungID, HerzkatheterID, UntersuchungartID
+                FROM 
+                    [SQLHK].[dbo].[Untersuchung]
+                WHERE 
+                    Datum = '{datum}'
+                    AND PatientID = {patient_id}
+                    AND UntersucherAbrechnungID = {untersucher_id}
+                    AND HerzkatheterID = {herzkatheter_id}
+                    AND UntersuchungartID = {untersuchungart_id}
+            """
+            
+            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            
+            if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
+                # Untersuchung existiert bereits, Update durchführen
+                existing_untersuchung = result["rows"][0]
+                logger.info(f"Bestehende Untersuchung gefunden: UntersuchungID={existing_untersuchung.get('UntersuchungID')}")
+                to_update.append((appointment, existing_untersuchung))
+            else:
+                # Untersuchung existiert noch nicht, neu einfügen
+                logger.info(f"Keine bestehende Untersuchung gefunden, wird neu eingefügt")
+                to_insert.append(appointment)
         
         # Statistik aktualisieren
         self.stats["to_insert"] = len(to_insert)
         self.stats["to_update"] = len(to_update)
-        self.stats["to_delete"] = len(to_delete)
         
-        logger.info(f"Zu synchronisieren: {len(to_insert)} neue, {len(to_update)} zu aktualisieren, {len(to_delete)} zu löschen")
+        logger.info(f"Zu synchronisieren: {len(to_insert)} neue, {len(to_update)} zu aktualisieren")
         
         # Operationen durchführen
         for appointment in to_insert:
@@ -511,40 +558,11 @@ class UntersuchungSynchronizer:
         for appointment, untersuchung in to_update:
             self._update_untersuchung(appointment, untersuchung)
         
-        for untersuchung in to_delete:
-            self._delete_untersuchung(untersuchung)
+        # Erfolgsstatistik aktualisieren
+        self.stats["success"] = self.stats["inserted"] + self.stats["updated"] + self.stats["deleted"]
         
         return self.stats
-    
-    def _needs_update(self, appointment: Dict[str, Any], untersuchung: Dict[str, Any]) -> bool:
-        """
-        Prüft, ob eine Untersuchung aktualisiert werden muss.
-        
-        Args:
-            appointment: CallDoc-Termin
-            untersuchung: SQLHK-Untersuchung
-            
-        Returns:
-            True, wenn Update notwendig, sonst False
-        """
-        # Hier müsste eine detaillierte Vergleichslogik implementiert werden
-        # Für den Moment prüfen wir nur einige grundlegende Felder
-        
-        # Zeit vergleichen
-        if appointment.get("time") != untersuchung.get("Zeit"):
-            return True
-        
-        # Status vergleichen
-        calldoc_status = self._map_status(appointment.get("status"))
-        if calldoc_status != untersuchung.get("Status"):
-            return True
-        
-        # Bemerkung vergleichen
-        if appointment.get("notes") != untersuchung.get("Bemerkung"):
-            return True
-        
-        return False
-    
+
     def _insert_untersuchung(self, appointment: Dict[str, Any]) -> None:
         """
         Fügt eine neue Untersuchung in die SQLHK-Datenbank ein.
@@ -609,7 +627,126 @@ class UntersuchungSynchronizer:
             # Detaillierte Fehlerinformationen loggen
             import traceback
             logger.error(f"Stacktrace: {traceback.format_exc()}")
-    
+
+    def synchronize_appointments(self, appointments: List[Dict[str, Any]], untersuchungen: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Synchronisiert CallDoc-Termine mit SQLHK-Untersuchungen.
+        
+        Diese Methode vergleicht die Termine aus CallDoc mit den Untersuchungen aus SQLHK
+        und führt die notwendigen Operationen durch, um beide Systeme zu synchronisieren.
+        
+        Args:
+            appointments: Liste der CallDoc-Termine
+            untersuchungen: Liste der SQLHK-Untersuchungen
+            
+        Returns:
+            Statistik der Synchronisierung
+        """
+        # Statistik zurücksetzen
+        self.stats = {
+            "total_calldoc": len(appointments),
+            "total_sqlhk": len(untersuchungen),
+            "to_insert": 0,
+            "to_update": 0,
+            "to_delete": 0,
+            "inserted": 0,
+            "updated": 0,
+            "deleted": 0,
+            "errors": 0,
+            "success": 0
+        }
+        
+        logger.info(f"Starte Synchronisierung: {len(appointments)} CallDoc-Termine, {len(untersuchungen)} SQLHK-Untersuchungen")
+        
+        # Aktive Termine identifizieren (nicht storniert)
+        active_appointments = [app for app in appointments if app.get("status") != "canceled"]
+        logger.info(f"{len(active_appointments)} aktive Termine gefunden")
+        
+        # Obsolete Untersuchungen identifizieren und löschen
+        # Dies sind Untersuchungen, die in der Datenbank existieren, aber keinen aktiven Termin mehr haben
+        # Wir extrahieren das Datum aus dem ersten Termin, falls vorhanden
+        date_str = None
+        if appointments and len(appointments) > 0:
+            scheduled_for = appointments[0].get("scheduled_for_datetime")
+            if scheduled_for:
+                try:
+                    date_obj = datetime.fromisoformat(scheduled_for.replace("Z", "+00:00"))
+                    date_str = date_obj.strftime("%Y-%m-%d")
+                except Exception as e:
+                    logger.error(f"Fehler beim Extrahieren des Datums: {str(e)}")
+        
+        # Lösche obsolete Untersuchungen, wenn ein Datum gefunden wurde
+        deleted_count = 0
+        if date_str:
+            deleted_count = self._delete_obsolete_untersuchungen(active_appointments, untersuchungen, date_str)
+            self.stats["deleted"] = deleted_count
+        
+        # Für jeden aktiven Termin prüfen, ob er bereits in SQLHK existiert
+        to_insert = []
+        to_update = []
+        
+        for appointment in active_appointments:
+            # Untersuchungsdaten aus dem Termin mappen
+            mapped_untersuchung = self.map_appointment_to_untersuchung(appointment)
+            
+            # Prüfen, ob eine entsprechende Untersuchung bereits existiert
+            # Wir verwenden eine Kombination aus Datum, PatientID, UntersucherID, etc. als Schlüssel
+            datum = mapped_untersuchung.get("Datum")
+            patient_id = mapped_untersuchung.get("PatientID")
+            untersucher_id = mapped_untersuchung.get("UntersucherAbrechnungID")
+            herzkatheter_id = mapped_untersuchung.get("HerzkatheterID")
+            untersuchungart_id = mapped_untersuchung.get("UntersuchungartID")
+            
+            if not all([datum, patient_id, untersucher_id, herzkatheter_id, untersuchungart_id]):
+                logger.warning(f"Nicht alle erforderlichen Felder für die Identifikation der Untersuchung vorhanden: "
+                              f"Datum={datum}, PatientID={patient_id}, UntersucherAbrechnungID={untersucher_id}, "
+                              f"HerzkatheterID={herzkatheter_id}, UntersuchungartID={untersuchungart_id}")
+                continue
+            
+            # SQL-Abfrage, um zu prüfen, ob die Untersuchung bereits existiert
+            query = f"""
+                SELECT 
+                    UntersuchungID, Datum, PatientID, UntersucherAbrechnungID, HerzkatheterID, UntersuchungartID
+                FROM 
+                    [SQLHK].[dbo].[Untersuchung]
+                WHERE 
+                    Datum = '{datum}'
+                    AND PatientID = {patient_id}
+                    AND UntersucherAbrechnungID = {untersucher_id}
+                    AND HerzkatheterID = {herzkatheter_id}
+                    AND UntersuchungartID = {untersuchungart_id}
+            """
+            
+            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            
+            if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
+                # Untersuchung existiert bereits, Update durchführen
+                existing_untersuchung = result["rows"][0]
+                logger.info(f"Bestehende Untersuchung gefunden: UntersuchungID={existing_untersuchung.get('UntersuchungID')}")
+                to_update.append((appointment, existing_untersuchung))
+            else:
+                # Untersuchung existiert noch nicht, neu einfügen
+                logger.info(f"Keine bestehende Untersuchung gefunden, wird neu eingefügt")
+                to_insert.append(appointment)
+        
+        # Statistik aktualisieren
+        self.stats["to_insert"] = len(to_insert)
+        self.stats["to_update"] = len(to_update)
+        
+        logger.info(f"Zu synchronisieren: {len(to_insert)} neue, {len(to_update)} zu aktualisieren, {self.stats['deleted']} gelöscht")
+        
+        # Operationen durchführen
+        for appointment in to_insert:
+            self._insert_untersuchung(appointment)
+        
+        for appointment, untersuchung in to_update:
+            self._update_untersuchung(appointment, untersuchung)
+        
+        # Erfolgsstatistik aktualisieren
+        self.stats["success"] = self.stats["inserted"] + self.stats["updated"] + self.stats["deleted"]
+        
+        return self.stats
+        
     def _update_untersuchung(self, appointment: Dict[str, Any], untersuchung: Dict[str, Any]) -> None:
         """
         Aktualisiert eine bestehende Untersuchung in der SQLHK-Datenbank.
@@ -624,12 +761,12 @@ class UntersuchungSynchronizer:
                 self.stats["errors"] += 1
                 logger.error(f"Fehler beim Aktualisieren der Untersuchung: Keine UntersuchungID vorhanden")
                 return
-                
+            
             # Untersuchungsdaten aus dem Termin mappen
             untersuchung_data = self.map_appointment_to_untersuchung(appointment)
             
             # Validierung der Pflichtfelder
-            required_fields = ["Datum", "Zeit", "PatientID", "UntersuchungartID"]
+            required_fields = ["Datum", "PatientID", "UntersuchungartID"]
             missing_fields = [field for field in required_fields if not untersuchung_data.get(field)]
             
             if missing_fields:
@@ -669,106 +806,146 @@ class UntersuchungSynchronizer:
             # Detaillierte Fehlerinformationen loggen
             import traceback
             logger.error(f"Stacktrace: {traceback.format_exc()}")
-
     
-    def _delete_untersuchung(self, untersuchung: Dict[str, Any]) -> None:
+    def _delete_untersuchung(self, untersuchung: Dict[str, Any]) -> bool:
         """
         Löscht eine Untersuchung aus der SQLHK-Datenbank.
         
         Args:
             untersuchung: SQLHK-Untersuchung
+            
+        Returns:
+            bool: True, wenn die Löschung erfolgreich war, sonst False
         """
         try:
             untersuchung_id = untersuchung.get("UntersuchungID")
-            result = self.mssql_client.delete_untersuchung(untersuchung_id)
+            if not untersuchung_id:
+                self.stats["errors"] += 1
+                logger.error(f"Fehler beim Löschen der Untersuchung: Keine UntersuchungID vorhanden")
+                return False
+            
+            # Debug-Ausgabe der zu löschenden Untersuchung
+            logger.info(f"Lösche Untersuchung {untersuchung_id} mit Daten: {untersuchung}")
+            
+            # SQL-Abfrage zum Löschen der Untersuchung
+            query = f"""
+                DELETE FROM [SQLHK].[dbo].[Untersuchung]
+                WHERE UntersuchungID = {untersuchung_id}
+            """
+            
+            result = self.mssql_client.execute_sql(query, "SuPDatabase")
             
             if result.get("success", False):
                 self.stats["deleted"] += 1
-                logger.info(f"Untersuchung {untersuchung_id} gelöscht")
+                logger.info(f"Untersuchung {untersuchung_id} erfolgreich gelöscht")
+                return True
             else:
                 self.stats["errors"] += 1
-                logger.error(f"Fehler beim Löschen der Untersuchung {untersuchung_id}: {result.get('error', 'Unbekannter Fehler')}")
-        
+                logger.error(f"Fehler beim Löschen der Untersuchung {untersuchung_id}: {result.get('message', 'Unbekannter Fehler')}")
+                return False
         except Exception as e:
             self.stats["errors"] += 1
-            logger.error(f"Fehler beim Löschen der Untersuchung {untersuchung.get('UntersuchungID')}: {str(e)}")
+            logger.error(f"Fehler beim Löschen der Untersuchung: {str(e)}")
+            return False
             
-    def synchronize_appointments(self, appointments: List[Dict[str, Any]], untersuchungen: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _delete_obsolete_untersuchungen(self, active_appointments: List[Dict[str, Any]], sqlhk_untersuchungen: List[Dict[str, Any]], date_str: str) -> int:
         """
-        Synchronisiert CallDoc-Termine mit SQLHK-Untersuchungen.
-        
-        Diese Methode vergleicht die Termine aus CallDoc mit den Untersuchungen aus SQLHK
-        und führt die notwendigen Operationen durch, um beide Systeme zu synchronisieren.
+        Identifiziert und löscht Untersuchungen, die in der SQLHK-Datenbank existieren, aber nicht mehr
+        als aktive Termine in CallDoc vorhanden sind. Dies ist ein robusterer Ansatz als nur stornierte
+        Termine zu verarbeiten, da er auch Termine erfasst, die komplett gelöscht wurden.
         
         Args:
-            appointments: Liste der CallDoc-Termine
-            untersuchungen: Liste der SQLHK-Untersuchungen
+            active_appointments: Liste der aktiven Termine aus CallDoc
+            sqlhk_untersuchungen: Liste der Untersuchungen aus der SQLHK-Datenbank
+            date_str: Datum im Format YYYY-MM-DD für die Filterung zukünftiger Termine
             
         Returns:
-            Statistik der Synchronisierung
+            int: Anzahl der gelöschten Untersuchungen
         """
-        # Statistik zurücksetzen
-        self.stats = {
-            "total_calldoc": len(appointments),
-            "total_sqlhk": len(untersuchungen),
-            "to_insert": 0,
-            "to_update": 0,
-            "to_delete": 0,
-            "inserted": 0,
-            "updated": 0,
-            "deleted": 0,
-            "errors": 0,
-            "success": 0
-        }
+        # Prüfen, ob das Datum in der Zukunft liegt
+        try:
+            current_date = datetime.now().date()
+            sync_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            
+            if sync_date <= current_date:
+                logger.info(f"Datum {date_str} liegt nicht in der Zukunft, keine Löschung von Untersuchungen")
+                return 0
+            
+            logger.info(f"Datum {date_str} liegt in der Zukunft, obsolete Untersuchungen werden identifiziert")
+        except Exception as e:
+            logger.error(f"Fehler beim Vergleich des Datums: {str(e)}")
+            return 0
         
-        logger.info(f"Starte Synchronisierung: {len(appointments)} CallDoc-Termine, {len(untersuchungen)} SQLHK-Untersuchungen")
+        # Erstelle ein Set mit eindeutigen Identifikatoren für aktive Termine
+        active_appointment_identifiers = set()
         
-        # Indizes erstellen für schnellen Zugriff
-        # Für CallDoc: id -> appointment (alle Termine berücksichtigen)
-        calldoc_index = {str(app.get("id")): app for app in appointments}
+        # Debug-Ausgabe für aktive Termine
+        logger.info(f"Verarbeite {len(active_appointments)} aktive Termine für die Löschlogik")
         
-        # Da die Untersuchungstabelle kein ExterneID-Feld hat, können wir keine direkte Zuordnung machen
-        # Wir gehen davon aus, dass alle Termine neu angelegt werden müssen
-        sqlhk_index = {}
-        logger.info(f"Keine direkte Zuordnung zwischen CallDoc-Terminen und SQLHK-Untersuchungen möglich")
-        logger.info(f"Alle Termine werden als neu betrachtet und angelegt")
+        for appointment in active_appointments:
+            try:
+                # Mapping des Termins auf eine Untersuchung
+                mapped_untersuchung = self.map_appointment_to_untersuchung(appointment)
+                
+                # Erforderliche Felder für die eindeutige Identifikation
+                datum = mapped_untersuchung.get("Datum")
+                patient_id = mapped_untersuchung.get("PatientID")
+                untersucher_id = mapped_untersuchung.get("UntersucherAbrechnungID")
+                herzkatheter_id = mapped_untersuchung.get("HerzkatheterID")
+                untersuchungart_id = mapped_untersuchung.get("UntersuchungartID")
+                
+                if all([datum, patient_id, untersucher_id, herzkatheter_id, untersuchungart_id]):
+                    # Erstelle einen eindeutigen Identifier für diesen Termin
+                    identifier = f"{datum}_{patient_id}_{untersucher_id}_{herzkatheter_id}_{untersuchungart_id}"
+                    active_appointment_identifiers.add(identifier)
+                    logger.debug(f"Aktiver Termin-Identifier: {identifier} (ID: {appointment.get('id')})")
+                else:
+                    logger.warning(f"Nicht alle erforderlichen Felder für die Identifikation des Termins vorhanden: ID={appointment.get('id')}")
+            except Exception as e:
+                logger.error(f"Fehler beim Verarbeiten des aktiven Termins {appointment.get('id')}: {str(e)}")
+                continue
         
-        # Da wir keine direkte Zuordnung haben, betrachten wir alle Termine als neu
-        to_insert = []
-        to_update = []
+        # Debug-Ausgabe für aktive Termine
+        logger.info(f"{len(active_appointment_identifiers)} eindeutige aktive Termin-Identifikatoren erstellt")
         
-        # Alle Termine zur Verarbeitung hinzufügen
-        for app_id, appointment in calldoc_index.items():
-            to_insert.append(appointment)
+        # Identifiziere Untersuchungen, die keinen entsprechenden aktiven Termin haben
+        deleted_count = 0
         
-        # 2. Zu löschende Untersuchungen identifizieren (optional)
-        to_delete = []
-        # Auskommentiert, da Löschung in der Regel nicht gewünscht ist
-        # for externe_id, untersuchung in sqlhk_index.items():
-        #     if externe_id not in calldoc_index:
-        #         to_delete.append(untersuchung)
+        # Debug-Ausgabe für Untersuchungen
+        logger.info(f"Verarbeite {len(sqlhk_untersuchungen)} Untersuchungen für die Löschlogik")
         
-        # Statistik aktualisieren
-        self.stats["to_insert"] = len(to_insert)
-        self.stats["to_update"] = len(to_update)
-        self.stats["to_delete"] = len(to_delete)
+        for untersuchung in sqlhk_untersuchungen:
+            try:
+                # Extrahiere die Identifikationsfelder
+                datum = untersuchung.get("Datum")
+                patient_id = untersuchung.get("PatientID")
+                untersucher_id = untersuchung.get("UntersucherAbrechnungID")
+                herzkatheter_id = untersuchung.get("HerzkatheterID")
+                untersuchungart_id = untersuchung.get("UntersuchungartID")
+                untersuchung_id = untersuchung.get("UntersuchungID")
+                
+                if not all([datum, patient_id, untersucher_id, herzkatheter_id, untersuchungart_id]):
+                    logger.warning(f"Nicht alle erforderlichen Felder für die Identifikation der Untersuchung vorhanden: UntersuchungID={untersuchung_id}")
+                    continue
+                
+                # Erstelle den gleichen eindeutigen Identifier
+                identifier = f"{datum}_{patient_id}_{untersucher_id}_{herzkatheter_id}_{untersuchungart_id}"
+                logger.debug(f"Untersuchungs-Identifier: {identifier} (ID: {untersuchung_id})")
+                
+                # Wenn dieser Identifier nicht in den aktiven Terminen ist, lösche die Untersuchung
+                if identifier not in active_appointment_identifiers:
+                    logger.info(f"Obsolete Untersuchung gefunden: UntersuchungID={untersuchung_id}, Datum={datum}, Identifier={identifier}")
+                    if self._delete_untersuchung(untersuchung):
+                        deleted_count += 1
+                        logger.info(f"Untersuchung {untersuchung_id} erfolgreich gelöscht")
+                    else:
+                        logger.error(f"Fehler beim Löschen der Untersuchung {untersuchung_id}")
+            except Exception as e:
+                logger.error(f"Fehler beim Verarbeiten der Untersuchung {untersuchung.get('UntersuchungID')}: {str(e)}")
+                continue
         
-        logger.info(f"Zu synchronisieren: {len(to_insert)} neue, {len(to_update)} zu aktualisieren, {len(to_delete)} zu löschen")
-        
-        # Operationen durchführen
-        for appointment in to_insert:
-            self._insert_untersuchung(appointment)
-        
-        for appointment, untersuchung in to_update:
-            self._update_untersuchung(appointment, untersuchung)
-        
-        for untersuchung in to_delete:
-            self._delete_untersuchung(untersuchung)
-        
-        # Erfolgsstatistik aktualisieren
-        self.stats["success"] = self.stats["inserted"] + self.stats["updated"] + self.stats["deleted"]
-        
-        return self.stats
+        logger.info(f"{deleted_count} obsolete Untersuchungen wurden gelöscht")
+        return deleted_count
 
 
 # Beispiel für die Verwendung der Klasse

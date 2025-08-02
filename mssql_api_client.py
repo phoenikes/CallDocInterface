@@ -207,31 +207,46 @@ class MsSqlApiClient:
         Returns:
             Liste der Untersuchungen als Dictionary
         """
+        # Konvertiere das Datum von YYYY-MM-DD zu DD.MM.YYYY für die SQL-Abfrage
+        try:
+            # Prüfen, ob das Datum bereits im deutschen Format ist
+            if '.' in date_str:
+                german_date = date_str
+                logging.info(f"Datum ist bereits im deutschen Format: {german_date}")
+            else:
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+                german_date = date_obj.strftime("%d.%m.%Y")
+                logging.info(f"Konvertiere Datum von {date_str} zu {german_date} für SQL-Abfrage")
+        except Exception as e:
+            logging.error(f"Fehler bei der Datumskonvertierung: {str(e)}")
+            german_date = date_str
+        
+        # SQL-Abfrage mit dem deutschen Datumsformat
         query = f"""
             SELECT 
                 u.*, 
                 p.Nachname, p.Vorname, p.Geburtsdatum, 
                 ua.UntersuchungartName
             FROM 
-                Untersuchung u
+                [SQLHK].[dbo].[Untersuchung] u
             LEFT JOIN 
-                Patient p ON u.PatientID = p.PatientID
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
             LEFT JOIN 
-                Untersuchungart ua ON u.UntersuchungartID = ua.UntersuchungartID
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
             WHERE 
-                u.Datum = '{date_str}'
+                u.Datum = '{german_date}'
             ORDER BY 
                 u.Zeit
         """
         
-        return self.execute_sql(query)
+        return self.execute_sql(query, "SuPDatabase")
     
     def get_patient_by_piz(self, piz: str) -> Dict[str, Any]:
         """
-        Sucht einen Patienten anhand der PIZ-Nummer in der SQLHK-Datenbank.
+        Sucht einen Patienten anhand der PIZ-Nummer (M1Ziffer) in der SQLHK-Datenbank.
         
         Args:
-            piz: Patienten-Identifikationsnummer
+            piz: Patienten-Identifikationsnummer (M1Ziffer)
             
         Returns:
             Patientendaten als Dictionary oder None, wenn nicht gefunden
@@ -240,15 +255,15 @@ class MsSqlApiClient:
             SELECT 
                 *
             FROM 
-                Patient
+                [SQLHK].[dbo].[Patient]
             WHERE 
-                PIZ = '{piz}'
+                M1Ziffer = '{piz}'
         """
         
-        result = self.execute_sql(query)
+        result = self.execute_sql(query, "SuPDatabase")
         
-        if result.get("success", False) and result.get("results") and len(result["results"]) > 0:
-            return result["results"][0]
+        if result.get("success", False) and result.get("rows") and len(result["rows"]) > 0:
+            return result["rows"][0]
         
         return None
     

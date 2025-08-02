@@ -38,7 +38,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 219295,
@@ -55,7 +61,7 @@
     "relation_status": "self",
     "booking_number": 95543,
     "name": "Stefan",
-    "surname": "Rückert",
+    "surname": "R\u00fcckert",
     "date_of_birth": "1966-01-21",
     "city_code": "",
     "email": "stefan-fazzer@t-online.de",
@@ -79,7 +85,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 223792,
@@ -120,7 +132,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 229819,
@@ -161,7 +179,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 229860,
@@ -202,7 +226,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": "N466516375",
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 231151,
@@ -243,7 +273,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 231619,
@@ -260,7 +296,7 @@
     "relation_status": "self",
     "booking_number": 51040,
     "name": "Gunter",
-    "surname": "Weißer",
+    "surname": "Wei\u00dfer",
     "date_of_birth": "1958-03-29",
     "city_code": "",
     "email": "",
@@ -284,7 +320,13 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   },
   {
     "id": 253414,
@@ -300,7 +342,7 @@
     "duration_in_minutes": 30,
     "relation_status": "self",
     "booking_number": 56864,
-    "name": "Jürgen",
+    "name": "J\u00fcrgen",
     "surname": "Heydenreich",
     "date_of_birth": "1962-06-03",
     "city_code": "",
@@ -325,6 +367,12 @@
     "next": null,
     "prev": null,
     "room_id": 54,
-    "friendly_name": "Herzkatheteruntersuchung"
+    "friendly_name": "Herzkatheteruntersuchung",
+    "patient_insurance_number": null,
+    "patient_insurance_provider": null,
+    "patient_insurance_type": null,
+    "patient_insured_type": null,
+    "patient_billing_vknr": null,
+    "patient_cost_bearer_id": null
   }
 ]
