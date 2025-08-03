@@ -27,7 +27,7 @@ PATIENT_SEARCH_URL = f"{API_BASE_URL}/patient_search/"
 APPOINTMENT_SEARCH_URL = f"{API_BASE_URL}/appointment_search/"
 
 # SQLHK API URL
-SQLHK_API_BASE_URL = "http://localhost:7007/api"
+SQLHK_API_BASE_URL = "http://192.168.1.67:7007/api"
 
 # Konstanten für die Appointment-Typen mit lesbaren Namen
 APPOINTMENT_TYPES = {
@@ -75,7 +75,8 @@ DOCTORS = {
     "REGENFUS": 33,
     "PANNU":49,
     "KOCH": 50,
-    "SCHÄFFER": 52
+    "SCHÄFFER": 52,
+    "TILLMANS": 56
 
 }
 
@@ -93,7 +94,8 @@ ROOMS = {
     "LABOR": 17,
     "HERZKATHETER_1": 18,
     "HERZKATHETER_2": 19,
-    "HERZKATHETER_3": 54,
+    "HERZKATHETER_3": 54,   
+    "HERZKATHETER_4": 61,
     "FUNKTION_1": 20,
     "FUNKTION_2": 21,
     "SPRECHZIMMER_1": 22
