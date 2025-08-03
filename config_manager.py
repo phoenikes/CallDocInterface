@@ -14,6 +14,8 @@ Datum: 03.08.2025
 import os
 import configparser
 import logging
+import secrets
+import string
 from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -47,6 +49,13 @@ class ConfigManager:
             "PATIENT_SEARCH_URL": "${CALLDOC_API_BASE_URL}/patient_search/",
             "APPOINTMENT_SEARCH_URL": "${CALLDOC_API_BASE_URL}/appointment_search/",
             "SQLHK_API_BASE_URL": "http://192.168.1.67:7007/api"
+        }
+        
+        # API-Server Konfiguration
+        self.config["API_SERVER"] = {
+            "HOST": "0.0.0.0",
+            "PORT": "8080",
+            "API_KEY": self.generate_api_key()
         }
         
         self.config["SYNC"] = {
@@ -201,6 +210,66 @@ class ConfigManager:
                 value = str(value)
             
             self.set_value("AUTO_SYNC", key, value)
+        
+        self.save_config()
+    
+    def generate_api_key(self) -> str:
+        """
+        Generiert einen zufälligen API-Schlüssel.
+        
+        Returns:
+            Ein zufälliger API-Schlüssel mit 32 Zeichen
+        """
+        alphabet = string.ascii_letters + string.digits
+        api_key = ''.join(secrets.choice(alphabet) for _ in range(32))
+        return api_key
+    
+    def get_api_key(self) -> str:
+        """
+        Gibt den API-Schlüssel zurück.
+        
+        Returns:
+            Der API-Schlüssel oder ein neu generierter Schlüssel, falls keiner existiert
+        """
+        api_key = self.get_value("API_SERVER", "API_KEY")
+        if not api_key:
+            api_key = self.generate_api_key()
+            self.set_value("API_SERVER", "API_KEY", api_key)
+            self.save_config()
+        return api_key
+    
+    def set_api_key(self, api_key: str) -> None:
+        """
+        Setzt den API-Schlüssel.
+        
+        Args:
+            api_key: Der zu setzende API-Schlüssel
+        """
+        self.set_value("API_SERVER", "API_KEY", api_key)
+        self.save_config()
+    
+    def get_api_config(self) -> Dict[str, Any]:
+        """
+        Gibt die API-Server-Konfiguration zurück.
+        
+        Returns:
+            Dictionary mit der API-Server-Konfiguration
+        """
+        return {
+            "HOST": self.get_value("API_SERVER", "HOST", "0.0.0.0"),
+            "PORT": int(self.get_value("API_SERVER", "PORT", "8080")),
+            "API_KEY": self.get_api_key()
+        }
+    
+    def set_api_config(self, config: Dict[str, Any]) -> None:
+        """
+        Aktualisiert die API-Server-Konfiguration.
+        
+        Args:
+            config: Dictionary mit der zu aktualisierenden Konfiguration
+        """
+        for key, value in config.items():
+            self.set_value("API_SERVER", key, str(value))
         
         self.save_config()
 

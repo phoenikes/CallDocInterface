@@ -21,6 +21,7 @@ import sys
 import os
 import json
 import logging
+import webbrowser
 from datetime import datetime, timedelta
 import threading
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
@@ -30,7 +31,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QFileDialog, QTableWidget, QTableWidgetItem,
                             QSplitter, QFrame, QDateEdit, QStatusBar,
                             QLineEdit, QFormLayout, QTimeEdit, QDialog,
-                            QAction, QMenu)
+                            QAction, QMenu, QInputDialog)
 from PyQt5.QtGui import QFont, QIcon, QIntValidator
 from PyQt5.QtCore import QDate, pyqtSlot, Qt, QThread, pyqtSignal, QTime
 import matplotlib.pyplot as plt
@@ -48,6 +49,7 @@ from auto_sync_scheduler import AutoSyncScheduler
 from patient_synchronizer import PatientSynchronizer
 from untersuchung_synchronizer import UntersuchungSynchronizer
 from constants import APPOINTMENT_TYPES
+from api_integration import ApiServerManager
 
 # Import der neuen Komponenten
 from config_manager import config_manager
@@ -259,7 +261,7 @@ class SyncApp(QMainWindow):
     """
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("CallDoc-SQLHK Synchronisierung v5.0")
+        self.setWindowTitle("CallDoc-SQLHK Synchronisierung v5.0 mit API")
         self.setGeometry(100, 100, 1200, 800)
         self.sync_worker = None
         self.results = {}
@@ -278,6 +280,10 @@ class SyncApp(QMainWindow):
         
         # Erstelle Auto-Sync-Scheduler (wird später konfiguriert)
         self.auto_sync_scheduler = None
+        
+        # Erstelle API-Server-Manager
+        self.api_server_manager = ApiServerManager()
+        self.api_server_manager.status_changed.connect(self.append_log)
         
         # Initialisiere UI
         self.initUI()
@@ -470,6 +476,34 @@ class SyncApp(QMainWindow):
         stop_auto_sync_action.setStatusTip('Automatische Synchronisierung stoppen')
         stop_auto_sync_action.triggered.connect(self.stop_auto_sync)
         auto_sync_menu.addAction(stop_auto_sync_action)
+        
+        # API-Menü
+        api_menu = menubar.addMenu('API')
+        
+        start_api_action = QAction('API-Server starten', self)
+        start_api_action.setStatusTip('API-Server starten')
+        start_api_action.triggered.connect(self.start_api_server)
+        api_menu.addAction(start_api_action)
+        
+        stop_api_action = QAction('API-Server stoppen', self)
+        stop_api_action.setStatusTip('API-Server stoppen')
+        stop_api_action.triggered.connect(self.stop_api_server)
+        api_menu.addAction(stop_api_action)
+        
+        api_config_action = QAction('API-Port konfigurieren', self)
+        api_config_action.setStatusTip('API-Port konfigurieren')
+        api_config_action.triggered.connect(self.configure_api_port)
+        api_menu.addAction(api_config_action)
+        
+        api_key_action = QAction('API-Schlüssel anzeigen', self)
+        api_key_action.setStatusTip('API-Schlüssel anzeigen')
+        api_key_action.triggered.connect(self.show_api_key)
+        api_menu.addAction(api_key_action)
+        
+        api_docs_action = QAction('API-Dokumentation öffnen', self)
+        api_docs_action.setStatusTip('API-Dokumentation im Browser öffnen')
+        api_docs_action.triggered.connect(self.open_api_docs)
+        api_menu.addAction(api_docs_action)
         
         # Statuszeile
         self.statusBar().showMessage('Bereit')
@@ -1029,6 +1063,213 @@ class SyncApp(QMainWindow):
         
         self.append_log("Automatische Synchronisierung wurde manuell gestoppt.")
         self.statusBar().showMessage('Automatische Synchronisierung deaktiviert')
+    
+    def start_api_server(self):
+        """
+        Startet den API-Server.
+        """
+        if not self.api_server_manager.is_running():
+            # Lade die API-Konfiguration aus dem ConfigManager
+            api_config = self.config_manager.get_api_config()
+            host = api_config.get('HOST', '0.0.0.0')
+            port = api_config.get('PORT', 8080)
+            
+            # Starte den API-Server
+            success = self.api_server_manager.start_server(host=host, port=port)
+            
+            if success:
+                self.statusBar().showMessage(f'API-Server gestartet auf {host}:{port}')
+                self.append_log(f'API-Server erfolgreich gestartet auf {host}:{port}')
+                QMessageBox.information(
+                    self,
+                    "API-Server gestartet",
+                    f"Der API-Server wurde erfolgreich gestartet und ist unter http://{host}:{port}/api/ erreichbar."
+                )
+            else:
+                self.statusBar().showMessage('Fehler beim Starten des API-Servers')
+                self.append_log('Fehler beim Starten des API-Servers')
+                QMessageBox.critical(
+                    self,
+                    "API-Server Fehler",
+                    "Der API-Server konnte nicht gestartet werden. Bitte überprüfen Sie die Logs für weitere Details."
+                )
+        else:
+            self.statusBar().showMessage('API-Server läuft bereits')
+            self.append_log('API-Server läuft bereits')
+            QMessageBox.information(
+                self,
+                "API-Server aktiv",
+                "Der API-Server läuft bereits."
+            )
+    
+    def stop_api_server(self):
+        """
+        Stoppt den API-Server.
+        """
+        if self.api_server_manager.is_running():
+            self.api_server_manager.stop_server()
+            self.statusBar().showMessage('API-Server gestoppt')
+            self.append_log('API-Server gestoppt')
+            QMessageBox.information(
+                self,
+                "API-Server gestoppt",
+                "Der API-Server wurde erfolgreich gestoppt."
+            )
+        else:
+            self.statusBar().showMessage('API-Server läuft nicht')
+            self.append_log('API-Server läuft nicht')
+            QMessageBox.information(
+                self,
+                "API-Server inaktiv",
+                "Der API-Server ist derzeit nicht aktiv."
+            )
+    
+    def configure_api_port(self):
+        """
+        Konfiguriert den API-Server-Port.
+        """
+        # Lade aktuelle Konfiguration
+        api_config = self.config_manager.get_api_config()
+        current_port = api_config.get('PORT', 8080)
+        
+        # Zeige Dialog zur Eingabe des neuen Ports
+        new_port, ok = QInputDialog.getInt(
+            self, 
+            "API-Port konfigurieren", 
+            "Geben Sie den Port für den API-Server ein:", 
+            current_port, 1024, 65535
+        )
+        
+        if ok:
+            # Speichere neuen Port in der Konfiguration
+            api_config['PORT'] = new_port
+            self.config_manager.set_api_config(api_config)
+            self.config_manager.save_config()
+            
+            self.statusBar().showMessage(f'API-Port auf {new_port} geändert')
+            self.append_log(f'API-Port auf {new_port} geändert')
+            
+            # Wenn der Server läuft, frage, ob er neu gestartet werden soll
+            if self.api_server_manager.is_running():
+                reply = QMessageBox.question(
+                    self,
+                    "API-Server neu starten",
+                    "Der API-Server muss neu gestartet werden, um die Änderungen zu übernehmen. Möchten Sie den Server jetzt neu starten?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.Yes
+                )
+                
+                if reply == QMessageBox.Yes:
+                    self.stop_api_server()
+                    self.start_api_server()
+    
+    def show_api_key(self):
+        """
+        Zeigt den API-Schlüssel an.
+        """
+        # Hole den API-Schlüssel aus der Konfiguration oder Umgebungsvariable
+        api_key = os.environ.get('CALLDOC_SQLHK_API_KEY') or self.config_manager.get_api_key()
+        
+        if api_key:
+            # Zeige den API-Schlüssel in einem Dialog an
+            key_dialog = QDialog(self)
+            key_dialog.setWindowTitle("API-Schlüssel")
+            key_dialog.setMinimumWidth(400)
+            
+            layout = QVBoxLayout()
+            
+            # Hinweistext
+            info_label = QLabel(
+                "Dies ist Ihr API-Schlüssel für den Zugriff auf die CallDoc-SQLHK API. "
+                "Bewahren Sie diesen Schlüssel sicher auf und teilen Sie ihn nur mit autorisierten Personen."
+            )
+            info_label.setWordWrap(True)
+            layout.addWidget(info_label)
+            
+            # API-Schlüssel Textfeld
+            key_text = QLineEdit(api_key)
+            key_text.setReadOnly(True)
+            layout.addWidget(key_text)
+            
+            # Kopieren-Button
+            copy_button = QPushButton("In Zwischenablage kopieren")
+            copy_button.clicked.connect(lambda: QApplication.clipboard().setText(api_key))
+            layout.addWidget(copy_button)
+            
+            # Neuen Schlüssel generieren
+            regen_button = QPushButton("Neuen Schlüssel generieren")
+            regen_button.clicked.connect(lambda: self.regenerate_api_key(key_text))
+            layout.addWidget(regen_button)
+            
+            # Schließen-Button
+            close_button = QPushButton("Schließen")
+            close_button.clicked.connect(key_dialog.accept)
+            layout.addWidget(close_button)
+            
+            key_dialog.setLayout(layout)
+            key_dialog.exec_()
+        else:
+            QMessageBox.warning(
+                self,
+                "API-Schlüssel fehlt",
+                "Es wurde kein API-Schlüssel gefunden. Bitte starten Sie den API-Server, um einen Schlüssel zu generieren."
+            )
+    
+    def regenerate_api_key(self, key_text_widget):
+        """
+        Generiert einen neuen API-Schlüssel und aktualisiert das Textfeld.
+        """
+        # Bestätigungsdialog
+        reply = QMessageBox.warning(
+            self,
+            "API-Schlüssel neu generieren",
+            "Wenn Sie einen neuen API-Schlüssel generieren, werden alle bestehenden Integrationen ungültig. Möchten Sie fortfahren?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        
+        if reply == QMessageBox.Yes:
+            # Generiere neuen Schlüssel
+            new_key = self.config_manager.generate_api_key()
+            self.config_manager.set_api_key(new_key)
+            self.config_manager.save_config()
+            
+            # Aktualisiere das Textfeld
+            key_text_widget.setText(new_key)
+            
+            # Aktualisiere den API-Server, falls er läuft
+            if self.api_server_manager.is_running():
+                self.stop_api_server()
+                self.start_api_server()
+                
+            self.append_log('Neuer API-Schlüssel generiert')
+    
+    def open_api_docs(self):
+        """
+        Öffnet die API-Dokumentation im Browser.
+        """
+        if self.api_server_manager.is_running():
+            # Lade die API-Konfiguration
+            api_config = self.config_manager.get_api_config()
+            host = api_config.get('HOST', '0.0.0.0')
+            port = api_config.get('PORT', 8080)
+            
+            # Wenn Host 0.0.0.0 ist, verwende localhost für den Browser
+            if host == '0.0.0.0':
+                host = 'localhost'
+                
+            # Öffne die Swagger-UI im Browser
+            url = f"http://{host}:{port}/api/docs"
+            webbrowser.open(url)
+            
+            self.statusBar().showMessage(f'API-Dokumentation geöffnet: {url}')
+            self.append_log(f'API-Dokumentation geöffnet: {url}')
+        else:
+            QMessageBox.warning(
+                self,
+                "API-Server nicht aktiv",
+                "Der API-Server ist nicht aktiv. Bitte starten Sie zuerst den API-Server, um die Dokumentation anzuzeigen."
+            )
 
 
 def main():
