@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+
+"""
+Mapping zwischen CallDoc-Terminen und SQLHK-Untersuchungen
+
+Dieses Modul stellt Funktionen und Konstanten bereit, um CallDoc-Termine in SQLHK-Untersuchungen umzuwandeln.
+
+Autor: Markus
+Datum: 03.08.2025
+"""
+
 # Konstanten für die Appointment-Typen mit lesbaren Namen
 APPOINTMENT_TYPES = {
     "SPRECHSTUNDE_KARDIOLOGIE": 1,
@@ -67,3 +78,38 @@ APPOINTMENT_TYPES = {
     "KARDIOVERSION": 28,
     "TTE": 53,
 }
+
+
+def map_appointment_to_untersuchung(appointment):
+    """
+    Wandelt einen CallDoc-Termin in ein SQLHK-Untersuchungsobjekt um.
+    
+    Args:
+        appointment (dict): Ein CallDoc-Termin als Dictionary
+        
+    Returns:
+        dict: Ein SQLHK-Untersuchungsobjekt mit den entsprechenden Feldern
+    """
+    # Extrahiere relevante Daten aus dem Termin
+    patient_id = appointment.get('patient_id')
+    appointment_id = appointment.get('id')
+    appointment_type_id = appointment.get('appointment_type_id')
+    scheduled_for = appointment.get('scheduled_for_datetime')
+    doctor_id = appointment.get('doctor_id')
+    room_id = appointment.get('room_id')
+    notes = appointment.get('notes', '')
+    
+    # Erstelle das Untersuchungsobjekt
+    untersuchung = {
+        'PatientID': patient_id,
+        'CallDocAppointmentID': appointment_id,
+        'UntersuchungsTypID': appointment_type_id,  # Direkte Übernahme der ID
+        'Datum': scheduled_for.split('T')[0] if scheduled_for else None,  # Nur das Datum extrahieren
+        'Uhrzeit': scheduled_for.split('T')[1][:5] if scheduled_for else None,  # Nur die Uhrzeit (HH:MM) extrahieren
+        'ArztID': doctor_id,
+        'RaumID': room_id,
+        'Notizen': notes,
+        'Status': 'Geplant'  # Standardstatus für neue Untersuchungen
+    }
+    
+    return untersuchung

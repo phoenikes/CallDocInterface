@@ -33,7 +33,10 @@ Dieses Tool bietet zwei Hauptfunktionen:
 - **plan.py**: Übersicht des Gesamtprojekts mit Teilprojekten und Implementierungsplan
 - **mssql_api_client.py**: Client für die Kommunikation mit der MS SQL Server API
 - **untersuchung_synchronizer.py**: Logik für den Vergleich und die Synchronisierung der Daten
-- **sync_gui.py**: Benutzeroberfläche für die Synchronisierung
+- **sync_gui_qt.py**: Moderne PyQt5-basierte Benutzeroberfläche für die Synchronisierung
+- **connection_checker.py**: Prüft die Verbindung zu den API-Servern
+- **config_manager.py**: Verwaltet die Konfigurationseinstellungen
+- **auto_sync_scheduler.py**: Steuert die automatische Synchronisierung
 
 ---
 
@@ -50,12 +53,31 @@ Dieses Tool bietet zwei Hauptfunktionen:
 ### Synchronisierungs-Funktion
 1. Starte die GUI:
    ```powershell
-   venv\Scripts\python.exe sync_gui.py
+   venv\Scripts\python.exe sync_gui_qt.py
    ```
-2. Wähle das gewünschte Datum aus (oder nutze die Buttons für Gestern/Heute/Morgen)
-3. Klicke auf "Synchronisieren"
-4. Verfolge den Fortschritt in der Log-Ausgabe
-5. Nach Abschluss wird eine Zusammenfassung angezeigt
+2. Wähle ein Datum im Kalender aus
+3. Klicke auf "Synchronisieren", um den Abgleich zu starten
+
+### Neue Funktionen in Version 5.0
+
+#### Verbindungsprüfung
+- Automatische Prüfung der Verbindung zu CallDoc und SQLHK beim Start
+- Farbliche Anzeige des Verbindungsstatus (grün: verbunden, rot: nicht verbunden)
+- Verbindungsprüfung vor jeder Synchronisierung
+
+#### Konfigurationsdialog
+- Zugriff über Menü "Einstellungen" oder Tastenkombination Strg+K
+- Bearbeitung der API-URLs für CallDoc und SQLHK
+- Verbindungstest direkt aus dem Dialog möglich
+
+#### Automatische Synchronisierung
+- Konfigurierbare automatische Synchronisierung
+- Einstellbare Parameter:
+  - Aktivierung/Deaktivierung
+  - Synchronisierungsintervall in Minuten
+  - Aktive Wochentage
+  - Zeitfenster (Start- und Endzeit)
+- Steuerung über Menü "Einstellungen" -> "Auto-Sync starten/stoppen"
 
 ---
 
