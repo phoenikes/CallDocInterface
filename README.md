@@ -1,9 +1,10 @@
 # CallDocInterface
 
 ## Projektüberblick
-Dieses Tool bietet zwei Hauptfunktionen:
+Dieses Tool bietet drei Hauptfunktionen:
 1. **Export von Termindaten**: Automatisierter Abruf und Export von medizinischen Termindaten (inkl. Patientendaten) aus dem CallDoc-System als strukturierte JSON-Dateien.
 2. **Synchronisierung mit SQLHK-Datenbank**: Abgleich der CallDoc-Untersuchungsdaten mit der SQLHK-Datenbank, um Daten konsistent zu halten.
+3. **REST API**: RESTful API zur Integration mit anderen Systemen und zur Fernsteuerung der Synchronisierung.
 
 ---
 
@@ -18,6 +19,12 @@ Dieses Tool bietet zwei Hauptfunktionen:
 - **Tagesweise Synchronisierung:** Abgleich der CallDoc-Termine mit der SQLHK-Datenbank für einen ausgewählten Tag
 - **Automatische Erkennung:** Identifizierung von neuen, zu aktualisierenden und zu löschenden Untersuchungen
 - **Benutzerfreundliche GUI:** Einfache Oberfläche zur Auswahl des Datums und Überwachung des Synchronisierungsprozesses
+
+### 3. REST API
+- **API-Server:** Integrierter REST API-Server zur Fernsteuerung der Synchronisierung
+- **Authentifizierung:** Sicherung der API-Endpunkte durch API-Schlüssel
+- **Swagger UI:** Interaktive API-Dokumentation zur einfachen Nutzung
+- **Steuerung über GUI:** Start/Stopp des API-Servers und Konfiguration direkt aus der GUI
 
 ---
 
@@ -38,6 +45,12 @@ Dieses Tool bietet zwei Hauptfunktionen:
 - **config_manager.py**: Verwaltet die Konfigurationseinstellungen
 - **auto_sync_scheduler.py**: Steuert die automatische Synchronisierung
 
+### API-Komponenten
+- **api_server.py**: Implementierung des REST API-Servers mit FastAPI
+- **api_integration.py**: Integration des API-Servers in die GUI-Anwendung
+- **API_DOKUMENTATION.md**: Ausführliche Dokumentation aller API-Endpunkte
+- **test_api_integration.py**: Testskript für die API-Integration
+
 ---
 
 ## Benutzung
@@ -57,6 +70,18 @@ Dieses Tool bietet zwei Hauptfunktionen:
    ```
 2. Wähle ein Datum im Kalender aus
 3. Klicke auf "Synchronisieren", um den Abgleich zu starten
+
+### API-Funktion
+1. Starte die GUI wie oben beschrieben
+2. Wähle im Menü "API" > "API-Server starten"
+3. Der API-Server wird im Hintergrund gestartet und ist unter http://localhost:8080/api/ erreichbar
+4. Unter "API" > "API-Schlüssel anzeigen" kannst du den API-Schlüssel einsehen
+5. Die API-Dokumentation kannst du über "API" > "API-Dokumentation öffnen" aufrufen
+
+Alternativ kann der API-Server auch direkt gestartet werden:
+```powershell
+venv\Scripts\python.exe api_server.py
+```
 
 ### Neue Funktionen in Version 5.0
 
@@ -79,6 +104,30 @@ Dieses Tool bietet zwei Hauptfunktionen:
   - Zeitfenster (Start- und Endzeit)
 - Steuerung über Menü "Einstellungen" -> "Auto-Sync starten/stoppen"
 
+### Neue Funktionen in Version 6.0
+
+#### API-Server Integration
+- Vollständige Integration eines REST API-Servers in die GUI-Anwendung
+- Start und Stopp des API-Servers direkt aus der GUI
+- Konfiguration des API-Ports über die GUI
+- Anzeige und Verwaltung des API-Schlüssels
+
+#### API-Endpunkte
+- Health-Endpunkte zur Überprüfung des Server- und Verbindungsstatus
+- Synchronisierungs-Endpunkte zum Starten und Überwachen von Synchronisierungen
+- Scheduler-Endpunkte zur Steuerung der automatischen Synchronisierung
+- Daten-Endpunkte zum Abruf von CallDoc-Terminen und SQLHK-Untersuchungen
+
+#### API-Sicherheit
+- Authentifizierung mittels API-Schlüssel für alle geschützten Endpunkte
+- Automatische Generierung eines sicheren API-Schlüssels
+- Möglichkeit zur Neugenerierung des API-Schlüssels über die GUI
+
+#### API-Dokumentation
+- Interaktive Swagger UI-Dokumentation unter `/api/docs`
+- Ausführliche Markdown-Dokumentation in `API_DOKUMENTATION.md`
+- Beispielanfragen und -antworten für alle Endpunkte
+
 ---
 
 ## Technische Details
@@ -98,6 +147,12 @@ Dieses Tool bietet zwei Hauptfunktionen:
 - Unterstützt Abfrage nach PatientID oder M1Ziffer
 - Wichtig: Erfordert spezielle Datenbankwechsel-Logik (siehe unten)
 
+### REST API
+- Implementiert mit FastAPI
+- Authentifizierung über API-Schlüssel
+- Swagger UI-Dokumentation unter `/api/docs`
+- Unterstützt Synchronisierung, Scheduler-Steuerung und Datenabruf
+
 ### Synchronisierungslogik
 - Mapping zwischen CallDoc-Terminen und SQLHK-Untersuchungen
 - Vergleich basierend auf externen IDs und relevanten Feldern
@@ -111,11 +166,13 @@ Dieses Tool bietet zwei Hauptfunktionen:
    ```powershell
    venv\Scripts\pyinstaller.exe --onefile --name calldoc_exporter main.py
    ```
-3. **Build für Synchronisierung:**
+3. **Build für Synchronisierung mit GUI und API:**
    ```powershell
-   venv\Scripts\pyinstaller.exe --onefile --name calldoc_sync sync_gui.py
+   venv\Scripts\pyinstaller.exe --onefile --name heydok-cathlab-communicator sync_gui_qt.py
    ```
 4. Die ausführbaren Dateien findest du im `dist`-Ordner
+
+Eine detaillierte Anleitung zur Erstellung der .exe-Datei findest du in der Datei `ANLEITUNG_EXE_ERSTELLUNG.md`.
 
 ---
 

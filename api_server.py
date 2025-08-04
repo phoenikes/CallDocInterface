@@ -12,7 +12,6 @@ Datum: 03.08.2025
 """
 
 import os
-import logging
 import threading
 import uvicorn
 from fastapi import FastAPI, Depends
@@ -20,16 +19,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.staticfiles import StaticFiles
 
-# API-Endpunkte importieren
+# API-Endpunkte und Komponenten importieren
 from api.endpoints import health, sync, scheduler, data
 from api.dependencies import verify_api_key, get_api_key
+from api.middleware import LoggingMiddleware, ResponseTimeHeaderMiddleware
+from logging_config import get_logger
 
-# Logger konfigurieren
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
+# Strukturierte Logger konfigurieren
+logger = get_logger(__name__)
+api_logger = get_logger("api")
+api_access_logger = get_logger("api.access")
+api_error_logger = get_logger("api.error")
 
 # FastAPI-App erstellen
 app = FastAPI(
@@ -48,6 +48,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Logging-Middleware hinzufügen
+app.add_middleware(LoggingMiddleware)
+
+# Response-Time-Header-Middleware hinzufügen
+app.add_middleware(ResponseTimeHeaderMiddleware)
+
+# Logging-Start protokollieren
+api_logger.info("API-Server mit erweitertem Logging konfiguriert")
 
 # Routen für die API-Endpunkte registrieren
 app.include_router(health.router, prefix="/api/v1")

@@ -1,0 +1,67 @@
+ID,Name,Anzahl
+1,Sprechstunde Kardiologie,2138
+4,Sprechstunde Pulmologie,1357
+2,Stressecho,826
+7,Body,532
+43,Notfall,485
+13,Herzultraschall,455
+5,Langzeit-EKG anlegen,360
+12,Herzkatheter Nachgespräch,223
+24,Herzkatheteruntersuchung,213
+91,Kontrolle Werte,211
+11,Herzkatheter Vorgespräch,179
+17,OSA Besprechung,151
+20,Langzeit-EKG abnehmen,131
+59,DMP Diabetes,128
+47,OSA,110
+15,OSA anlegen,106
+22,Kardiologische Untersuchung,96
+6,Langzeit-Blutdruck anlegen,68
+48,Blutentnahme,61
+23,Laborkontrolle,54
+61,Hausarztgespräch 20min,53
+34,Akuttermin,51
+10082,Sprechstunde Innere,48
+21,Langzeit-Blutdruck abnehmen,44
+51,Nachgespräch Schlaflabor,38
+27,Sprechstunde Rhythmologie,37
+18,Provokationstest,35
+45,Langzeit-EKG,33
+82,Diabetologie Beratung,31
+83,Diabetologie Gespräch,30
+39,Langzeit EKG Gespräch,29
+63,Schlaflabor,28
+19,Videosprechstunde,27
+26,TEE,25
+36,Body + DIFF,24
+66,DMP Pulmo,23
+44,Schrittmacherkontrolle,18
+8,Body + BGA,17
+64,Allergietest,17
+92,Diabetologie Neupatient,16
+29,Kardioversion und TEE,14
+88,Befundbesprechung,10
+84,Fuß,9
+40,Langzeit RR Gespräch,9
+74,Corolabor,9
+33,Sono Carotis,8
+25,Ablation,8
+46,Langzeit-Blutdruck,7
+69,Sono SD,7
+9,Body + ACT,7
+68,DMP Sprechstunde,7
+30,TEE Vorgespräch,6
+67,Maskensprechstunde,6
+32,Sono Arterie,6
+49,Spiroergo,6
+31,TEE Nachgespräch,5
+16,OSA abnehmen,5
+52,BGA,4
+77,Quickkontrolle,2
+87,oGTT,2
+54,Abdomen,2
+35,EKG,2
+76,Impfung Standard,1
+71,Verband,1
+28,Kardioversion,1
+53,TTE,1

@@ -55,19 +55,25 @@ from api_integration import ApiServerManager
 from config_manager import config_manager
 from connection_checker import ConnectionChecker
 from auto_sync_scheduler import AutoSyncScheduler
+from logging_config import configure_logging, get_logger
+from logging_dialog import LoggingConfigDialog
 
-# Konfiguriere das Logging
-log_filename = f"sync_gui_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(log_filename, encoding='utf-8'),
-        logging.StreamHandler()
-    ]
+# Konfiguriere das strukturierte Logging
+root_logger = configure_logging(
+    log_level=logging.INFO,
+    log_dir="logs",
+    app_name="sync_gui",
+    console_output=True,
+    file_output=True
 )
-logger = logging.getLogger(__name__)
-logger.info(f"Log-Datei erstellt: {log_filename}")
+logger = get_logger(__name__)
+logger.info("CallDoc-SQLHK Synchronisierung gestartet mit strukturiertem Logging")
+
+# Komponenten-spezifische Logger
+calldoc_logger = get_logger("calldoc")
+sqlhk_logger = get_logger("sqlhk")
+api_logger = get_logger("api")
+sync_logger = get_logger("sync")
 
 
 class SyncWorker(QThread):
@@ -463,6 +469,12 @@ class SyncApp(QMainWindow):
         config_action.setStatusTip('Konfiguration öffnen')
         config_action.triggered.connect(self.show_config_dialog)
         config_menu.addAction(config_action)
+        
+        # Logging-Konfigurationsmenüpunkt
+        logging_config_action = QAction('Logging-Konfiguration', self)
+        logging_config_action.setStatusTip('Logging-Einstellungen konfigurieren')
+        logging_config_action.triggered.connect(self.show_logging_config_dialog)
+        config_menu.addAction(logging_config_action)
         
         # Auto-Sync-Menüpunkte
         auto_sync_menu = config_menu.addMenu('Auto-Sync')
@@ -1136,7 +1148,7 @@ class SyncApp(QMainWindow):
         new_port, ok = QInputDialog.getInt(
             self, 
             "API-Port konfigurieren", 
-            "Geben Sie den Port für den API-Server ein:", 
+            "Geben Sie den Port für den API-Server ein:",
             current_port, 1024, 65535
         )
         
@@ -1144,10 +1156,20 @@ class SyncApp(QMainWindow):
             # Speichere neuen Port in der Konfiguration
             api_config['PORT'] = new_port
             self.config_manager.set_api_config(api_config)
-            self.config_manager.save_config()
             
             self.statusBar().showMessage(f'API-Port auf {new_port} geändert')
             self.append_log(f'API-Port auf {new_port} geändert')
+    
+    def show_logging_config_dialog(self):
+        """Öffnet den Dialog zur Konfiguration des Logging-Systems."""
+        dialog = LoggingConfigDialog(self)
+        if dialog.exec_():
+            # Dialog wurde mit OK geschlossen, Logging-Konfiguration wurde bereits angewendet
+            self.append_log("Logging-Konfiguration wurde aktualisiert")
+            
+            # Aktualisiere den Logger für die Hauptanwendung
+            global logger
+            logger = get_logger(__name__)
             
             # Wenn der Server läuft, frage, ob er neu gestartet werden soll
             if self.api_server_manager.is_running():

@@ -11,15 +11,16 @@ Autor: Markus
 Datum: 03.08.2025
 """
 
-import logging
 import threading
 import time
 from PyQt5.QtCore import QObject, pyqtSignal, QThread
 
 from api_server import start_api_server
+from logging_config import get_logger
 
-# Logger konfigurieren
-logger = logging.getLogger(__name__)
+# Strukturierte Logger konfigurieren
+logger = get_logger(__name__)
+api_logger = get_logger("api")
 
 class ApiServerThread(QThread):
     """Thread für den API-Server, der in der GUI verwendet werden kann."""

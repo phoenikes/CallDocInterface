@@ -13,12 +13,13 @@ Datum: 03.08.2025
 
 import os
 import configparser
-import logging
 import secrets
 import string
 from typing import Dict, Any, Optional
+from logging_config import get_logger
 
-logger = logging.getLogger(__name__)
+# Strukturiertes Logging verwenden
+logger = get_logger(__name__)
 
 class ConfigManager:
     """
@@ -136,6 +137,42 @@ class ConfigManager:
             "PATIENT_SEARCH_URL": self.get_value("API", "PATIENT_SEARCH_URL"),
             "APPOINTMENT_SEARCH_URL": self.get_value("API", "APPOINTMENT_SEARCH_URL"),
             "SQLHK_API_BASE_URL": self.get_value("API", "SQLHK_API_BASE_URL")
+        }
+    
+    def get_calldoc_config(self) -> Dict[str, str]:
+        """
+        Gibt die CallDoc-API-Konfiguration zurück.
+        
+        Returns:
+            Dictionary mit der CallDoc-API-Konfiguration
+        """
+        if not self.config.has_section("CALLDOC"):
+            self.config.add_section("CALLDOC")
+            self.config.set("CALLDOC", "BASE_URL", self.get_value("API", "CALLDOC_API_BASE_URL"))
+            self.config.set("CALLDOC", "API_KEY", "")
+            self.save_config()
+        
+        return {
+            "BASE_URL": self.get_value("CALLDOC", "BASE_URL", self.get_value("API", "CALLDOC_API_BASE_URL")),
+            "API_KEY": self.get_value("CALLDOC", "API_KEY", "")
+        }
+    
+    def get_sqlhk_config(self) -> Dict[str, str]:
+        """
+        Gibt die SQLHK-API-Konfiguration zurück.
+        
+        Returns:
+            Dictionary mit der SQLHK-API-Konfiguration
+        """
+        if not self.config.has_section("SQLHK"):
+            self.config.add_section("SQLHK")
+            self.config.set("SQLHK", "BASE_URL", self.get_value("API", "SQLHK_API_BASE_URL", "http://localhost:8000"))
+            self.config.set("SQLHK", "API_KEY", "")
+            self.save_config()
+        
+        return {
+            "BASE_URL": self.get_value("SQLHK", "BASE_URL", self.get_value("API", "SQLHK_API_BASE_URL", "http://localhost:8000")),
+            "API_KEY": self.get_value("SQLHK", "API_KEY", "")
         }
     
     def get_sync_settings(self) -> Dict[str, Any]:
@@ -272,6 +309,71 @@ class ConfigManager:
             self.set_value("API_SERVER", key, str(value))
         
         self.save_config()
+    
+    def get_logging_config(self) -> Dict[str, Any]:
+        """
+        Gibt die Logging-Konfiguration zurück.
+        
+        Returns:
+            Dictionary mit Logging-Konfigurationseinstellungen
+        """
+        if not self.config.has_section('LOGGING'):
+            self.config.add_section('LOGGING')
+            self.config.set('LOGGING', 'LEVEL', 'INFO')
+            self.config.set('LOGGING', 'LOG_DIR', 'logs')
+            self.config.set('LOGGING', 'FILE_OUTPUT', 'True')
+            self.config.set('LOGGING', 'CONSOLE_OUTPUT', 'True')
+            self.config.set('LOGGING', 'MAX_BYTES', '10485760')  # 10 MB
+            self.config.set('LOGGING', 'BACKUP_COUNT', '5')
+            self.config.set('LOGGING', 'COMPONENT_LOGGING', 'True')
+            self.save_config()
+        
+        return {
+            'level': self.config.get('LOGGING', 'LEVEL', fallback='INFO'),
+            'log_dir': self.config.get('LOGGING', 'LOG_DIR', fallback='logs'),
+            'file_output': self.config.getboolean('LOGGING', 'FILE_OUTPUT', fallback=True),
+            'console_output': self.config.getboolean('LOGGING', 'CONSOLE_OUTPUT', fallback=True),
+            'max_bytes': self.config.getint('LOGGING', 'MAX_BYTES', fallback=10485760),
+            'backup_count': self.config.getint('LOGGING', 'BACKUP_COUNT', fallback=5),
+            'component_logging': self.config.getboolean('LOGGING', 'COMPONENT_LOGGING', fallback=True)
+        }
+    
+    def set_logging_config(self, level: str = None, log_dir: str = None, 
+                         file_output: bool = None, console_output: bool = None,
+                         max_bytes: int = None, backup_count: int = None,
+                         component_logging: bool = None) -> None:
+        """
+        Setzt die Logging-Konfiguration.
+        
+        Args:
+            level: Logging-Level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+            log_dir: Verzeichnis für Logdateien
+            file_output: Ob Logs in Dateien geschrieben werden sollen
+            console_output: Ob Logs in der Konsole ausgegeben werden sollen
+            max_bytes: Maximale Größe einer Logdatei in Bytes
+            backup_count: Anzahl der zu behaltenden Backup-Dateien
+            component_logging: Ob komponentenspezifisches Logging aktiviert sein soll
+        """
+        if not self.config.has_section('LOGGING'):
+            self.config.add_section('LOGGING')
+        
+        if level is not None:
+            self.config.set('LOGGING', 'LEVEL', level)
+        if log_dir is not None:
+            self.config.set('LOGGING', 'LOG_DIR', log_dir)
+        if file_output is not None:
+            self.config.set('LOGGING', 'FILE_OUTPUT', str(file_output))
+        if console_output is not None:
+            self.config.set('LOGGING', 'CONSOLE_OUTPUT', str(console_output))
+        if max_bytes is not None:
+            self.config.set('LOGGING', 'MAX_BYTES', str(max_bytes))
+        if backup_count is not None:
+            self.config.set('LOGGING', 'BACKUP_COUNT', str(backup_count))
+        if component_logging is not None:
+            self.config.set('LOGGING', 'COMPONENT_LOGGING', str(component_logging))
+        
+        self.save_config()
+        logger.info("Logging-Konfiguration aktualisiert")
 
 # Globale Instanz des ConfigManager
 config_manager = ConfigManager()
