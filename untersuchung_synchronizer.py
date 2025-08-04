@@ -165,47 +165,50 @@ class UntersuchungSynchronizer:
         untersuchung["Materialpreis"] = 0
         untersuchung["DRGID"] = 1
         
-        # UntersuchungartID dynamisch ermitteln anhand der appointment_type_id
-        appointment_type_id = appointment.get("appointment_type_id")
+        # UntersuchungartID dynamisch ermitteln anhand der appointment_type
+        # API hat sich geändert: appointment_type_id -> appointment_type
+        appointment_type_id = appointment.get("appointment_type")
         if appointment_type_id:
             untersuchungart_id = self._get_untersuchungart_id_by_appointment_type_id(appointment_type_id)
             if untersuchungart_id:
                 untersuchung["UntersuchungartID"] = untersuchungart_id
-                logger.info(f"UntersuchungartID {untersuchungart_id} für appointment_type_id {appointment_type_id} gefunden")
+                logger.info(f"UntersuchungartID {untersuchungart_id} für appointment_type {appointment_type_id} gefunden")
             else:
                 untersuchung["UntersuchungartID"] = 1  # Standard-Untersuchungsart
-                logger.warning(f"Verwende Standard-UntersuchungartID 1, da keine für appointment_type_id {appointment_type_id} gefunden wurde")
+                logger.warning(f"Verwende Standard-UntersuchungartID 1, da keine für appointment_type {appointment_type_id} gefunden wurde")
         else:
             untersuchung["UntersuchungartID"] = 1  # Standard-Untersuchungsart
-            logger.warning("Keine appointment_type_id im Termin vorhanden, verwende Standard-UntersuchungartID 1")
+            logger.warning("Keine appointment_type im Termin vorhanden, verwende Standard-UntersuchungartID 1")
         
-        # HerzkatheterID dynamisch ermitteln anhand der room_id
-        room_id = appointment.get("room_id")
+        # HerzkatheterID dynamisch ermitteln anhand der room
+        # API hat sich geändert: room_id -> room
+        room_id = appointment.get("room")
         if room_id:
             herzkatheter_id = self._get_herzkatheter_id_by_room_id(room_id)
             if herzkatheter_id:
                 untersuchung["HerzkatheterID"] = herzkatheter_id
-                logger.info(f"HerzkatheterID {herzkatheter_id} für room_id {room_id} gefunden")
+                logger.info(f"HerzkatheterID {herzkatheter_id} für room {room_id} gefunden")
             else:
                 untersuchung["HerzkatheterID"] = 1  # Standard-Herzkatheter
-                logger.warning(f"Verwende Standard-HerzkatheterID 1, da keine für room_id {room_id} gefunden wurde")
+                logger.warning(f"Verwende Standard-HerzkatheterID 1, da keine für room {room_id} gefunden wurde")
         else:
             untersuchung["HerzkatheterID"] = 1  # Standard-Herzkatheter
-            logger.warning("Keine room_id im Termin vorhanden, verwende Standard-HerzkatheterID 1")  # Standard-DRG
+            logger.warning("Keine room im Termin vorhanden, verwende Standard-HerzkatheterID 1")  # Standard-DRG
         
-        # UntersucherAbrechnungID basierend auf employee_id ermitteln
-        employee_id = appointment.get("employee_id")
+        # UntersucherAbrechnungID basierend auf employee ermitteln
+        # API hat sich geändert: employee_id -> employee
+        employee_id = appointment.get("employee")
         if employee_id:
             untersucher_id = self._get_untersucher_id_by_employee_id(employee_id)
             if untersucher_id:
                 untersuchung["UntersucherAbrechnungID"] = untersucher_id
-                logger.info(f"UntersucherAbrechnungID {untersucher_id} für employee_id {employee_id} gefunden")
+                logger.info(f"UntersucherAbrechnungID {untersucher_id} für employee {employee_id} gefunden")
             else:
                 untersuchung["UntersucherAbrechnungID"] = 1  # Standard-Untersucher
-                logger.warning(f"Keine UntersucherAbrechnungID für employee_id {employee_id} gefunden, verwende Standard-ID 1")
+                logger.warning(f"Keine UntersucherAbrechnungID für employee {employee_id} gefunden, verwende Standard-ID 1")
         else:
             untersuchung["UntersucherAbrechnungID"] = 1  # Standard-Untersucher
-            logger.warning(f"Keine employee_id im Termin gefunden, verwende Standard-UntersucherAbrechnungID 1")
+            logger.warning(f"Keine employee im Termin gefunden, verwende Standard-UntersucherAbrechnungID 1")
         
         # PatientID ermitteln
         piz = appointment.get("piz")
@@ -329,6 +332,7 @@ class UntersuchungSynchronizer:
         """
         try:
             # SQL-Abfrage für die Untersuchersuche
+            # API hat sich geändert: employee_id -> employee, aber in der Datenbank heißt die Spalte weiterhin employee_id
             query = f"""
                 SELECT 
                     UntersucherAbrechnungID, UntersucherAbrechnungName, UntersucherAbrechnungVorname, UntersucherAbrechnungTitel
@@ -368,6 +372,7 @@ class UntersuchungSynchronizer:
         """
         try:
             # SQL-Abfrage für die Herzkathetersuche
+            # API hat sich geändert: room_id -> room, aber in der Datenbank heißt die Spalte weiterhin room_id
             query = f"""
                 SELECT 
                     HerzkatheterID, HerzkatheterName
@@ -395,12 +400,12 @@ class UntersuchungSynchronizer:
             
     def _get_untersuchungart_id_by_appointment_type_id(self, appointment_type_id: int) -> Optional[int]:
         """
-        Ermittelt die UntersuchungartID anhand der appointment_type_id aus CallDoc.
+        Ermittelt die UntersuchungartID anhand der appointment_type aus CallDoc.
         Das Feld appointment_type in der Tabelle Untersuchungart ist ein JSON-Feld,
-        in dem der Key "1" den Wert der appointment_type_id enthält.
+        in dem der Key "1" den Wert der appointment_type enthält.
         
         Args:
-            appointment_type_id: Appointment Type ID aus CallDoc
+            appointment_type_id: Appointment Type aus CallDoc (API hat sich geändert: appointment_type_id -> appointment_type)
             
         Returns:
             UntersuchungartID oder None, wenn keine Untersuchungsart gefunden wurde
@@ -422,14 +427,14 @@ class UntersuchungSynchronizer:
                 untersuchungart = result["rows"][0]
                 untersuchungart_id = untersuchungart.get("UntersuchungartID")
                 name = untersuchungart.get("UntersuchungartName")
-                logger.info(f"Untersuchungsart mit appointment_type_id {appointment_type_id} gefunden: UntersuchungartID = {untersuchungart_id}, Name: {name}")
+                logger.info(f"Untersuchungsart mit appointment_type {appointment_type_id} gefunden: UntersuchungartID = {untersuchungart_id}, Name: {name}")
                 return untersuchungart_id
             
-            logger.warning(f"Keine Untersuchungsart mit appointment_type_id {appointment_type_id} gefunden")
+            logger.warning(f"Keine Untersuchungsart mit appointment_type {appointment_type_id} gefunden")
             return None
             
         except Exception as e:
-            logger.error(f"Fehler bei der Untersuchungsartsuche mit appointment_type_id {appointment_type_id}: {str(e)}")
+            logger.error(f"Fehler bei der Untersuchungsartsuche mit appointment_type {appointment_type_id}: {str(e)}")
             return None
     
     def _map_status(self, calldoc_status: Optional[str]) -> str:
