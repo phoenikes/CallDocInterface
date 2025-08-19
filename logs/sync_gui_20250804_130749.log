@@ -1,0 +1,221 @@
+2025-08-04 13:07:49,690 - root - INFO - [logging_config.py:163] - Logging konfiguriert mit Level INFO
+2025-08-04 13:07:49,690 - sync_gui_qt - INFO - [sync_gui_qt.py:72] - CallDoc-SQLHK Synchronisierung gestartet mit strukturiertem Logging
+2025-08-04 13:07:49,728 - config_manager - INFO - [config_manager.py:81] - Konfiguration aus config.ini geladen
+2025-08-04 13:07:52,160 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindungen zu den API-Servern...
+2025-08-04 13:07:52,161 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:07:52,217 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:07:52,217 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - SQLHK-Server erfolgreich verbunden.
+2025-08-04 13:07:52,217 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:07:52,283 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:07:52,283 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - CallDoc-Server erfolgreich verbunden.
+2025-08-04 13:07:52,286 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Automatische Synchronisierung ist deaktiviert.
+2025-08-04 13:07:59,823 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum SQLHK-Server vor der Synchronisierung...
+2025-08-04 13:07:59,823 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:07:59,844 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:07:59,844 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum CallDoc-Server vor der Synchronisierung...
+2025-08-04 13:07:59,845 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:07:59,871 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:07:59,872 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 gestartet...
+2025-08-04 13:07:59,877 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Starte Synchronisierung für Datum: 2025-08-13
+2025-08-04 13:07:59,877 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Datum für SQLHK-Abfrage: 13.08.2025
+2025-08-04 13:07:59,878 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Initialisiere API-Clients...
+2025-08-04 13:07:59,883 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Verwende Datum: 2025-08-13 für API-Abfrage
+2025-08-04 13:07:59,884 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 1. CallDoc-Termine abrufen
+2025-08-04 13:07:59,887 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Rufe Termine für Datum 2025-08-13 ab mit Parametern: {'from_date': '2025-08-13', 'to_date': '2025-08-13', 'appointment_type_id': 24}
+2025-08-04 13:07:59,943 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort erhalten: <class 'dict'>
+2025-08-04 13:07:59,944 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort Schlüssel: dict_keys(['data', 'count'])
+2025-08-04 13:07:59,946 - root - INFO - [mssql_api_client.py:219] - Konvertiere Datum von 2025-08-13 zu 13.08.2025 für SQL-Abfrage
+2025-08-04 13:07:59,948 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:07:59,948 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:07:59,949 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:07:59,946 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Filtere Termine nach Datum: 2025-08-13
+2025-08-04 13:07:59,955 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Datumsfilterung: 20 von 20 Terminen übrig
+2025-08-04 13:07:59,955 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Typfilterung: 0 von 20 Terminen übrig
+2025-08-04 13:07:59,956 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 CallDoc-Termine gefunden.
+2025-08-04 13:07:59,956 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 2. SQLHK-Untersuchungen abrufen
+2025-08-04 13:08:00,107 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:08:00,107 - root - INFO - [mssql_api_client.py:215] - Datum ist bereits im deutschen Format: 13.08.2025
+2025-08-04 13:08:00,107 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:08:00,107 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:08:00,107 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:08:00,211 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:08:00,211 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 SQLHK-Untersuchungen gefunden.
+2025-08-04 13:08:00,213 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 3. Patienten synchronisieren
+2025-08-04 13:08:00,213 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:08:00,216 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                UntersuchungartID, 
+                UntersuchungartName, 
+                ExterneID
+            FROM 
+                [SQLHK].[dbo].[Untersuchungart]
+            WHERE 
+                ExterneID IS NOT NULL
+        
+2025-08-04 13:08:00,215 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Patienten-Synchronisierung abgeschlossen:
+2025-08-04 13:08:00,217 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:08:00,217 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:08:00,221 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:08:00,221 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:08:00,222 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:08:00,223 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 4. Untersuchungen synchronisieren
+2025-08-04 13:08:00,326 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:91] - Appointment-Type-Mapping geladen: 0 Einträge
+2025-08-04 13:08:00,326 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:659] - Starte Synchronisierung: 0 CallDoc-Termine, 0 SQLHK-Untersuchungen
+2025-08-04 13:08:00,327 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:663] - 0 aktive Termine gefunden
+2025-08-04 13:08:00,327 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:736] - Zu synchronisieren: 0 neue, 0 zu aktualisieren, 0 gelöscht
+2025-08-04 13:08:00,328 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Untersuchungs-Synchronisierung abgeschlossen:
+2025-08-04 13:08:00,329 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:08:00,330 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:08:00,330 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:08:00,330 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:08:00,332 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Gelöscht: 0
+2025-08-04 13:08:00,335 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 abgeschlossen
+2025-08-04 13:08:51,210 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:08:51,238 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:08:51,239 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:08:51,353 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:09:51,204 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:09:51,228 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:09:51,230 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:09:51,255 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:10:51,188 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:10:51,220 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:10:51,221 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:10:51,252 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:11:51,168 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:11:51,236 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:11:51,241 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:11:51,283 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:12:51,194 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:12:51,253 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:12:51,253 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:12:51,291 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:13:51,188 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:13:51,239 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:13:51,239 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:13:51,257 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:14:51,187 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:14:51,217 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:14:51,217 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:14:51,240 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:15:08,785 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum SQLHK-Server vor der Synchronisierung...
+2025-08-04 13:15:08,785 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:15:08,803 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:15:08,806 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum CallDoc-Server vor der Synchronisierung...
+2025-08-04 13:15:08,807 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:15:08,822 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:15:08,824 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 gestartet...
+2025-08-04 13:15:08,827 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Starte Synchronisierung für Datum: 2025-08-13
+2025-08-04 13:15:08,834 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Datum für SQLHK-Abfrage: 13.08.2025
+2025-08-04 13:15:08,834 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Initialisiere API-Clients...
+2025-08-04 13:15:08,834 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Verwende Datum: 2025-08-13 für API-Abfrage
+2025-08-04 13:15:08,834 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 1. CallDoc-Termine abrufen
+2025-08-04 13:15:08,840 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Rufe Termine für Datum 2025-08-13 ab mit Parametern: {'from_date': '2025-08-13', 'to_date': '2025-08-13', 'appointment_type_id': 24}
+2025-08-04 13:15:08,945 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort erhalten: <class 'dict'>
+2025-08-04 13:15:08,946 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort Schlüssel: dict_keys(['data', 'count'])
+2025-08-04 13:15:08,946 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Filtere Termine nach Datum: 2025-08-13
+2025-08-04 13:15:08,946 - root - INFO - [mssql_api_client.py:219] - Konvertiere Datum von 2025-08-13 zu 13.08.2025 für SQL-Abfrage
+2025-08-04 13:15:08,947 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Datumsfilterung: 20 von 20 Terminen übrig
+2025-08-04 13:15:08,947 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:15:08,947 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Typfilterung: 0 von 20 Terminen übrig
+2025-08-04 13:15:08,948 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:15:08,948 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 CallDoc-Termine gefunden.
+2025-08-04 13:15:08,948 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:15:08,948 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 2. SQLHK-Untersuchungen abrufen
+2025-08-04 13:15:09,065 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:15:09,065 - root - INFO - [mssql_api_client.py:215] - Datum ist bereits im deutschen Format: 13.08.2025
+2025-08-04 13:15:09,067 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:15:09,070 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:15:09,072 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:15:09,152 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:15:09,153 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 SQLHK-Untersuchungen gefunden.
+2025-08-04 13:15:09,154 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:15:09,154 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 3. Patienten synchronisieren
+2025-08-04 13:15:09,154 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                UntersuchungartID, 
+                UntersuchungartName, 
+                ExterneID
+            FROM 
+                [SQLHK].[dbo].[Untersuchungart]
+            WHERE 
+                ExterneID IS NOT NULL
+        
+2025-08-04 13:15:09,156 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Patienten-Synchronisierung abgeschlossen:
+2025-08-04 13:15:09,157 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:15:09,157 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:15:09,159 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:15:09,161 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:15:09,162 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:15:09,173 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 4. Untersuchungen synchronisieren
+2025-08-04 13:15:09,282 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:91] - Appointment-Type-Mapping geladen: 0 Einträge
+2025-08-04 13:15:09,283 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:659] - Starte Synchronisierung: 0 CallDoc-Termine, 0 SQLHK-Untersuchungen
+2025-08-04 13:15:09,283 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:663] - 0 aktive Termine gefunden
+2025-08-04 13:15:09,284 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:736] - Zu synchronisieren: 0 neue, 0 zu aktualisieren, 0 gelöscht
+2025-08-04 13:15:09,285 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Untersuchungs-Synchronisierung abgeschlossen:
+2025-08-04 13:15:09,286 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:15:09,286 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:15:09,296 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:15:09,296 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:15:09,296 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Gelöscht: 0
+2025-08-04 13:15:09,296 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 abgeschlossen

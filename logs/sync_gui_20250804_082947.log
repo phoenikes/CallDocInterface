@@ -1,0 +1,10 @@
+2025-08-04 08:29:47,870 - root - INFO - [logging_config.py:163] - Logging konfiguriert mit Level INFO
+2025-08-04 08:29:47,871 - __main__ - INFO - [sync_gui_qt.py:72] - CallDoc-SQLHK Synchronisierung gestartet mit strukturiertem Logging
+2025-08-04 08:29:47,905 - config_manager - INFO - [config_manager.py:81] - Konfiguration aus config.ini geladen
+2025-08-04 08:29:49,525 - __main__ - INFO - [sync_gui_qt.py:764] - Prüfe Verbindungen zu den API-Servern...
+2025-08-04 08:29:49,525 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:29:49,602 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:29:49,602 - __main__ - INFO - [sync_gui_qt.py:764] - SQLHK-Server erfolgreich verbunden.
+2025-08-04 08:29:49,603 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:29:54,764 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:29:54,765 - __main__ - INFO - [sync_gui_qt.py:764] - CallDoc-Server erfolgreich verbunden.

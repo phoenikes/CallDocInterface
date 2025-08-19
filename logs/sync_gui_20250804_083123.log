@@ -1,0 +1,1038 @@
+2025-08-04 08:31:23,573 - root - INFO - [logging_config.py:163] - Logging konfiguriert mit Level INFO
+2025-08-04 08:31:23,575 - sync_gui_qt - INFO - [sync_gui_qt.py:72] - CallDoc-SQLHK Synchronisierung gestartet mit strukturiertem Logging
+2025-08-04 08:31:23,598 - config_manager - INFO - [config_manager.py:81] - Konfiguration aus config.ini geladen
+2025-08-04 08:31:24,838 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindungen zu den API-Servern...
+2025-08-04 08:31:24,839 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:31:24,885 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:31:24,886 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - SQLHK-Server erfolgreich verbunden.
+2025-08-04 08:31:24,886 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:31:29,890 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:31:29,890 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - WARNUNG: CallDoc-Server nicht erreichbar: Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:32:24,303 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:32:29,325 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:32:29,326 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:32:29,351 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:33:24,308 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:33:29,602 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:33:29,603 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:33:29,635 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:34:24,317 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:34:29,318 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:34:29,319 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:34:29,352 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:35:24,327 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:35:29,338 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:35:29,340 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:35:29,377 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:36:24,325 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:36:29,342 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:36:29,346 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:36:29,396 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:37:24,316 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:37:24,356 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:37:24,356 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:37:24,388 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:38:24,325 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:38:24,955 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:38:24,955 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:38:24,998 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:39:24,328 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:39:29,345 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:39:29,345 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:39:29,375 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:40:24,329 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:40:29,349 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:40:29,350 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:40:29,379 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:41:24,317 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:41:29,320 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:41:29,325 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:41:29,346 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:42:24,334 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:42:30,953 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:42:30,954 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:42:30,994 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:43:24,328 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:43:29,335 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:43:29,336 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:43:29,369 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:44:24,348 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:44:24,699 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:44:24,701 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:44:24,740 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:45:24,345 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:45:24,365 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:45:24,365 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:45:24,416 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:46:24,336 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:46:29,341 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:46:29,341 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:46:29,369 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:47:24,344 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:47:29,357 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:47:29,358 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:47:29,389 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:48:24,353 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:48:29,357 - connection_checker - ERROR - [connection_checker.py:69] - Timeout bei der Verbindung zum CallDoc-Server
+2025-08-04 08:48:29,357 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:48:29,389 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:49:24,344 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:49:24,373 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:49:24,374 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:49:24,404 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:50:24,336 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:50:24,349 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:50:24,351 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:50:24,396 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:51:24,334 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:51:24,352 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:51:24,353 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:51:24,386 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:52:24,336 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:52:24,362 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:52:24,364 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:52:24,402 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:53:24,337 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:53:24,354 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:53:24,354 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:53:24,395 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:54:24,340 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:54:24,383 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:54:24,384 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:54:24,405 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:55:24,343 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:55:24,385 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:55:24,386 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:55:24,417 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:56:24,337 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:56:24,374 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:56:24,376 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:56:24,426 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:57:24,349 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:57:24,378 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:57:24,379 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:57:24,419 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:58:24,340 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:58:24,377 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:58:24,378 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:58:24,416 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 08:59:24,339 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 08:59:24,364 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 08:59:24,364 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 08:59:24,399 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:00:24,338 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:00:24,362 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:00:24,362 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:00:24,401 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:01:24,333 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:01:24,373 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:01:24,374 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:01:24,411 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:02:24,338 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:02:24,366 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:02:24,366 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:02:24,403 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:03:24,350 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:03:24,380 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:03:24,381 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:03:24,412 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:04:24,346 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:04:24,379 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:04:24,380 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:04:24,412 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:05:24,340 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:05:24,392 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:05:24,393 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:05:24,418 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:06:24,348 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:06:24,393 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:06:24,394 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:06:24,434 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:07:24,352 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:07:24,380 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:07:24,381 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:07:24,404 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:08:24,361 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:08:24,390 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:08:24,391 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:08:24,433 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:09:24,360 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:09:24,411 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:09:24,411 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:09:24,442 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:10:24,368 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:10:24,396 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:10:24,397 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:10:24,432 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:11:24,381 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:11:24,416 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:11:24,417 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:11:24,457 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:12:24,379 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:12:24,405 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:12:24,405 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:12:24,442 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:13:24,397 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:13:24,452 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:13:24,453 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:13:24,504 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:14:24,413 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:14:24,462 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:14:24,462 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:14:24,504 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:15:24,396 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:15:24,429 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:15:24,431 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:15:24,453 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:16:24,409 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:16:24,459 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:16:24,459 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:16:24,488 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:17:24,400 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:17:24,460 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:17:24,460 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:17:24,523 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:18:24,393 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:18:24,411 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:18:24,412 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:18:24,457 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:19:24,394 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:19:24,428 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:19:24,428 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:19:24,463 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:20:24,391 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:20:24,405 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:20:24,406 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:20:24,444 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:21:24,418 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:21:24,450 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:21:24,451 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:21:24,483 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:22:24,399 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:22:24,412 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:22:24,413 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:22:24,449 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:23:24,412 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:23:24,477 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:23:24,478 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:23:24,504 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:24:24,412 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:24:24,461 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:24:24,462 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:24:24,492 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:25:24,410 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:25:24,443 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:25:24,450 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:25:24,477 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:26:24,403 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:26:24,443 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:26:24,444 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:26:24,470 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:27:24,401 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:27:24,436 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:27:24,436 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:27:24,463 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:28:24,401 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:28:24,432 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:28:24,432 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:28:24,472 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:29:24,409 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:29:24,442 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:29:24,443 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:29:24,480 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:30:24,413 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:30:24,451 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:30:24,451 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:30:24,479 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:31:24,416 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:31:24,456 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:31:24,458 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:31:24,489 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:32:24,401 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:32:24,448 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:32:24,449 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:32:24,492 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:33:24,402 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:33:24,450 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:33:24,460 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:33:24,503 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:34:24,402 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:34:24,449 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:34:24,449 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:34:24,479 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:35:24,408 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:35:24,451 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:35:24,453 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:35:24,505 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:36:24,400 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:36:24,462 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:36:24,463 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:36:24,526 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:37:24,404 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:37:24,438 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:37:24,439 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:37:24,469 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:38:24,404 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:38:24,447 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:38:24,450 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:38:24,481 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:39:24,404 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:39:24,449 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:39:24,450 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:39:24,484 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:40:24,398 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:40:24,441 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:40:24,442 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:40:24,483 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:41:24,397 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:41:24,434 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:41:24,437 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:41:24,489 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:42:24,397 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:42:24,426 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:42:24,426 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:42:24,453 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:43:24,409 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:43:24,445 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:43:24,446 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:43:24,475 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:44:24,399 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:44:24,438 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:44:24,440 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:44:24,482 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:45:24,405 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:45:24,438 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:45:24,438 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:45:24,481 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:46:24,403 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:46:24,437 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:46:24,437 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:46:24,509 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:47:24,404 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:47:24,447 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:47:24,448 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:47:24,490 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:48:24,414 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:48:24,465 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:48:24,466 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:48:24,493 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:49:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:49:24,475 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:49:24,488 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:49:24,518 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:50:24,411 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:50:24,440 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:50:24,440 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:50:24,466 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:51:24,415 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:51:24,472 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:51:24,472 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:51:24,513 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:52:24,430 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:52:24,563 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:52:24,563 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:52:24,609 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:53:24,409 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:53:24,457 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:53:24,458 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:53:24,480 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:54:24,414 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:54:24,439 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:54:24,440 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:54:24,464 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:55:24,437 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:55:24,469 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:55:24,469 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:55:24,502 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:56:24,420 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:56:24,436 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:56:24,436 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:56:24,456 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:57:24,416 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:57:24,437 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:57:24,437 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:57:24,455 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:58:24,421 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:58:24,453 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:58:24,454 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:58:24,493 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 09:59:24,423 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 09:59:24,492 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 09:59:24,493 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 09:59:24,531 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:00:24,409 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:00:24,439 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:00:24,440 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:00:24,467 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:01:24,413 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:01:24,484 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:01:24,485 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:01:24,521 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:02:24,410 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:02:24,444 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:02:24,445 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:02:24,465 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:03:24,421 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:03:24,470 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:03:24,470 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:03:24,494 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:04:24,419 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:04:24,460 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:04:24,461 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:04:24,500 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:05:24,424 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:05:24,479 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:05:24,479 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:05:24,519 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:06:24,432 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:06:24,466 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:06:24,467 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:06:24,504 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:07:24,413 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:07:24,450 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:07:24,451 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:07:24,480 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:08:24,423 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:08:24,468 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:08:24,468 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:08:24,490 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:09:24,435 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:09:24,483 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:09:24,485 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:09:24,509 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:10:24,423 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:10:24,456 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:10:24,456 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:10:24,491 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:11:24,426 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:11:24,462 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:11:24,465 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:11:24,489 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:12:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:12:24,465 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:12:24,468 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:12:24,505 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:13:24,441 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:13:24,485 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:13:24,486 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:13:24,510 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:14:24,431 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:14:24,460 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:14:24,460 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:14:24,485 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:15:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:15:24,480 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:15:24,480 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:15:24,524 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:16:24,438 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:16:24,475 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:16:24,476 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:16:24,509 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:17:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:17:24,477 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:17:24,479 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:17:24,512 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:18:24,433 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:18:24,470 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:18:24,470 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:18:24,517 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:19:24,438 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:19:24,480 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:19:24,483 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:19:24,509 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:20:24,435 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:20:24,460 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:20:24,460 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:20:24,489 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:21:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:21:24,491 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:21:24,491 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:21:24,522 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:22:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:22:24,463 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:22:24,463 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:22:24,500 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:23:24,424 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:23:24,455 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:23:24,456 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:23:24,478 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:24:24,439 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:24:24,457 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:24:24,457 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:24:24,484 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:25:24,441 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:25:24,473 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:25:24,473 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:25:24,511 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:26:24,445 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:26:24,465 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:26:24,466 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:26:24,499 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:27:24,440 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:27:24,463 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:27:24,465 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:27:24,484 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:28:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:28:24,463 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:28:24,463 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:28:24,483 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:29:24,441 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:29:24,460 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:29:24,460 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:29:24,489 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:30:24,444 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:30:24,475 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:30:24,479 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:30:24,509 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:31:24,430 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:31:24,475 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:31:24,475 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:31:24,505 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:32:24,433 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:32:24,471 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:32:24,472 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:32:24,507 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:33:24,439 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:33:24,479 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:33:24,480 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:33:24,503 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:34:24,431 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:34:24,482 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:34:24,482 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:34:24,518 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:35:24,427 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:35:24,458 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:35:24,458 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:35:24,489 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:36:24,436 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:36:24,473 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:36:24,474 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:36:24,502 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:37:24,430 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:37:24,715 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:37:24,715 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:37:24,739 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:38:24,441 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:38:24,479 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:38:24,480 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:38:24,499 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:39:24,445 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:39:24,475 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:39:24,476 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:39:24,510 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:40:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:40:24,462 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:40:24,463 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:40:24,483 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:41:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:41:24,447 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:41:24,448 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:41:24,484 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:42:24,433 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:42:24,467 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:42:24,468 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:42:24,494 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:43:24,444 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:43:24,458 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:43:24,459 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:43:24,493 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:44:24,439 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:44:24,484 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:44:24,484 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:44:24,518 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:45:24,439 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:45:24,484 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:45:24,487 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:45:24,516 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:46:24,442 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:46:24,476 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:46:24,477 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:46:24,498 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:47:24,432 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:47:24,472 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:47:24,472 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:47:24,503 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:48:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:48:24,499 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:48:24,500 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:48:24,536 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:49:24,446 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:49:24,468 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:49:24,470 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:49:24,505 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:50:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:50:24,488 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:50:24,489 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:50:24,526 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:51:24,435 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:51:24,468 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:51:24,468 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:51:24,480 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:52:24,445 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:52:24,468 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:52:24,469 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:52:24,513 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:53:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:53:24,473 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:53:24,474 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:53:24,490 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:54:24,459 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:54:24,495 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:54:24,495 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:54:24,536 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:55:24,431 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:55:24,478 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:55:24,479 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:55:24,498 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:56:24,432 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:56:24,467 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:56:24,468 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:56:24,483 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:57:24,440 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:57:24,464 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:57:24,464 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:57:24,530 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:58:24,447 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:58:24,486 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:58:24,486 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:58:24,505 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 10:59:24,436 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 10:59:24,469 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 10:59:24,472 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 10:59:24,494 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:00:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:00:24,484 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:00:24,485 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:00:24,528 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:01:24,443 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:01:24,469 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:01:24,470 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:01:24,504 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:02:24,440 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:02:24,477 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:02:24,480 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:02:24,500 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:03:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:03:24,468 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:03:24,469 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:03:24,500 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:04:24,441 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:04:24,495 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:04:24,496 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:04:24,520 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:05:24,438 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:05:24,464 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:05:24,464 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:05:24,492 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:06:24,426 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:06:24,444 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:06:24,453 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:06:24,489 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:07:24,441 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:07:24,487 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:07:24,488 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:07:24,514 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:08:24,442 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:08:24,476 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:08:24,476 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:08:24,501 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:09:24,433 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:09:24,478 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:09:24,478 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:09:24,507 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:10:24,430 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:10:24,473 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:10:24,475 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:10:24,510 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:11:24,438 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:11:24,458 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:11:24,459 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:11:24,481 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:12:24,440 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:12:24,495 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:12:24,496 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:12:24,518 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:13:24,450 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:13:24,480 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:13:24,480 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:13:24,521 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:14:24,426 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:14:24,464 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:14:24,465 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:14:24,502 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:15:24,427 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:15:24,477 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:15:24,478 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:15:24,506 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:16:24,430 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:16:24,452 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:16:24,453 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:16:24,482 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:17:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:17:24,465 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:17:24,466 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:17:24,502 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:18:24,430 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:18:24,478 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:18:24,478 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:18:24,522 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:19:24,428 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:19:24,469 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:19:24,470 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:19:24,501 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:20:24,445 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:20:24,485 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:20:24,485 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:20:24,568 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:21:24,454 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:21:24,501 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:21:24,502 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:21:24,553 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:22:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:22:24,457 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:22:24,457 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:22:24,488 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:23:24,434 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:23:24,473 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:23:24,481 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:23:24,517 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:24:24,429 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:24:24,483 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:24:24,484 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:24:24,531 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:25:24,440 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:25:24,485 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:25:24,486 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:25:24,536 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:26:24,446 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:26:24,471 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:26:24,472 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:26:24,502 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:27:24,435 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:27:24,488 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:27:24,488 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:27:24,529 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:28:24,438 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:28:24,473 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:28:24,475 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:28:24,494 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:29:24,435 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:29:24,462 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:29:24,466 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:29:24,495 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:30:24,446 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:30:24,483 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:30:24,484 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:30:24,502 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:31:24,445 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:31:24,482 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:31:24,482 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:31:24,512 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:32:24,457 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:32:24,507 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:32:24,507 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:32:24,539 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:33:24,447 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:33:24,493 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:33:24,494 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:33:24,513 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:34:24,447 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:34:24,481 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:34:24,481 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:34:24,514 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:35:24,449 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:35:24,494 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:35:24,504 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:35:24,525 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:36:24,452 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:36:24,481 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:36:24,481 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:36:24,516 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:37:24,456 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:37:24,513 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:37:24,513 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:37:24,542 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:38:24,443 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:38:24,501 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:38:24,502 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:38:24,522 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:39:24,444 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:39:24,464 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:39:24,469 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:39:24,497 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:40:24,453 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:40:24,484 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:40:24,484 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:40:24,505 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:41:24,452 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:41:24,520 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:41:24,521 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:41:24,543 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:42:24,464 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:42:24,495 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:42:24,496 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:42:24,545 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:43:24,475 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:43:24,525 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:43:24,526 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:43:24,556 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:44:24,483 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:44:24,509 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:44:24,510 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:44:24,550 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:45:24,495 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:45:24,549 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:45:24,549 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:45:24,592 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:46:24,490 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:46:24,525 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:46:24,526 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:46:24,553 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:47:24,501 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:47:24,528 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:47:24,530 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:47:24,566 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:48:24,497 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:48:24,542 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:48:24,543 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:48:24,558 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:49:24,496 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:49:24,510 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:49:24,512 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:49:24,534 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:50:24,512 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:50:24,549 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:50:24,550 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:50:24,579 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:51:24,499 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:51:24,535 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:51:24,535 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:51:24,559 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:52:24,507 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:52:24,550 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:52:24,551 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:52:24,583 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:53:24,490 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:53:24,517 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:53:24,519 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:53:24,553 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:54:24,491 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:54:24,533 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:54:24,535 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:54:24,567 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:55:24,496 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:55:24,529 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:55:24,530 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:55:24,548 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:56:24,499 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:56:24,518 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:56:24,519 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:56:24,533 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:57:24,496 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:57:24,528 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:57:24,530 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:57:24,565 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:58:24,506 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:58:24,539 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:58:24,540 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:58:24,565 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 11:59:24,518 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 11:59:24,554 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 11:59:24,555 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 11:59:24,588 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:00:24,515 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:00:24,555 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:00:24,556 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:00:24,580 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:01:24,504 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:01:24,544 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:01:24,551 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:01:24,573 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:02:24,505 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:02:24,529 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:02:24,530 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:02:24,570 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:03:24,511 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:03:24,529 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:03:24,529 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:03:24,559 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:04:24,512 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:04:24,541 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:04:24,541 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:04:24,566 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:05:24,521 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:05:24,551 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:05:24,551 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:05:24,584 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:06:24,521 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:06:24,556 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:06:24,556 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:06:24,587 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:07:24,505 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:07:24,523 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:07:24,524 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:07:24,552 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:08:24,514 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:08:24,553 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:08:24,554 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:08:24,579 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:09:24,506 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:09:24,544 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:09:24,544 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:09:24,570 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:10:24,514 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:10:24,546 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:10:24,548 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:10:24,575 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:11:24,506 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:11:24,539 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:11:24,540 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:11:24,584 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:12:24,505 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:12:24,537 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:12:24,538 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:12:24,555 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:13:24,520 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:13:24,551 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:13:24,552 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:13:24,582 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:14:24,504 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:14:24,549 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:14:24,553 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:14:24,591 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:15:24,512 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:15:24,535 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:15:24,536 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:15:24,556 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:16:24,517 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:16:24,547 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:16:24,548 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:16:24,574 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:17:24,503 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:17:24,533 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:17:24,533 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:17:24,566 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:18:24,509 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:18:24,557 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:18:24,558 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:18:24,607 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:19:24,515 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:19:24,545 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:19:24,546 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:19:24,573 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:20:24,518 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:20:24,547 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:20:24,548 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:20:24,566 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:21:24,512 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:21:24,549 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:21:24,550 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:21:24,596 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:22:24,519 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:22:24,549 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:22:24,552 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:22:24,570 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:23:24,520 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:23:24,577 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:23:24,577 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:23:24,648 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:24:24,523 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:24:24,574 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:24:24,575 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:24:24,592 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:25:24,516 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:25:24,559 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:25:24,560 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:25:24,584 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:26:24,519 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:26:24,532 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:26:24,536 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:26:24,570 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:27:24,524 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:27:24,569 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:27:24,570 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:27:24,602 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:28:24,509 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:28:24,553 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:28:24,554 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:28:24,576 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:29:24,504 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:29:24,550 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:29:24,550 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:29:24,579 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:30:24,530 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:30:24,560 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:30:24,560 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:30:24,579 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:31:24,520 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:31:24,539 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:31:24,540 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:31:24,575 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:32:24,537 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:32:24,577 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:32:24,577 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:32:24,617 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:33:24,522 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:33:24,566 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:33:24,567 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:33:24,594 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:34:24,524 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:34:24,558 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:34:24,559 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:34:24,575 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:35:24,537 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:35:24,569 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:35:24,570 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:35:24,608 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:36:24,538 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:36:24,573 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:36:24,574 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:36:24,599 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:37:24,532 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:37:24,570 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:37:24,571 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:37:24,598 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:38:24,533 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:38:24,563 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:38:24,564 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:38:24,613 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:39:24,530 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:39:24,571 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:39:24,572 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:39:24,621 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:40:24,536 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:40:24,587 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:40:24,588 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:40:24,615 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:41:24,548 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:41:24,562 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:41:24,563 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:41:24,576 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:42:24,555 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:42:24,572 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:42:24,573 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:42:24,590 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:43:24,553 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:43:24,592 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:43:24,593 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:43:24,635 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:44:24,566 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:44:24,599 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:44:24,601 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:44:24,621 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:45:24,577 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:45:24,602 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:45:24,604 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:45:24,633 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:46:24,565 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:46:24,591 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:46:24,592 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:46:24,613 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:47:24,549 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:47:24,571 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:47:24,572 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:47:24,598 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 12:48:24,559 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 12:48:24,582 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 12:48:24,584 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 12:48:24,621 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich

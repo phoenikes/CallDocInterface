@@ -1,0 +1,676 @@
+2025-08-04 13:18:51,976 - root - INFO - [logging_config.py:163] - Logging konfiguriert mit Level INFO
+2025-08-04 13:18:51,976 - sync_gui_qt - INFO - [sync_gui_qt.py:72] - CallDoc-SQLHK Synchronisierung gestartet mit strukturiertem Logging
+2025-08-04 13:18:51,999 - config_manager - INFO - [config_manager.py:81] - Konfiguration aus config.ini geladen
+2025-08-04 13:18:53,402 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindungen zu den API-Servern...
+2025-08-04 13:18:53,402 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:18:53,436 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:18:53,437 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - SQLHK-Server erfolgreich verbunden.
+2025-08-04 13:18:53,437 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:18:53,467 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:18:53,467 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - CallDoc-Server erfolgreich verbunden.
+2025-08-04 13:18:53,468 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Automatische Synchronisierung ist deaktiviert.
+2025-08-04 13:18:57,270 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum SQLHK-Server vor der Synchronisierung...
+2025-08-04 13:18:57,274 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:18:57,315 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:18:57,316 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum CallDoc-Server vor der Synchronisierung...
+2025-08-04 13:18:57,316 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:18:57,346 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:18:57,347 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 gestartet...
+2025-08-04 13:18:57,347 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Starte Synchronisierung für Datum: 2025-08-13
+2025-08-04 13:18:57,355 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Datum für SQLHK-Abfrage: 13.08.2025
+2025-08-04 13:18:57,355 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Initialisiere API-Clients...
+2025-08-04 13:18:57,355 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Verwende Datum: 2025-08-13 für API-Abfrage
+2025-08-04 13:18:57,356 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 1. CallDoc-Termine abrufen
+2025-08-04 13:18:57,364 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Rufe Termine für Datum 2025-08-13 ab mit Parametern: {'from_date': '2025-08-13', 'to_date': '2025-08-13'}
+2025-08-04 13:18:59,249 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort erhalten: <class 'dict'>
+2025-08-04 13:18:59,252 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort Schlüssel: dict_keys(['data', 'count'])
+2025-08-04 13:18:59,259 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Filtere Termine nach Datum: 2025-08-13
+2025-08-04 13:18:59,264 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Datumsfilterung: 791 von 791 Terminen übrig
+2025-08-04 13:18:59,266 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 791 CallDoc-Termine gefunden.
+2025-08-04 13:18:59,299 - root - INFO - [mssql_api_client.py:219] - Konvertiere Datum von 2025-08-13 zu 13.08.2025 für SQL-Abfrage
+2025-08-04 13:18:59,300 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 2. SQLHK-Untersuchungen abrufen
+2025-08-04 13:18:59,300 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:18:59,304 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:18:59,304 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:18:59,374 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:18:59,374 - root - INFO - [mssql_api_client.py:215] - Datum ist bereits im deutschen Format: 13.08.2025
+2025-08-04 13:18:59,375 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:18:59,375 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:18:59,376 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:18:59,865 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:18:59,865 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 SQLHK-Untersuchungen gefunden.
+2025-08-04 13:18:59,866 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 1 (Termin-ID: 73359)
+2025-08-04 13:18:59,866 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 2 (Termin-ID: 117330)
+2025-08-04 13:18:59,867 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 3. Patienten synchronisieren
+2025-08-04 13:18:59,867 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 3 (Termin-ID: 201930)
+2025-08-04 13:18:59,869 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 4 (Termin-ID: 201931)
+2025-08-04 13:18:59,870 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 5 (Termin-ID: 201932)
+2025-08-04 13:18:59,870 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 6 (Termin-ID: 201933)
+2025-08-04 13:18:59,871 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 7 (Termin-ID: 201934)
+2025-08-04 13:18:59,872 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 8 (Termin-ID: 202864)
+2025-08-04 13:18:59,872 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 9 (Termin-ID: 202865)
+2025-08-04 13:18:59,877 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 10 (Termin-ID: 202866)
+2025-08-04 13:18:59,878 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 11 (Termin-ID: 202867)
+2025-08-04 13:18:59,880 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 12 (Termin-ID: 202868)
+2025-08-04 13:18:59,881 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 13 (Termin-ID: 202869)
+2025-08-04 13:18:59,881 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 14 (Termin-ID: 202870)
+2025-08-04 13:18:59,882 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 15 (Termin-ID: 202871)
+2025-08-04 13:18:59,883 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 16 (Termin-ID: 211091)
+2025-08-04 13:18:59,884 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 17 (Termin-ID: 163193)
+2025-08-04 13:18:59,888 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 18 (Termin-ID: 163036)
+2025-08-04 13:18:59,889 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 19 (Termin-ID: 163037)
+2025-08-04 13:18:59,889 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 20 (Termin-ID: 121747)
+2025-08-04 13:18:59,889 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 21 (Termin-ID: 143964)
+2025-08-04 13:18:59,889 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 22 (Termin-ID: 144312)
+2025-08-04 13:18:59,889 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 23 (Termin-ID: 144313)
+2025-08-04 13:18:59,889 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 24 (Termin-ID: 182400)
+2025-08-04 13:18:59,889 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 25 (Termin-ID: 182401)
+2025-08-04 13:18:59,890 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 26 (Termin-ID: 182402)
+2025-08-04 13:18:59,890 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 27 (Termin-ID: 136354)
+2025-08-04 13:18:59,891 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 28 (Termin-ID: 136355)
+2025-08-04 13:18:59,891 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 29 (Termin-ID: 117022)
+2025-08-04 13:18:59,891 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 30 (Termin-ID: 108166)
+2025-08-04 13:18:59,891 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 31 (Termin-ID: 108167)
+2025-08-04 13:18:59,891 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 32 (Termin-ID: 109118)
+2025-08-04 13:18:59,892 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 33 (Termin-ID: 114009)
+2025-08-04 13:18:59,892 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 34 (Termin-ID: 114010)
+2025-08-04 13:18:59,892 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 35 (Termin-ID: 114011)
+2025-08-04 13:18:59,893 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 36 (Termin-ID: 114443)
+2025-08-04 13:18:59,893 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 37 (Termin-ID: 114445)
+2025-08-04 13:18:59,893 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 38 (Termin-ID: 117023)
+2025-08-04 13:18:59,893 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 39 (Termin-ID: 117024)
+2025-08-04 13:18:59,900 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 40 (Termin-ID: 138502)
+2025-08-04 13:18:59,901 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 41 (Termin-ID: 138528)
+2025-08-04 13:18:59,901 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 42 (Termin-ID: 240411)
+2025-08-04 13:18:59,901 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 43 (Termin-ID: 244405)
+2025-08-04 13:18:59,901 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 44 (Termin-ID: 220470)
+2025-08-04 13:18:59,902 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:00,834 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.21 Sekunden
+2025-08-04 13:19:00,834 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 592889 an
+2025-08-04 13:19:01,670 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 592889 wurde neu angelegt
+2025-08-04 13:19:01,671 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 592889 erfolgreich angelegt
+2025-08-04 13:19:01,671 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.84 Sekunden
+2025-08-04 13:19:01,672 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 44: 1.77 Sekunden
+
+2025-08-04 13:19:01,672 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 45 (Termin-ID: 214279)
+2025-08-04 13:19:01,672 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 46 (Termin-ID: 124664)
+2025-08-04 13:19:01,673 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 47 (Termin-ID: 124665)
+2025-08-04 13:19:01,673 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 48 (Termin-ID: 58961)
+2025-08-04 13:19:01,673 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 49 (Termin-ID: 250983)
+2025-08-04 13:19:01,680 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:01,769 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.09 Sekunden
+2025-08-04 13:19:01,770 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 0001 an
+2025-08-04 13:19:02,551 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 0001 wurde neu angelegt
+2025-08-04 13:19:02,554 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 0001 erfolgreich angelegt
+2025-08-04 13:19:02,554 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.78 Sekunden
+2025-08-04 13:19:02,555 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 49: 0.88 Sekunden
+
+2025-08-04 13:19:02,555 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 50 (Termin-ID: 164023)
+2025-08-04 13:19:02,556 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 51 (Termin-ID: 205913)
+2025-08-04 13:19:02,558 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:02,639 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.08 Sekunden
+2025-08-04 13:19:02,640 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1688572 an
+2025-08-04 13:19:03,174 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1688572 wurde aktualisiert
+2025-08-04 13:19:03,175 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1688572 erfolgreich aktualisiert
+2025-08-04 13:19:03,175 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.54 Sekunden
+2025-08-04 13:19:03,175 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 51: 0.62 Sekunden
+
+2025-08-04 13:19:03,176 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 52 (Termin-ID: 231042)
+2025-08-04 13:19:03,177 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:03,255 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.08 Sekunden
+2025-08-04 13:19:03,256 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1697304 an
+2025-08-04 13:19:03,893 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1697304 wurde aktualisiert
+2025-08-04 13:19:03,893 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1697304 erfolgreich aktualisiert
+2025-08-04 13:19:03,893 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.64 Sekunden
+2025-08-04 13:19:03,894 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 52: 0.72 Sekunden
+
+2025-08-04 13:19:03,894 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 53 (Termin-ID: 242294)
+2025-08-04 13:19:03,894 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 54 (Termin-ID: 242295)
+2025-08-04 13:19:03,894 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 55 (Termin-ID: 242485)
+2025-08-04 13:19:03,894 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:03,983 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.09 Sekunden
+2025-08-04 13:19:03,984 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1621271 an
+2025-08-04 13:19:05,226 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1621271 wurde aktualisiert
+2025-08-04 13:19:05,226 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1621271 erfolgreich aktualisiert
+2025-08-04 13:19:05,227 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 1.24 Sekunden
+2025-08-04 13:19:05,227 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 55: 1.33 Sekunden
+
+2025-08-04 13:19:05,228 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 56 (Termin-ID: 241314)
+2025-08-04 13:19:05,228 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:05,276 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.05 Sekunden
+2025-08-04 13:19:05,277 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer None an
+2025-08-04 13:19:05,303 - patient_synchronizer - ERROR - [patient_synchronizer.py:400] - Fehler beim einfügen des Patienten: 400
+2025-08-04 13:19:05,304 - patient_synchronizer - ERROR - [patient_synchronizer.py:401] - API-Antwort: {
+  "error": "Schl\u00fcsselfelder nicht angegeben",
+  "success": false
+}
+
+2025-08-04 13:19:05,305 - patient_synchronizer - ERROR - [patient_synchronizer.py:597] - Fehler beim Anlegen eines neuen Patienten mit M1Ziffer None
+2025-08-04 13:19:05,305 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.03 Sekunden
+2025-08-04 13:19:05,306 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 56: 0.08 Sekunden
+
+2025-08-04 13:19:05,306 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 57 (Termin-ID: 244411)
+2025-08-04 13:19:05,306 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 58 (Termin-ID: 244413)
+2025-08-04 13:19:05,307 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 59 (Termin-ID: 242275)
+2025-08-04 13:19:05,307 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:05,383 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.08 Sekunden
+2025-08-04 13:19:05,383 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer None an
+2025-08-04 13:19:05,412 - patient_synchronizer - ERROR - [patient_synchronizer.py:400] - Fehler beim einfügen des Patienten: 400
+2025-08-04 13:19:05,415 - patient_synchronizer - ERROR - [patient_synchronizer.py:401] - API-Antwort: {
+  "error": "Schl\u00fcsselfelder nicht angegeben",
+  "success": false
+}
+
+2025-08-04 13:19:05,416 - patient_synchronizer - ERROR - [patient_synchronizer.py:597] - Fehler beim Anlegen eines neuen Patienten mit M1Ziffer None
+2025-08-04 13:19:05,416 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.03 Sekunden
+2025-08-04 13:19:05,416 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 59: 0.11 Sekunden
+
+2025-08-04 13:19:05,417 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 60 (Termin-ID: 238598)
+2025-08-04 13:19:05,417 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 61 (Termin-ID: 233243)
+2025-08-04 13:19:05,417 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:05,500 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.08 Sekunden
+2025-08-04 13:19:05,500 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1636692 an
+2025-08-04 13:19:06,099 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1636692 wurde neu angelegt
+2025-08-04 13:19:06,100 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1636692 erfolgreich angelegt
+2025-08-04 13:19:06,102 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.60 Sekunden
+2025-08-04 13:19:06,103 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 61: 0.69 Sekunden
+
+2025-08-04 13:19:06,103 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 62 (Termin-ID: 225977)
+2025-08-04 13:19:06,103 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:06,161 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.06 Sekunden
+2025-08-04 13:19:06,162 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1696326 an
+2025-08-04 13:19:06,913 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1696326 wurde aktualisiert
+2025-08-04 13:19:06,913 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1696326 erfolgreich aktualisiert
+2025-08-04 13:19:06,919 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.76 Sekunden
+2025-08-04 13:19:06,920 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 62: 0.82 Sekunden
+
+2025-08-04 13:19:06,920 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 63 (Termin-ID: 232900)
+2025-08-04 13:19:06,920 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:06,992 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.07 Sekunden
+2025-08-04 13:19:06,992 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1627272 an
+2025-08-04 13:19:07,577 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1627272 wurde aktualisiert
+2025-08-04 13:19:07,578 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1627272 erfolgreich aktualisiert
+2025-08-04 13:19:07,579 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.59 Sekunden
+2025-08-04 13:19:07,579 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 63: 0.66 Sekunden
+
+2025-08-04 13:19:07,580 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 64 (Termin-ID: 234692)
+2025-08-04 13:19:07,580 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:07,732 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.15 Sekunden
+2025-08-04 13:19:07,732 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 510120 an
+2025-08-04 13:19:08,773 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 510120 wurde neu angelegt
+2025-08-04 13:19:08,774 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 510120 erfolgreich angelegt
+2025-08-04 13:19:08,774 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 1.04 Sekunden
+2025-08-04 13:19:08,775 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 64: 1.19 Sekunden
+
+2025-08-04 13:19:08,777 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 65 (Termin-ID: 234875)
+2025-08-04 13:19:08,777 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:08,848 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.07 Sekunden
+2025-08-04 13:19:08,849 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1698009 an
+2025-08-04 13:19:09,605 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1698009 wurde neu angelegt
+2025-08-04 13:19:09,606 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1698009 erfolgreich angelegt
+2025-08-04 13:19:09,606 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.76 Sekunden
+2025-08-04 13:19:09,607 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 65: 0.83 Sekunden
+
+2025-08-04 13:19:09,607 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 66 (Termin-ID: 235560)
+2025-08-04 13:19:09,607 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 67 (Termin-ID: 235651)
+2025-08-04 13:19:09,607 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:09,724 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.12 Sekunden
+2025-08-04 13:19:09,725 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 585742 an
+2025-08-04 13:19:10,477 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 585742 wurde neu angelegt
+2025-08-04 13:19:10,478 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 585742 erfolgreich angelegt
+2025-08-04 13:19:10,479 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.75 Sekunden
+2025-08-04 13:19:10,479 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 67: 0.87 Sekunden
+
+2025-08-04 13:19:10,480 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 68 (Termin-ID: 235750)
+2025-08-04 13:19:10,480 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:10,533 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.05 Sekunden
+2025-08-04 13:19:10,533 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1697039 an
+2025-08-04 13:19:11,347 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1697039 wurde neu angelegt
+2025-08-04 13:19:11,348 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1697039 erfolgreich angelegt
+2025-08-04 13:19:11,348 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.81 Sekunden
+2025-08-04 13:19:11,349 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 68: 0.87 Sekunden
+
+2025-08-04 13:19:11,349 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 69 (Termin-ID: 235753)
+2025-08-04 13:19:11,349 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:11,422 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.07 Sekunden
+2025-08-04 13:19:11,422 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1697039 an
+2025-08-04 13:19:12,197 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1697039 wurde aktualisiert
+2025-08-04 13:19:12,197 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1697039 erfolgreich aktualisiert
+2025-08-04 13:19:12,197 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.77 Sekunden
+2025-08-04 13:19:12,197 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 69: 0.85 Sekunden
+
+2025-08-04 13:19:12,197 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 70 (Termin-ID: 220038)
+2025-08-04 13:19:12,197 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:12,267 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.07 Sekunden
+2025-08-04 13:19:12,268 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1695343 an
+2025-08-04 13:19:13,061 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1695343 wurde neu angelegt
+2025-08-04 13:19:13,061 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1695343 erfolgreich angelegt
+2025-08-04 13:19:13,061 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.79 Sekunden
+2025-08-04 13:19:13,062 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 70: 0.87 Sekunden
+
+2025-08-04 13:19:13,062 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 71 (Termin-ID: 209538)
+2025-08-04 13:19:13,065 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 72 (Termin-ID: 210265)
+2025-08-04 13:19:13,065 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:13,157 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.09 Sekunden
+2025-08-04 13:19:13,157 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer  an
+2025-08-04 13:19:13,728 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer  wurde aktualisiert
+2025-08-04 13:19:13,729 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer  erfolgreich aktualisiert
+2025-08-04 13:19:13,729 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.57 Sekunden
+2025-08-04 13:19:13,729 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 72: 0.66 Sekunden
+
+2025-08-04 13:19:13,730 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 73 (Termin-ID: 198682)
+2025-08-04 13:19:13,730 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 74 (Termin-ID: 212390)
+2025-08-04 13:19:13,735 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:13,839 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.10 Sekunden
+2025-08-04 13:19:13,840 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 06567 an
+2025-08-04 13:19:14,658 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 06567 wurde neu angelegt
+2025-08-04 13:19:14,660 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 06567 erfolgreich angelegt
+2025-08-04 13:19:14,660 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.82 Sekunden
+2025-08-04 13:19:14,662 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 74: 0.93 Sekunden
+
+2025-08-04 13:19:14,662 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 75 (Termin-ID: 195228)
+2025-08-04 13:19:14,663 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 76 (Termin-ID: 188939)
+2025-08-04 13:19:14,663 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 77 (Termin-ID: 188968)
+2025-08-04 13:19:14,665 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 78 (Termin-ID: 200764)
+2025-08-04 13:19:14,665 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:14,725 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.06 Sekunden
+2025-08-04 13:19:14,725 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer None an
+2025-08-04 13:19:14,756 - patient_synchronizer - ERROR - [patient_synchronizer.py:400] - Fehler beim einfügen des Patienten: 400
+2025-08-04 13:19:14,757 - patient_synchronizer - ERROR - [patient_synchronizer.py:401] - API-Antwort: {
+  "error": "Schl\u00fcsselfelder nicht angegeben",
+  "success": false
+}
+
+2025-08-04 13:19:14,767 - patient_synchronizer - ERROR - [patient_synchronizer.py:597] - Fehler beim Anlegen eines neuen Patienten mit M1Ziffer None
+2025-08-04 13:19:14,769 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.04 Sekunden
+2025-08-04 13:19:14,769 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 78: 0.10 Sekunden
+
+2025-08-04 13:19:14,770 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 79 (Termin-ID: 161225)
+2025-08-04 13:19:14,771 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 80 (Termin-ID: 161453)
+2025-08-04 13:19:14,772 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 81 (Termin-ID: 148819)
+2025-08-04 13:19:14,773 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:14,836 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.06 Sekunden
+2025-08-04 13:19:14,836 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 0000 an
+2025-08-04 13:19:15,686 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 0000 wurde aktualisiert
+2025-08-04 13:19:15,687 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 0000 erfolgreich aktualisiert
+2025-08-04 13:19:15,688 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.85 Sekunden
+2025-08-04 13:19:15,688 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 81: 0.92 Sekunden
+
+2025-08-04 13:19:15,688 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 82 (Termin-ID: 135354)
+2025-08-04 13:19:15,689 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 83 (Termin-ID: 123659)
+2025-08-04 13:19:15,689 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:15,838 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.15 Sekunden
+2025-08-04 13:19:15,838 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer  an
+2025-08-04 13:19:16,581 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer  wurde aktualisiert
+2025-08-04 13:19:16,581 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer  erfolgreich aktualisiert
+2025-08-04 13:19:16,582 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.74 Sekunden
+2025-08-04 13:19:16,582 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 83: 0.89 Sekunden
+
+2025-08-04 13:19:16,583 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 84 (Termin-ID: 124699)
+2025-08-04 13:19:16,583 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:16,637 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.05 Sekunden
+2025-08-04 13:19:16,637 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1684474 an
+2025-08-04 13:19:17,315 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1684474 wurde aktualisiert
+2025-08-04 13:19:17,316 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1684474 erfolgreich aktualisiert
+2025-08-04 13:19:17,317 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.68 Sekunden
+2025-08-04 13:19:17,318 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 84: 0.73 Sekunden
+
+2025-08-04 13:19:17,318 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 85 (Termin-ID: 124700)
+2025-08-04 13:19:17,318 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:17,383 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.06 Sekunden
+2025-08-04 13:19:17,383 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1684474 an
+2025-08-04 13:19:18,087 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1684474 wurde aktualisiert
+2025-08-04 13:19:18,087 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1684474 erfolgreich aktualisiert
+2025-08-04 13:19:18,087 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.70 Sekunden
+2025-08-04 13:19:18,088 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 85: 0.77 Sekunden
+
+2025-08-04 13:19:18,088 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 86 (Termin-ID: 125776)
+2025-08-04 13:19:18,088 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:18,166 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.08 Sekunden
+2025-08-04 13:19:18,166 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer  an
+2025-08-04 13:19:18,790 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer  wurde aktualisiert
+2025-08-04 13:19:18,790 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer  erfolgreich aktualisiert
+2025-08-04 13:19:18,791 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.62 Sekunden
+2025-08-04 13:19:18,793 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 86: 0.70 Sekunden
+
+2025-08-04 13:19:18,793 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 87 (Termin-ID: 131613)
+2025-08-04 13:19:18,793 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:18,886 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.09 Sekunden
+2025-08-04 13:19:18,886 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1678123 an
+2025-08-04 13:19:19,585 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1678123 wurde aktualisiert
+2025-08-04 13:19:19,586 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1678123 erfolgreich aktualisiert
+2025-08-04 13:19:19,586 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.70 Sekunden
+2025-08-04 13:19:19,587 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 87: 0.79 Sekunden
+
+2025-08-04 13:19:19,587 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 88 (Termin-ID: 105349)
+2025-08-04 13:19:19,588 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:19,755 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.17 Sekunden
+2025-08-04 13:19:19,756 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 705401 an
+2025-08-04 13:19:20,547 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 705401 wurde aktualisiert
+2025-08-04 13:19:20,548 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 705401 erfolgreich aktualisiert
+2025-08-04 13:19:20,548 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.79 Sekunden
+2025-08-04 13:19:20,549 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 88: 0.96 Sekunden
+
+2025-08-04 13:19:20,550 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 89 (Termin-ID: 113365)
+2025-08-04 13:19:20,550 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 90 (Termin-ID: 113389)
+2025-08-04 13:19:20,554 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 91 (Termin-ID: 58962)
+2025-08-04 13:19:20,555 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 92 (Termin-ID: 35555)
+2025-08-04 13:19:20,556 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 93 (Termin-ID: 33690)
+2025-08-04 13:19:20,557 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 94 (Termin-ID: 34397)
+2025-08-04 13:19:20,557 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 95 (Termin-ID: 74374)
+2025-08-04 13:19:20,558 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:20,611 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.05 Sekunden
+2025-08-04 13:19:20,611 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 591421 an
+2025-08-04 13:19:21,306 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 591421 wurde neu angelegt
+2025-08-04 13:19:21,306 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 591421 erfolgreich angelegt
+2025-08-04 13:19:21,306 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.70 Sekunden
+2025-08-04 13:19:21,307 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 95: 0.75 Sekunden
+
+2025-08-04 13:19:21,307 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 96 (Termin-ID: 74680)
+2025-08-04 13:19:21,307 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:21,382 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.07 Sekunden
+2025-08-04 13:19:21,382 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1679845 an
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:389] - Patient mit M1Ziffer 1679845 wurde aktualisiert
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:579] - Patient mit M1Ziffer 1679845 erfolgreich aktualisiert
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.80 Sekunden
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 96: 0.87 Sekunden
+
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 97 (Termin-ID: 101361)
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 98 (Termin-ID: 103174)
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 99 (Termin-ID: 96146)
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 100 (Termin-ID: 251495)
+2025-08-04 13:19:22,181 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:22,254 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.07 Sekunden
+2025-08-04 13:19:22,254 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1682484 an
+2025-08-04 13:19:23,402 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1682484 wurde neu angelegt
+2025-08-04 13:19:23,402 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1682484 erfolgreich angelegt
+2025-08-04 13:19:23,404 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 1.15 Sekunden
+2025-08-04 13:19:23,408 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 100: 1.22 Sekunden
+
+2025-08-04 13:19:23,409 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 101 (Termin-ID: 252829)
+2025-08-04 13:19:23,409 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:23,502 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.09 Sekunden
+2025-08-04 13:19:23,503 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1637404 an
+2025-08-04 13:19:24,236 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1637404 wurde neu angelegt
+2025-08-04 13:19:24,236 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1637404 erfolgreich angelegt
+2025-08-04 13:19:24,237 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.73 Sekunden
+2025-08-04 13:19:24,237 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 101: 0.83 Sekunden
+
+2025-08-04 13:19:24,237 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 102 (Termin-ID: 255777)
+2025-08-04 13:19:24,238 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:24,293 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.05 Sekunden
+2025-08-04 13:19:24,293 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1627540 an
+2025-08-04 13:19:24,956 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1627540 wurde neu angelegt
+2025-08-04 13:19:24,957 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1627540 erfolgreich angelegt
+2025-08-04 13:19:24,957 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.66 Sekunden
+2025-08-04 13:19:24,958 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 102: 0.72 Sekunden
+
+2025-08-04 13:19:24,963 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 103 (Termin-ID: 256874)
+2025-08-04 13:19:24,963 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:25,046 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.08 Sekunden
+2025-08-04 13:19:25,046 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer 1701418 an
+2025-08-04 13:19:25,800 - patient_synchronizer - INFO - [patient_synchronizer.py:392] - Patient mit M1Ziffer 1701418 wurde neu angelegt
+2025-08-04 13:19:25,801 - patient_synchronizer - INFO - [patient_synchronizer.py:588] - Neuer Patient mit M1Ziffer 1701418 erfolgreich angelegt
+2025-08-04 13:19:25,802 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.76 Sekunden
+2025-08-04 13:19:25,802 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 103: 0.84 Sekunden
+
+2025-08-04 13:19:25,802 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 104 (Termin-ID: 256128)
+2025-08-04 13:19:25,803 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:25,878 - patient_synchronizer - INFO - [patient_synchronizer.py:530] - Suche nach existierendem Patienten: 0.07 Sekunden
+2025-08-04 13:19:25,878 - patient_synchronizer - INFO - [patient_synchronizer.py:563] - Lege neuen Patienten mit M1Ziffer None an
+2025-08-04 13:19:25,918 - patient_synchronizer - ERROR - [patient_synchronizer.py:400] - Fehler beim einfügen des Patienten: 400
+2025-08-04 13:19:25,919 - patient_synchronizer - ERROR - [patient_synchronizer.py:401] - API-Antwort: {
+  "error": "Schl\u00fcsselfelder nicht angegeben",
+  "success": false
+}
+
+2025-08-04 13:19:25,919 - patient_synchronizer - ERROR - [patient_synchronizer.py:597] - Fehler beim Anlegen eines neuen Patienten mit M1Ziffer None
+2025-08-04 13:19:25,920 - patient_synchronizer - INFO - [patient_synchronizer.py:600] - Anlegen des neuen Patienten: 0.04 Sekunden
+2025-08-04 13:19:25,921 - patient_synchronizer - INFO - [patient_synchronizer.py:603] - Gesamtzeit für Patient 104: 0.12 Sekunden
+
+2025-08-04 13:19:25,921 - patient_synchronizer - INFO - [patient_synchronizer.py:453] - Starte Verarbeitung von Patient 105 (Termin-ID: 256149)
+2025-08-04 13:19:25,922 - patient_synchronizer - INFO - [patient_synchronizer.py:469] - Mapping der Patientendaten: 0.00 Sekunden
+2025-08-04 13:19:32,920 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum SQLHK-Server vor der Synchronisierung...
+2025-08-04 13:19:32,921 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:19:32,965 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:19:32,966 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum CallDoc-Server vor der Synchronisierung...
+2025-08-04 13:19:32,966 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:19:33,011 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:19:33,012 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 gestartet...
+2025-08-04 13:19:33,022 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Starte Synchronisierung für Datum: 2025-08-13
+2025-08-04 13:19:33,023 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Datum für SQLHK-Abfrage: 13.08.2025
+2025-08-04 13:19:33,026 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Initialisiere API-Clients...
+2025-08-04 13:19:33,027 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Verwende Datum: 2025-08-13 für API-Abfrage
+2025-08-04 13:19:33,027 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 1. CallDoc-Termine abrufen
+2025-08-04 13:19:33,029 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Rufe Termine für Datum 2025-08-13 ab mit Parametern: {'from_date': '2025-08-13', 'to_date': '2025-08-13', 'appointment_type_id': 24}
+2025-08-04 13:19:33,119 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort erhalten: <class 'dict'>
+2025-08-04 13:19:33,125 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort Schlüssel: dict_keys(['data', 'count'])
+2025-08-04 13:19:33,128 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Filtere Termine nach Datum: 2025-08-13
+2025-08-04 13:19:33,129 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Datumsfilterung: 20 von 20 Terminen übrig
+2025-08-04 13:19:33,130 - root - INFO - [mssql_api_client.py:219] - Konvertiere Datum von 2025-08-13 zu 13.08.2025 für SQL-Abfrage
+2025-08-04 13:19:33,132 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Typfilterung: 0 von 20 Terminen übrig
+2025-08-04 13:19:33,134 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:19:33,135 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 CallDoc-Termine gefunden.
+2025-08-04 13:19:33,135 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:19:33,136 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 2. SQLHK-Untersuchungen abrufen
+2025-08-04 13:19:33,136 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:19:33,213 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:19:33,213 - root - INFO - [mssql_api_client.py:215] - Datum ist bereits im deutschen Format: 13.08.2025
+2025-08-04 13:19:33,213 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:19:33,213 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:19:33,213 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:19:33,282 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:19:33,287 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 SQLHK-Untersuchungen gefunden.
+2025-08-04 13:19:33,297 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:19:33,299 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 3. Patienten synchronisieren
+2025-08-04 13:19:33,300 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                UntersuchungartID, 
+                UntersuchungartName, 
+                ExterneID
+            FROM 
+                [SQLHK].[dbo].[Untersuchungart]
+            WHERE 
+                ExterneID IS NOT NULL
+        
+2025-08-04 13:19:33,304 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Patienten-Synchronisierung abgeschlossen:
+2025-08-04 13:19:33,304 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:19:33,305 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:19:33,307 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:19:33,307 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:19:33,308 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:19:33,308 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 4. Untersuchungen synchronisieren
+2025-08-04 13:19:33,474 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:91] - Appointment-Type-Mapping geladen: 0 Einträge
+2025-08-04 13:19:33,477 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:659] - Starte Synchronisierung: 0 CallDoc-Termine, 0 SQLHK-Untersuchungen
+2025-08-04 13:19:33,485 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:663] - 0 aktive Termine gefunden
+2025-08-04 13:19:33,486 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:736] - Zu synchronisieren: 0 neue, 0 zu aktualisieren, 0 gelöscht
+2025-08-04 13:19:33,486 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Untersuchungs-Synchronisierung abgeschlossen:
+2025-08-04 13:19:33,486 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:19:33,487 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:19:33,488 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:19:33,488 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:19:33,488 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Gelöscht: 0
+2025-08-04 13:19:33,489 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 abgeschlossen
+2025-08-04 13:19:52,895 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:19:52,941 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:19:52,941 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:19:52,973 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:20:52,900 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:20:52,931 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:20:52,932 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:20:52,953 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:21:52,901 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:21:52,940 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:21:52,942 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:21:52,980 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:22:52,920 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:22:52,968 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:22:52,968 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:22:53,004 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:23:52,912 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:23:52,931 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:23:52,933 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:23:52,966 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:24:52,914 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:24:52,980 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:24:52,982 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:24:53,001 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:25:52,905 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:25:52,936 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:25:52,936 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:25:52,986 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:26:52,907 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:26:52,934 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:26:52,934 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:26:52,966 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:27:49,291 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum SQLHK-Server vor der Synchronisierung...
+2025-08-04 13:27:49,291 - connection_checker - INFO - [connection_checker.py:91] - Prüfe SQLHK-Verbindung: http://192.168.1.67:7007/health
+2025-08-04 13:27:49,315 - connection_checker - INFO - [connection_checker.py:95] - SQLHK-Verbindung erfolgreich
+2025-08-04 13:27:49,316 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Prüfe Verbindung zum CallDoc-Server vor der Synchronisierung...
+2025-08-04 13:27:49,316 - connection_checker - INFO - [connection_checker.py:52] - Prüfe CallDoc-Verbindung: http://192.168.1.76:8001/health
+2025-08-04 13:27:49,338 - connection_checker - INFO - [connection_checker.py:56] - CallDoc-Verbindung erfolgreich
+2025-08-04 13:27:49,339 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 gestartet...
+2025-08-04 13:27:49,342 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Starte Synchronisierung für Datum: 2025-08-13
+2025-08-04 13:27:49,344 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Datum für SQLHK-Abfrage: 13.08.2025
+2025-08-04 13:27:49,344 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Initialisiere API-Clients...
+2025-08-04 13:27:49,345 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Verwende Datum: 2025-08-13 für API-Abfrage
+2025-08-04 13:27:49,346 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 1. CallDoc-Termine abrufen
+2025-08-04 13:27:49,347 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Rufe Termine für Datum 2025-08-13 ab mit Parametern: {'from_date': '2025-08-13', 'to_date': '2025-08-13', 'appointment_type_id': 24}
+2025-08-04 13:27:49,490 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort erhalten: <class 'dict'>
+2025-08-04 13:27:49,490 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - API-Antwort Schlüssel: dict_keys(['data', 'count'])
+2025-08-04 13:27:49,490 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Filtere Termine nach Datum: 2025-08-13
+2025-08-04 13:27:49,490 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Datumsfilterung: 20 von 20 Terminen übrig
+2025-08-04 13:27:49,491 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Nach Typfilterung: 0 von 20 Terminen übrig
+2025-08-04 13:27:49,492 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 CallDoc-Termine gefunden.
+2025-08-04 13:27:49,492 - root - INFO - [mssql_api_client.py:219] - Konvertiere Datum von 2025-08-13 zu 13.08.2025 für SQL-Abfrage
+2025-08-04 13:27:49,493 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 2. SQLHK-Untersuchungen abrufen
+2025-08-04 13:27:49,493 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:27:49,500 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:27:49,500 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:27:49,599 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:27:49,599 - root - INFO - [mssql_api_client.py:215] - Datum ist bereits im deutschen Format: 13.08.2025
+2025-08-04 13:27:49,600 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:27:49,600 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                u.*, 
+                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                ua.UntersuchungartName
+            FROM 
+                [SQLHK].[dbo].[Untersuchung] u
+            LEFT JOIN 
+                [SQLHK].[dbo].[Patient] p ON u.PatientID = p.PatientID
+            LEFT JOIN 
+                [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
+            WHERE 
+                u.Datum = '13.08.2025'
+            ORDER BY 
+                u.Zeit
+        
+2025-08-04 13:27:49,600 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:27:49,911 - untersuchung_synchronizer - WARNING - [untersuchung_synchronizer.py:135] - Keine Untersuchungen aus der SQLHK-Datenbank abgerufen oder Fehler
+2025-08-04 13:27:49,912 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 0 SQLHK-Untersuchungen gefunden.
+2025-08-04 13:27:49,912 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 3. Patienten synchronisieren
+2025-08-04 13:27:49,912 - mssql_api_client - INFO - [mssql_api_client.py:77] - Sende Anfrage an http://192.168.1.67:7007/tools/execute_sql
+2025-08-04 13:27:49,916 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Patienten-Synchronisierung abgeschlossen:
+2025-08-04 13:27:49,917 - mssql_api_client - INFO - [mssql_api_client.py:78] - SQL-Abfrage: 
+            SELECT 
+                UntersuchungartID, 
+                UntersuchungartName, 
+                ExterneID
+            FROM 
+                [SQLHK].[dbo].[Untersuchungart]
+            WHERE 
+                ExterneID IS NOT NULL
+        
+2025-08-04 13:27:49,917 - mssql_api_client - INFO - [mssql_api_client.py:79] - Datenbank: SuPDatabase
+2025-08-04 13:27:49,917 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:27:49,920 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:27:49,923 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:27:49,923 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:27:49,935 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - 4. Untersuchungen synchronisieren
+2025-08-04 13:27:50,017 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:91] - Appointment-Type-Mapping geladen: 0 Einträge
+2025-08-04 13:27:50,017 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:659] - Starte Synchronisierung: 0 CallDoc-Termine, 0 SQLHK-Untersuchungen
+2025-08-04 13:27:50,018 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:663] - 0 aktive Termine gefunden
+2025-08-04 13:27:50,020 - untersuchung_synchronizer - INFO - [untersuchung_synchronizer.py:736] - Zu synchronisieren: 0 neue, 0 zu aktualisieren, 0 gelöscht
+2025-08-04 13:27:50,020 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Untersuchungs-Synchronisierung abgeschlossen:
+2025-08-04 13:27:50,022 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Erfolgreiche Operationen: 0
+2025-08-04 13:27:50,023 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Fehler: 0
+2025-08-04 13:27:50,023 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Eingefügt: 0
+2025-08-04 13:27:50,024 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Aktualisiert: 0
+2025-08-04 13:27:50,024 - sync_gui_qt - INFO - [sync_gui_qt.py:764] -   - Gelöscht: 0
+2025-08-04 13:27:50,025 - sync_gui_qt - INFO - [sync_gui_qt.py:764] - Synchronisierung für 2025-08-13 abgeschlossen
