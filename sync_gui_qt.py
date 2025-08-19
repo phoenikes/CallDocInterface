@@ -22,7 +22,8 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QPushButton, QTabWidget, QTextEdit, QLabel,
                             QComboBox, QCheckBox, QProgressBar, QMessageBox,
                             QFileDialog, QTableWidget, QTableWidgetItem,
-                            QSplitter, QFrame, QDateEdit, QStatusBar)
+                            QSplitter, QFrame, QDateEdit, QStatusBar,
+                            QMenuBar, QMenu, QDialog, QDialogButtonBox, QAction)
 from PyQt5.QtCore import QDate, pyqtSlot, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QFont, QIcon
 import matplotlib.pyplot as plt
@@ -34,6 +35,7 @@ from calldoc_interface import CallDocInterface
 from mssql_api_client import MsSqlApiClient
 from patient_synchronizer import PatientSynchronizer
 from untersuchung_synchronizer import UntersuchungSynchronizer
+from appointment_patient_enricher import AppointmentPatientEnricher
 from constants import APPOINTMENT_TYPES
 
 # Konfiguriere das Logging
@@ -115,8 +117,6 @@ class SyncWorker(QThread):
             if isinstance(response, dict):
                 self.log_signal.emit(f"API-Antwort Schlüssel: {response.keys()}")
                 appointments = response.get("data", [])
-                if not appointments and "appointments" in response:
-                    appointments = response.get("appointments", [])
             else:
                 self.log_signal.emit(f"Unerwartetes Antwortformat: {type(response)}")
                 appointments = []
@@ -140,7 +140,8 @@ class SyncWorker(QThread):
             # Filtere nach Termintyp, falls angegeben
             if self.appointment_type_id:
                 before_count = len(appointments)
-                appointments = [a for a in appointments if a.get("appointment_type_id") == self.appointment_type_id]
+                # API gibt "appointment_type" zurück, nicht "appointment_type_id"
+                appointments = [a for a in appointments if a.get("appointment_type") == self.appointment_type_id]
                 self.log_signal.emit(f"Nach Typfilterung: {len(appointments)} von {before_count} Terminen übrig")
             
             # Filtere nach Status, falls aktiviert
@@ -155,6 +156,58 @@ class SyncWorker(QThread):
                     appointments = [a for a in appointments if a.get("status") != "cancelled"]
             
             self.log_signal.emit(f"{len(appointments)} CallDoc-Termine gefunden.")
+            
+            # Patientendaten anreichern
+            self.log_signal.emit("Reichere Termine mit Patientendaten an...")
+            patient_cache = {}
+            MAX_CACHE_SIZE = 1000  # Begrenze Cache-Größe zur Vermeidung von Memory Leaks
+            
+            for appointment in appointments:
+                # Cache-Größe prüfen und ggf. leeren
+                if len(patient_cache) > MAX_CACHE_SIZE:
+                    self.log_signal.emit(f"Cache-Limit erreicht ({MAX_CACHE_SIZE}), leere Cache...")
+                    patient_cache.clear()
+                piz = appointment.get("piz")
+                if piz and piz not in patient_cache:
+                    try:
+                        self.log_signal.emit(f"Lade Patientendaten für PIZ {piz}...")
+                        patient_response = calldoc_client.get_patient_by_piz(piz)
+                        if patient_response and not patient_response.get("error"):
+                            patients_list = patient_response.get("patients", [])
+                            if patients_list and len(patients_list) > 0 and patients_list[0] is not None:
+                                patient_data = patients_list[0]
+                                # Zusätzlicher Check ob patient_data valide ist
+                                if not isinstance(patient_data, dict):
+                                    self.log_signal.emit(f"Warnung: Ungültiges Patientendaten-Format für PIZ {piz}")
+                                    continue
+                                patient_cache[piz] = patient_data
+                                # Füge Patientendaten zum Termin hinzu
+                                appointment["patient"] = {
+                                    "id": patient_data.get("id"),
+                                    "piz": piz,
+                                    "surname": patient_data.get("surname"),
+                                    "name": patient_data.get("name"),
+                                    "date_of_birth": patient_data.get("date_of_birth"),
+                                    "insurance_number": patient_data.get("insurance_number"),
+                                    "insurance_provider": patient_data.get("insurance_provider")
+                                }
+                                self.log_signal.emit(f"Patient gefunden: {patient_data.get('surname')}, {patient_data.get('name')}")
+                    except Exception as e:
+                        self.log_signal.emit(f"Fehler beim Laden der Patientendaten für PIZ {piz}: {str(e)}")
+                elif piz in patient_cache:
+                    # Verwende gecachte Patientendaten
+                    patient_data = patient_cache[piz]
+                    appointment["patient"] = {
+                        "id": patient_data.get("id"),
+                        "piz": piz,
+                        "surname": patient_data.get("surname"),
+                        "name": patient_data.get("name"),
+                        "date_of_birth": patient_data.get("date_of_birth"),
+                        "insurance_number": patient_data.get("insurance_number"),
+                        "insurance_provider": patient_data.get("insurance_provider")
+                    }
+            
+            self.log_signal.emit(f"Patientendaten-Anreicherung abgeschlossen")
             
             # Termine als JSON speichern
             with open(f"calldoc_termine_{self.date_str}.json", "w", encoding="utf-8") as f:
@@ -229,10 +282,16 @@ class SyncWorker(QThread):
     
     def stop(self):
         """
-        Stoppt den Thread.
+        Stoppt den Thread sicher (graceful shutdown).
         """
         self.running = False
-        self.terminate()
+        # Warte bis Thread sauber beendet ist (max 5 Sekunden)
+        if self.isRunning():
+            self.wait(5000)
+            # Nur als letztes Mittel hart terminieren
+            if self.isRunning():
+                self.terminate()
+                self.wait(1000)  # Kurz warten nach terminate
 
 
 class SyncApp(QMainWindow):
@@ -252,6 +311,9 @@ class SyncApp(QMainWindow):
         """
         self.setWindowTitle(self.title)
         self.setGeometry(100, 100, 1000, 700)
+        
+        # Menüleiste erstellen
+        self.create_menu_bar()
         
         # Hauptwidget und Layout
         main_widget = QWidget()
@@ -462,6 +524,192 @@ class SyncApp(QMainWindow):
         self.sync_worker.finished_signal.connect(self.sync_finished)
         self.sync_worker.log_signal.connect(self.append_log)
         self.sync_worker.start()
+    
+    def create_menu_bar(self):
+        """
+        Erstellt die Menüleiste mit API-Menü.
+        """
+        menubar = self.menuBar()
+        
+        # Datei-Menü
+        file_menu = menubar.addMenu('Datei')
+        
+        # Export Action
+        export_action = QAction('Logs exportieren', self)
+        export_action.setShortcut('Ctrl+E')
+        export_action.triggered.connect(self.export_logs)
+        file_menu.addAction(export_action)
+        
+        file_menu.addSeparator()
+        
+        # Exit Action
+        exit_action = QAction('Beenden', self)
+        exit_action.setShortcut('Ctrl+Q')
+        exit_action.triggered.connect(self.close)
+        file_menu.addAction(exit_action)
+        
+        # API-Menü
+        api_menu = menubar.addMenu('API')
+        
+        # API Dokumentation
+        api_doc_action = QAction('API Dokumentation', self)
+        api_doc_action.setShortcut('F1')
+        api_doc_action.triggered.connect(self.show_api_documentation)
+        api_menu.addAction(api_doc_action)
+        
+        api_menu.addSeparator()
+        
+        # API Server starten
+        self.start_api_action = QAction('API Server starten', self)
+        self.start_api_action.triggered.connect(self.start_api_server)
+        api_menu.addAction(self.start_api_action)
+        
+        # API Server stoppen
+        self.stop_api_action = QAction('API Server stoppen', self)
+        self.stop_api_action.triggered.connect(self.stop_api_server)
+        self.stop_api_action.setEnabled(False)
+        api_menu.addAction(self.stop_api_action)
+        
+        api_menu.addSeparator()
+        
+        # API Test
+        api_test_action = QAction('API testen', self)
+        api_test_action.triggered.connect(self.test_api)
+        api_menu.addAction(api_test_action)
+        
+        # Hilfe-Menü
+        help_menu = menubar.addMenu('Hilfe')
+        
+        # Über
+        about_action = QAction('Über', self)
+        about_action.triggered.connect(self.show_about)
+        help_menu.addAction(about_action)
+        
+        # API Server Thread Variable
+        self.api_server_thread = None
+        self.api_server_running = False
+    
+    def show_api_documentation(self):
+        """
+        Zeigt die API Dokumentation in einem Modal Dialog.
+        """
+        from api_documentation_dialog import APIDocumentationDialog
+        dialog = APIDocumentationDialog(self, self.api_server_running)
+        dialog.exec_()
+    
+    def start_api_server(self):
+        """
+        Startet den API Server in einem separaten Thread.
+        """
+        try:
+            import threading
+            from sync_api_server import app
+            
+            def run_server():
+                app.run(host='0.0.0.0', port=5555, debug=False, use_reloader=False)
+            
+            self.api_server_thread = threading.Thread(target=run_server, daemon=True)
+            self.api_server_thread.start()
+            
+            self.api_server_running = True
+            self.start_api_action.setEnabled(False)
+            self.stop_api_action.setEnabled(True)
+            
+            QMessageBox.information(
+                self,
+                "API Server",
+                "API Server wurde gestartet auf Port 5555.\n\n"
+                "Endpoint: http://localhost:5555/api/sync\n"
+                "Dokumentation: Menü -> API -> API Dokumentation"
+            )
+            self.append_log("API Server gestartet auf Port 5555")
+            
+        except Exception as e:
+            QMessageBox.critical(self, "Fehler", f"Konnte API Server nicht starten: {str(e)}")
+    
+    def stop_api_server(self):
+        """
+        Stoppt den API Server.
+        """
+        # Flask hat keine eingebaute Stop-Methode
+        # Server wird beim Beenden der Anwendung gestoppt
+        self.api_server_running = False
+        self.start_api_action.setEnabled(True)
+        self.stop_api_action.setEnabled(False)
+        self.append_log("API Server gestoppt")
+        QMessageBox.information(self, "API Server", "API Server wurde gestoppt.")
+    
+    def test_api(self):
+        """
+        Testet die API Verbindung.
+        """
+        import requests
+        try:
+            response = requests.get("http://localhost:5555/health", timeout=2)
+            if response.status_code == 200:
+                data = response.json()
+                QMessageBox.information(
+                    self,
+                    "API Test",
+                    f"API ist online!\n\n"
+                    f"Status: {data['status']}\n"
+                    f"Aktive Syncs: {data['active_syncs']}"
+                )
+            else:
+                QMessageBox.warning(self, "API Test", f"API antwortet mit Status {response.status_code}")
+        except requests.exceptions.ConnectionError:
+            QMessageBox.warning(
+                self,
+                "API Test",
+                "API ist nicht erreichbar.\n\n"
+                "Starten Sie den API Server über:\n"
+                "Menü -> API -> API Server starten"
+            )
+        except Exception as e:
+            QMessageBox.critical(self, "API Test", f"Fehler: {str(e)}")
+    
+    def export_logs(self):
+        """
+        Exportiert die Logs in eine Datei.
+        """
+        from PyQt5.QtWidgets import QFileDialog
+        filename, _ = QFileDialog.getSaveFileName(
+            self,
+            "Logs exportieren",
+            f"sync_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
+            "Text Files (*.txt);;All Files (*)"
+        )
+        if filename:
+            try:
+                with open(filename, 'w', encoding='utf-8') as f:
+                    f.write(self.log_text.toPlainText())
+                QMessageBox.information(self, "Export", f"Logs wurden exportiert nach:\n{filename}")
+            except Exception as e:
+                QMessageBox.critical(self, "Fehler", f"Konnte Logs nicht exportieren: {str(e)}")
+    
+    def show_about(self):
+        """
+        Zeigt About Dialog.
+        """
+        QMessageBox.about(
+            self,
+            "Über CallDoc-SQLHK Sync",
+            "CallDoc-SQLHK Synchronisierung v2.0\n\n"
+            "Bidirektionale Synchronisation zwischen CallDoc und SQLHK.\n\n"
+            "Features:\n"
+            "• Automatische Patienten-Synchronisierung\n"
+            "• Untersuchungs-Synchronisierung\n"
+            "• REST API für Automation\n"
+            "• Echtzeit-Logging\n\n"
+            "Autor: Markus\n"
+            "© 2025"
+        )
+    
+    def start_api_server_requested(self):
+        """
+        Wird vom API Dialog aufgerufen wenn Server gestartet werden soll.
+        """
+        self.start_api_server()
     
     @pyqtSlot()
     def stop_sync(self):

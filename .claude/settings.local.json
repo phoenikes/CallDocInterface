@@ -1,7 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git tag:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(findstr:*)",
+      "Bash(start cmd /c run_gui.bat)",
+      "Bash(tasklist:*)",
+      "Bash(wmic:*)",
+      "Bash(start python sync_gui_qt.py)",
+      "Bash(start cmd /c:*)",
+      "Bash(powershell:*)"
     ],
     "deny": []
   }

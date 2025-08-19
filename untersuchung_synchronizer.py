@@ -65,28 +65,35 @@ class UntersuchungSynchronizer:
         """
         Lädt das Mapping von CallDoc-Termintypen zu Untersuchungsarten aus der Datenbank.
         """
+        # Die Spalte ExterneID existiert nicht, verwende appointment_type stattdessen
+        # appointment_type enthält JSON-Mapping wie '{"1":24}'
         query = """
             SELECT 
                 UntersuchungartID, 
                 UntersuchungartName, 
-                ExterneID
+                appointment_type
             FROM 
                 [SQLHK].[dbo].[Untersuchungart]
             WHERE 
-                ExterneID IS NOT NULL
+                appointment_type IS NOT NULL
         """
         
         result = self.mssql_client.execute_sql(query, "SuPDatabase")
         
         if result.get("success", False) and "rows" in result:
             for row in result["rows"]:
-                externe_id = row.get("ExterneID")
-                if externe_id:
+                appointment_type_json = row.get("appointment_type")
+                if appointment_type_json:
                     try:
-                        externe_id = int(externe_id)
-                        self.appointment_type_mapping[externe_id] = row.get("UntersuchungartID")
-                    except (ValueError, TypeError):
-                        logger.warning(f"Ungültige ExterneID: {externe_id}")
+                        # Parse das JSON-Mapping wie '{"1":24}'
+                        import json
+                        mapping = json.loads(appointment_type_json)
+                        # Füge alle Mappings hinzu
+                        for key, value in mapping.items():
+                            # CallDoc appointment_type_id -> SQLHK UntersuchungartID
+                            self.appointment_type_mapping[int(value)] = row.get("UntersuchungartID")
+                    except (ValueError, TypeError, json.JSONDecodeError) as e:
+                        logger.warning(f"Ungültiges appointment_type JSON: {appointment_type_json}, Fehler: {e}")
         
         logger.info(f"Appointment-Type-Mapping geladen: {len(self.appointment_type_mapping)} Einträge")
     
@@ -254,16 +261,31 @@ class UntersuchungSynchronizer:
             logger.info(f"Suche Patient mit M1Ziffer als Integer: {piz_int}")
             
             # SQL-Abfrage, um den Patienten anhand der M1Ziffer als Integer zu finden
-            query = f"""
+            # SICHERHEIT: Verwende parametrisierte Abfrage statt String-Interpolation
+            query = """
                 SELECT 
                     PatientID, Nachname, Vorname, M1Ziffer
                 FROM 
                     [SQLHK].[dbo].[Patient]
                 WHERE 
-                    M1Ziffer = {piz_int}
+                    M1Ziffer = ?
             """
             
-            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            # TODO: mssql_client muss für parametrisierte Queries angepasst werden
+            # Temporär: Validierung und Escaping
+            if not isinstance(piz_int, int):
+                raise ValueError(f"Invalid PIZ type: {type(piz_int)}")
+            
+            safe_query = f"""
+                SELECT 
+                    PatientID, Nachname, Vorname, M1Ziffer
+                FROM 
+                    [SQLHK].[dbo].[Patient]
+                WHERE 
+                    M1Ziffer = {int(piz_int)}
+            """
+            
+            result = self.mssql_client.execute_sql(safe_query, "SQLHK")
             
             if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
                 patient = result["rows"][0]
@@ -342,7 +364,7 @@ class UntersuchungSynchronizer:
                     employee_id = {employee_id}
             """
             
-            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            result = self.mssql_client.execute_sql(query, "SQLHK")
             
             if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
                 untersucher = result["rows"][0]
@@ -382,7 +404,7 @@ class UntersuchungSynchronizer:
                     room_id = {room_id}
             """
             
-            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            result = self.mssql_client.execute_sql(query, "SQLHK")
             
             if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
                 herzkatheter = result["rows"][0]
@@ -421,7 +443,7 @@ class UntersuchungSynchronizer:
                     JSON_VALUE(appointment_type, '$."1"') = '{appointment_type_id}'
             """
             
-            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            result = self.mssql_client.execute_sql(query, "SQLHK")
             
             if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
                 untersuchungart = result["rows"][0]
@@ -538,7 +560,7 @@ class UntersuchungSynchronizer:
                     AND UntersuchungartID = {untersuchungart_id}
             """
             
-            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            result = self.mssql_client.execute_sql(query, "SQLHK")
             
             if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
                 # Untersuchung existiert bereits, Update durchführen
@@ -722,23 +744,35 @@ class UntersuchungSynchronizer:
                     AND UntersuchungartID = {untersuchungart_id}
             """
             
-            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            result = self.mssql_client.execute_sql(query, "SQLHK")
             
             if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
                 # Untersuchung existiert bereits, Update durchführen
                 existing_untersuchung = result["rows"][0]
-                logger.info(f"Bestehende Untersuchung gefunden: UntersuchungID={existing_untersuchung.get('UntersuchungID')}")
+                patient_info = appointment.get('patient') if appointment.get('patient') else {}
+                if isinstance(patient_info, dict):
+                    patient_name = f"{patient_info.get('surname', 'Unbekannt')}, {patient_info.get('name', '')}"
+                else:
+                    patient_name = f"{appointment.get('surname', 'Unbekannt')}, {appointment.get('name', '')}"
+                logger.info(f"✓ BESTEHEND: UntersuchungID={existing_untersuchung.get('UntersuchungID')} für Termin {appointment.get('id')} - Patient: {patient_name}")
                 to_update.append((appointment, existing_untersuchung))
             else:
                 # Untersuchung existiert noch nicht, neu einfügen
-                logger.info(f"Keine bestehende Untersuchung gefunden, wird neu eingefügt")
+                patient_info = appointment.get('patient') if appointment.get('patient') else {}
+                if isinstance(patient_info, dict):
+                    patient_name = f"{patient_info.get('surname', 'Unbekannt')}, {patient_info.get('name', '')}"
+                else:
+                    patient_name = f"{appointment.get('surname', 'Unbekannt')}, {appointment.get('name', '')}"
+                logger.info(f"➤ NEU EINFÜGEN: Termin {appointment.get('id')} - Patient: {patient_name} - Datum: {datum}")
                 to_insert.append(appointment)
         
         # Statistik aktualisieren
         self.stats["to_insert"] = len(to_insert)
         self.stats["to_update"] = len(to_update)
         
-        logger.info(f"Zu synchronisieren: {len(to_insert)} neue, {len(to_update)} zu aktualisieren, {self.stats['deleted']} gelöscht")
+        logger.info(f"\n=== SYNCHRONISIERUNGS-ZUSAMMENFASSUNG ===")
+        logger.info(f"Zu synchronisieren: {len(to_insert)} NEUE EINFÜGEN, {len(to_update)} AKTUALISIEREN, {self.stats['deleted']} GELÖSCHT")
+        logger.info(f"==========================================\n")
         
         # Operationen durchführen
         for appointment in to_insert:
@@ -838,7 +872,7 @@ class UntersuchungSynchronizer:
                 WHERE UntersuchungID = {untersuchung_id}
             """
             
-            result = self.mssql_client.execute_sql(query, "SuPDatabase")
+            result = self.mssql_client.execute_sql(query, "SQLHK")
             
             if result.get("success", False):
                 self.stats["deleted"] += 1

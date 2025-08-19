@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+
+# Logs
+*.log
+sync_gui_*.log
+sync_api_*.log
+gui.log
+
+# Temporary files
+*.tmp
+*~
+.DS_Store
+Thumbs.db
+nul
+
+# Screenshots und Dokumentation (temp)
+screenshot_*.png
+*.ps1
+
+# JSON Data (export results)
+calldoc_termine_*.json
+sqlhk_untersuchungen_*.json
+sync_result_*.json
+
+# GUI State
+.gui_state.json
+
+# Build artifacts
+build/
+dist/
+*.exe
+*.spec
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Windows
+*.bat
+
+# Config files with potentially sensitive data
+sync_api_config.json
+
+# Development files
+create_shortcut.py
+create_simple_icon.py
+final_*.py
+gui_automation.py
+run_gui.bat
+start_api_server.bat
+take_screenshot.ps1
+find_windows.ps1
+sync_gui_*_fixed.py
+sync_gui_with_api.py
+
+# Icons (generated)
+sync_app.ico
+sync_app.png

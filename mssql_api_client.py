@@ -222,10 +222,26 @@ class MsSqlApiClient:
             german_date = date_str
         
         # SQL-Abfrage mit dem deutschen Datumsformat
+        # CAST Materialpreis to VARCHAR to avoid JSON serialization issues with Decimal
         query = f"""
             SELECT 
-                u.*, 
-                p.Nachname, p.Vorname, p.Geburtsdatum, 
+                u.UntersuchungID,
+                u.Datum,
+                u.HerzkatheterID,
+                u.PatientID,
+                u.UntersucherAbrechnungID,
+                u.ZuweiserID,
+                u.UntersuchungartID,
+                u.Roentgen,
+                u.Herzteam,
+                CAST(u.Materialpreis AS VARCHAR(20)) as Materialpreis,
+                u.DRGID,
+                u.Untersuchungtype,
+                u.heydokid,
+                u.termin_id,
+                p.Nachname, 
+                p.Vorname, 
+                p.Geburtsdatum, 
                 ua.UntersuchungartName
             FROM 
                 [SQLHK].[dbo].[Untersuchung] u
@@ -235,11 +251,9 @@ class MsSqlApiClient:
                 [SQLHK].[dbo].[Untersuchungart] ua ON u.UntersuchungartID = ua.UntersuchungartID
             WHERE 
                 u.Datum = '{german_date}'
-            ORDER BY 
-                u.Zeit
         """
         
-        return self.execute_sql(query, "SuPDatabase")
+        return self.execute_sql(query, "SQLHK")
     
     def get_patient_by_piz(self, piz: str) -> Dict[str, Any]:
         """
@@ -260,7 +274,7 @@ class MsSqlApiClient:
                 M1Ziffer = '{piz}'
         """
         
-        result = self.execute_sql(query, "SuPDatabase")
+        result = self.execute_sql(query, "SQLHK")
         
         if result.get("success", False) and result.get("rows") and len(result["rows"]) > 0:
             return result["rows"][0]
@@ -279,13 +293,15 @@ class MsSqlApiClient:
         """
         # Hier müsste eine Mapping-Tabelle oder -Logik implementiert werden
         # Für den Moment verwenden wir eine einfache Abfrage nach der ID
+        # Die Spalte ExterneID existiert nicht, verwende appointment_type stattdessen
+        # appointment_type enthält JSON-Mapping wie '{"1":24}'
         query = f"""
             SELECT 
                 *
             FROM 
-                Untersuchungart
+                [SQLHK].[dbo].[Untersuchungart]
             WHERE 
-                ExterneID = '{appointment_type_id}'
+                appointment_type LIKE '%"{appointment_type_id}"%'
         """
         
         result = self.execute_sql(query)
