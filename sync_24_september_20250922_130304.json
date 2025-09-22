@@ -1,0 +1,12 @@
+{
+  "date": "2025-09-24",
+  "total_appointments": 32,
+  "active_appointments": 28,
+  "canceled_appointments": 4,
+  "patients_synced": 26,
+  "patients_failed": 1,
+  "untersuchungen_inserted": 28,
+  "untersuchungen_updated": 0,
+  "untersuchungen_errors": 0,
+  "final_count": 0
+}

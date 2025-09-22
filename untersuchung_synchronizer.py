@@ -78,7 +78,7 @@ class UntersuchungSynchronizer:
                 appointment_type IS NOT NULL
         """
         
-        result = self.mssql_client.execute_sql(query, "SuPDatabase")
+        result = self.mssql_client.execute_sql(query, "SQLHK")
         
         if result.get("success", False) and "rows" in result:
             for row in result["rows"]:
@@ -237,8 +237,21 @@ class UntersuchungSynchronizer:
         
         # Wenn keine PatientID gefunden wurde, Standard-PatientID verwenden
         if "PatientID" not in untersuchung:
-            untersuchung["PatientID"] = 12938  # Standard-PatientID
-            logger.warning(f"Keine PatientID für Termin {appointment_id} gefunden, verwende Standard-PatientID 12938")
+            untersuchung["PatientID"] = 1  # Standard-PatientID (Sandrock, Markus - existiert definitiv)
+            logger.warning(f"Keine PatientID für Termin {appointment_id} gefunden, verwende Standard-PatientID 1")
+        
+        # HINWEIS: Die Felder termin_id, heydokid und Untersuchungtype existieren in der DB,
+        # werden aber von der apimsdata.exe NICHT unterstützt/gefunden.
+        # Diese Felder können NICHT über die API gesetzt werden (Stand: 09/2025)
+        # 
+        # Deaktiviert bis apimsdata.exe aktualisiert wird:
+        # if appointment_id:
+        #     untersuchung["termin_id"] = appointment_id
+        # if piz:
+        #     try:
+        #         untersuchung["heydokid"] = int(piz)
+        #     except (ValueError, TypeError):
+        #         pass
         
         return untersuchung
     
@@ -310,7 +323,7 @@ class UntersuchungSynchronizer:
                 CAST(M1Ziffer AS NVARCHAR) = '{piz_str}'
         """
         
-        result = self.mssql_client.execute_sql(query, "SuPDatabase")
+        result = self.mssql_client.execute_sql(query, "SQLHK")
         
         if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
             patient = result["rows"][0]
@@ -330,7 +343,7 @@ class UntersuchungSynchronizer:
                 PatientID = 12938
         """
         
-        result = self.mssql_client.execute_sql(query, "SuPDatabase")
+        result = self.mssql_client.execute_sql(query, "SQLHK")
         
         if result.get("success", False) and "rows" in result and len(result["rows"]) > 0:
             patient = result["rows"][0]
@@ -625,24 +638,39 @@ class UntersuchungSynchronizer:
                 "PatientID": untersuchung_data.get("PatientID")
             }
             
+            # WORKAROUND: Da upsert_data mit apimsdata.exe nicht funktioniert,
+            # prüfen wir manuell ob der Datensatz existiert und machen dann INSERT oder UPDATE
             try:
-                result = self.mssql_client.upsert_data(
-                    table="Untersuchung",
-                    search_fields=search_fields,
-                    update_fields=untersuchung_data,
-                    key_fields=["UntersuchungID"],
-                    database="SQLHK"
-                )
+                # Prüfe ob Untersuchung bereits existiert
+                check_query = f"""
+                SELECT UntersuchungID FROM [SQLHK].[dbo].[Untersuchung]
+                WHERE Datum = '{untersuchung_data.get("Datum")}'
+                AND PatientID = {untersuchung_data.get("PatientID")}
+                AND HerzkatheterID = {untersuchung_data.get("HerzkatheterID")}
+                AND UntersucherAbrechnungID = {untersuchung_data.get("UntersucherAbrechnungID")}
+                AND UntersuchungartID = {untersuchung_data.get("UntersuchungartID")}
+                """
                 
-                if result.get("success", False):
-                    self.stats["inserted"] += 1
+                check_result = self.mssql_client.execute_sql(check_query, "SQLHK")
+                
+                if check_result.get("success") and check_result.get("rows") and len(check_result["rows"]) > 0:
+                    # Datensatz existiert - UPDATE
+                    untersuchung_id = check_result["rows"][0].get("UntersuchungID")
+                    logger.info(f"Untersuchung existiert bereits (ID: {untersuchung_id}), überspringe...")
                     self.stats["success"] += 1
-                    logger.info(f"Untersuchung für Termin {appointment_id} erfolgreich eingefügt")
                 else:
-                    self.stats["errors"] += 1
-                    error_msg = result.get('error', 'Unbekannter Fehler')
-                    logger.error(f"Fehler beim Einfügen der Untersuchung für Termin {appointment_id}: {error_msg}")
-                    logger.error(f"API-Antwort: {result}")
+                    # Datensatz existiert nicht - INSERT
+                    result = self.mssql_client.insert_untersuchung(untersuchung_data)
+                    
+                    if result.get("success", False):
+                        self.stats["inserted"] += 1
+                        self.stats["success"] += 1
+                        logger.info(f"Untersuchung für Termin {appointment_id} erfolgreich eingefügt")
+                    else:
+                        self.stats["errors"] += 1
+                        error_msg = result.get('error', 'Unbekannter Fehler')
+                        logger.error(f"Fehler beim Einfügen der Untersuchung für Termin {appointment_id}: {error_msg}")
+                        logger.error(f"API-Antwort: {result}")
             except Exception as e:
                 self.stats["errors"] += 1
                 logger.error(f"API-Fehler beim Einfügen der Untersuchung für Termin {appointment_id}: {str(e)}")

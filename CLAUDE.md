@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Memory Bank - Active Projects
+
+### Project Index
+1. **CallDocInterface** - Medical appointment synchronization system (THIS PROJECT)
+   - Location: `C:\Users\administrator.PRAXIS\PycharmProjects\calldocinterface`
+   - Purpose: Bidirectional sync between CallDoc and SQLHK databases
+   - Main Entry: `sync_gui_qt.py` (GUI) or `sync_api_server.py` (API)
+
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
@@ -206,6 +214,18 @@ python debug_untersuchungen.py
 
 # Check patient data structure
 python check_patient_structure.py
+
+# Test 24.09.2025 synchronization (mit Patientenerstellung)
+python sync_24_september_complete.py
+
+# Test 30.09.2025 synchronization
+python sync_30_september.py
+
+# Verify INSERT operations
+python verify_insert.py
+
+# Test direct INSERT bypassing upsert_data
+python test_direct_insert.py
 ```
 
 ### Data Validation Files
@@ -220,26 +240,112 @@ python check_patient_structure.py
 - Icon: `sync_app.ico` (custom created with sync arrows)
 - Console mode: False (GUI application)
 - Spec file: `CallDocSync.spec`
-- Hidden imports: Flask, PyQt5, matplotlib, pandas, etc.
-- Output: `dist/CallDocSync.exe` (standalone, no Python required)
+- Hidden imports: Flask, PyQt5, matplotlib, pandas, numpy (WICHTIG: NumPy/Pandas für Matplotlib!)
+- Output: `dist/CallDocSync.exe` (standalone, no Python required, ~90MB)
+
+### Build-Befehl
+```bash
+pyinstaller CallDocSync.spec --noconfirm --clean
+```
+
+### Lokales Deployment
+- **Lokale EXE**: `C:\Users\administrator.PRAXIS\PycharmProjects\calldocinterface\dist\CallDocSync.exe`
+- **Desktop-Shortcut**: Erstellt mit `create_shortcut.py`
+
+### Netzwerk-Deployment (22.09.2025)
+- **Netzlaufwerk**: `P:\MCP\Calldocinterface\`
+- **Enthaltene Dateien**:
+  - CallDocSync.exe (89.7 MB)
+  - CallDocSync_Start.bat (Starter-Script)
+  - sync_app.ico
+  - README.md (Benutzer-Dokumentation)
+  - CLAUDE.md (Technische Dokumentation)
+  - SYNC_FIX_DOKUMENTATION.md (Fehlerbehebungen)
+- **Desktop-Shortcut**: "CallDocSync (Netzwerk)" erstellt mit `create_network_shortcut.py`
+- **Ausführung**:
+  1. Desktop-Shortcut "CallDocSync (Netzwerk)"
+  2. Batch-Datei `P:\MCP\Calldocinterface\CallDocSync_Start.bat`
+  3. Direkt `P:\MCP\Calldocinterface\CallDocSync.exe`
 
 ### Production Configuration
 - Scheduler runs every hour (configurable in config.json)
 - Logs stored with timestamp: `sync_gui_YYYYMMDD_HHMMSS.log`
 - Auto-sync on startup if configured
+- Läuft direkt vom Netzlaufwerk ohne lokale Installation
 
 ## Common Troubleshooting
 
 ### Connection Issues
-1. Check VPN/network to reach 192.168.x.x addresses
-2. Verify SQL Server allows remote connections
-3. Check SQLHK API service is running on port 7007
+1. **WICHTIG: apimsdata.exe muss laufen!** - Diese Anwendung stellt die SQL-Verbindung zum Server her
+   - Ohne apimsdata.exe gibt es 500 Internal Server Errors beim upsert_data
+   - Die apimsdata.exe managed den SQL Traffic zum Server (192.168.1.67:7007)
+2. Check VPN/network to reach 192.168.x.x addresses
+3. Verify SQL Server allows remote connections
+4. Check SQLHK API service is running on port 7007
 
 ### Sync Discrepancies
 1. Verify appointment_type_mapping is loaded correctly
 2. Check date format conversions
 3. Review patient ID matching logic
 4. Examine sync_result JSON files for detailed errors
+
+## CRITICAL SYNCHRONIZATION FIXES (22.09.2025)
+
+### Problem: Synchronisation funktionierte nicht
+Die Synchronisation zwischen CallDoc und SQLHK schlug fehl - Patienten und Untersuchungen wurden nicht eingefügt.
+
+### Gefundene Fehler und Lösungen:
+
+#### 1. ❌ FALSCHER DATENBANKNAME bei Patient-Lookups für Untersuchungen
+**Problem**: In `untersuchung_synchronizer.py` wurden Patienten in "SuPDatabase" gesucht statt in "SQLHK"
+**Kontext**: Beim Synchronisieren von Untersuchungen müssen Patienten aus SQLHK gelesen werden, da dort die Untersuchungen gespeichert werden
+**Lösung**: Für Untersuchungs-bezogene Patient-Lookups:
+```python
+self.mssql_client.execute_sql(query, "SuPDatabase")  # FALSCH für Untersuchungen
+```
+Ersetzen durch:
+```python
+self.mssql_client.execute_sql(query, "SQLHK")  # RICHTIG für Untersuchungen
+```
+**WICHTIG**: SuPDatabase wird für andere Zwecke weiterhin verwendet - nur bei Untersuchungen ist SQLHK korrekt!
+
+#### 2. ❌ upsert_data Endpoints funktionieren nicht
+**Problem**: Die `/api/upsert_data` Endpoints geben 500 Fehler zurück
+**Workaround**: Manuelles SELECT vor INSERT/UPDATE:
+```python
+# Prüfe ob Datensatz existiert
+check_result = self.mssql_client.execute_sql(check_query, "SQLHK")
+if check_result.get("rows"):
+    # UPDATE oder skip
+else:
+    # INSERT
+    result = self.mssql_client.insert_untersuchung(data)
+```
+
+#### 3. ❌ INSERT-Fehler falsch interpretiert
+**Problem**: "This result object does not return rows" wurde als Fehler behandelt
+**Lösung**: Diese Meldung ist NORMAL bei INSERT - als Erfolg behandeln:
+```python
+if result.get("error") and "does not return rows" in str(result.get("error")):
+    return {"success": True, "message": "Erfolgreich eingefügt"}
+```
+
+#### 4. ❌ Fehlende Mappings zwischen CallDoc und SQLHK
+**Problem**: Keine Zuordnungen zwischen IDs existierten
+**Lösung**: Mappings wurden in DB erstellt:
+- appointment_type 24 → UntersuchungartID 1
+- room_id → HerzkatheterID (z.B. 54→3, 19→2, 18→1, 61→6)  
+- employee_id → UntersucherAbrechnungID (z.B. 18→1, 27→2, 50→12)
+
+### WICHTIGE REGELN für die Zukunft:
+1. **RICHTIGE DATENBANK VERWENDEN**:
+   - **SQLHK**: Für Untersuchungen, Patienten, Herzkatheter, Untersucherabrechnung
+   - **SuPDatabase**: Für andere Abfragen (je nach Kontext)
+   - **KRITISCH**: Patient-Lookups für Untersuchungen MÜSSEN in "SQLHK" erfolgen, NICHT in "SuPDatabase"
+2. **apimsdata.exe MUSS laufen** für SQL-Operationen
+3. **Mappings müssen existieren** zwischen CallDoc und SQLHK IDs
+4. **INSERT-Meldung "does not return rows" ist NORMAL**, nicht als Fehler behandeln
+5. **Bei 500-Fehlern von upsert_data**: Workaround mit direktem SQL verwenden
 
 ### Performance Optimization
 - Patient data is cached during sync session (max 1000 entries)

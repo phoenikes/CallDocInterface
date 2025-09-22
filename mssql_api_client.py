@@ -236,9 +236,6 @@ class MsSqlApiClient:
                 u.Herzteam,
                 CAST(u.Materialpreis AS VARCHAR(20)) as Materialpreis,
                 u.DRGID,
-                u.Untersuchungtype,
-                u.heydokid,
-                u.termin_id,
                 p.Nachname, 
                 p.Vorname, 
                 p.Geburtsdatum, 
@@ -321,12 +318,68 @@ class MsSqlApiClient:
         Returns:
             Ergebnis der Operation als Dictionary
         """
-        return self.upsert_data(
-            table="Untersuchung",
-            search_fields={},  # Leere Suche für Insert
-            update_fields=untersuchung_data,
-            key_fields=["UntersuchungID"]
-        )
+        # WORKAROUND: Da upsert_data mit apimsdata.exe nicht funktioniert,
+        # verwenden wir direktes SQL INSERT
+        try:
+            # Erstelle die Spaltenliste und Werteliste
+            columns = []
+            values = []
+            
+            # Pflichtfelder
+            required_fields = ["Datum", "PatientID", "UntersuchungartID", 
+                             "HerzkatheterID", "UntersucherAbrechnungID", 
+                             "ZuweiserID", "Roentgen", "Herzteam", 
+                             "Materialpreis", "DRGID"]
+            
+            for field in required_fields:
+                if field in untersuchung_data:
+                    columns.append(field)
+                    value = untersuchung_data[field]
+                    # Formatierung je nach Typ
+                    if isinstance(value, str):
+                        values.append(f"'{value}'")
+                    else:
+                        values.append(str(value))
+            
+            # Optionale Felder - DEAKTIVIERT weil apimsdata.exe diese nicht unterstützt
+            # Die Felder existieren in der DB, aber nicht über die API
+            # optional_fields = ["termin_id", "heydokid", "Untersuchungtype"]
+            # for field in optional_fields:
+            #     if field in untersuchung_data and untersuchung_data[field] is not None:
+            #         columns.append(field)
+            #         value = untersuchung_data[field]
+            #         if isinstance(value, str):
+            #             values.append(f"'{value}'")
+            #         else:
+            #             values.append(str(value))
+            
+            # Erstelle INSERT Statement
+            insert_sql = f"""
+            INSERT INTO [SQLHK].[dbo].[Untersuchung] 
+            ({', '.join(columns)})
+            VALUES 
+            ({', '.join(values)})
+            """
+            
+            logger.info(f"Führe INSERT aus: {insert_sql}")
+            
+            # Führe INSERT aus
+            result = self.execute_sql(insert_sql, "SQLHK")
+            
+            # Prüfe Ergebnis
+            # INSERT gibt normalerweise keine Zeilen zurück, aber einen Fehler bei success=False
+            if result.get("error") and "This result object does not return rows" in str(result.get("error")):
+                # Das ist normal bei INSERT - es werden keine Zeilen zurückgegeben
+                return {"success": True, "message": "Untersuchung erfolgreich eingefügt"}
+            elif result.get("success"):
+                return {"success": True, "message": "Untersuchung erfolgreich eingefügt"}
+            else:
+                return result
+                
+        except Exception as e:
+            error_msg = f"Fehler beim INSERT: {str(e)}"
+            logger.error(error_msg)
+            return {"error": error_msg, "success": False}
     
     def update_untersuchung(self, untersuchung_id: int, untersuchung_data: Dict[str, Any]) -> Dict[str, Any]:
         """
