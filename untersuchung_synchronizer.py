@@ -683,7 +683,8 @@ class UntersuchungSynchronizer:
             import traceback
             logger.error(f"Stacktrace: {traceback.format_exc()}")
 
-    def synchronize_appointments(self, appointments: List[Dict[str, Any]], untersuchungen: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def synchronize_appointments(self, appointments: List[Dict[str, Any]], untersuchungen: List[Dict[str, Any]], 
+                                single_patient_mode: bool = False, target_piz: Optional[str] = None) -> Dict[str, Any]:
         """
         Synchronisiert CallDoc-Termine mit SQLHK-Untersuchungen.
         
@@ -693,6 +694,8 @@ class UntersuchungSynchronizer:
         Args:
             appointments: Liste der CallDoc-Termine
             untersuchungen: Liste der SQLHK-Untersuchungen
+            single_patient_mode: True für Single-Patient-Modus (verhindert Löschung anderer Patienten)
+            target_piz: PIZ des zu synchronisierenden Patienten (nur im Single-Patient-Modus)
             
         Returns:
             Statistik der Synchronisierung
@@ -713,9 +716,28 @@ class UntersuchungSynchronizer:
         
         logger.info(f"Starte Synchronisierung: {len(appointments)} CallDoc-Termine, {len(untersuchungen)} SQLHK-Untersuchungen")
         
+        # Im Single-Patient-Modus zusätzliche Validierung
+        if single_patient_mode:
+            if not target_piz:
+                logger.error("Single-Patient-Modus aktiviert, aber keine target_piz angegeben")
+                self.stats["errors"] += 1
+                return self.stats
+            logger.info(f"Single-Patient-Modus: Synchronisiere nur Patient mit PIZ {target_piz}")
+        
         # Aktive Termine identifizieren (nicht storniert)
         active_appointments = [app for app in appointments if app.get("status") != "canceled"]
-        logger.info(f"{len(active_appointments)} aktive Termine gefunden")
+        
+        # Im Single-Patient-Modus: Filtere Termine nach target_piz
+        if single_patient_mode and target_piz:
+            filtered_appointments = []
+            for app in active_appointments:
+                app_piz = app.get("piz")
+                if str(app_piz) == str(target_piz):
+                    filtered_appointments.append(app)
+            active_appointments = filtered_appointments
+            logger.info(f"Single-Patient-Filter: {len(active_appointments)} Termine für PIZ {target_piz} gefunden")
+        else:
+            logger.info(f"{len(active_appointments)} aktive Termine gefunden")
         
         # Obsolete Untersuchungen identifizieren und löschen
         # Dies sind Untersuchungen, die in der Datenbank existieren, aber keinen aktiven Termin mehr haben
@@ -731,10 +753,16 @@ class UntersuchungSynchronizer:
                     logger.error(f"Fehler beim Extrahieren des Datums: {str(e)}")
         
         # Lösche obsolete Untersuchungen, wenn ein Datum gefunden wurde
+        # WICHTIG: Im Single-Patient-Modus KEINE Löschung durchführen!
         deleted_count = 0
-        if date_str:
+        if date_str and not single_patient_mode:
             deleted_count = self._delete_obsolete_untersuchungen(active_appointments, untersuchungen, date_str)
             self.stats["deleted"] = deleted_count
+            logger.info(f"Obsolete Untersuchungen gelöscht: {deleted_count}")
+        elif single_patient_mode:
+            logger.info("Single-Patient-Modus: Überspringe Löschung obsoleter Untersuchungen (Sicherheit)")
+        else:
+            logger.info("Kein Datum gefunden: Überspringe Löschung obsoleter Untersuchungen")
         
         # Für jeden aktiven Termin prüfen, ob er bereits in SQLHK existiert
         to_insert = []

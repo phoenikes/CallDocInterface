@@ -136,6 +136,24 @@ class SyncTask:
         }
 
 
+class SinglePatientSyncTask(SyncTask):
+    """Repräsentiert eine Single-Patient Synchronisierungs-Aufgabe"""
+    
+    def __init__(self, task_id: str, date_str: str, piz: str, appointment_type_id: int = None):
+        super().__init__(task_id, date_str, appointment_type_id)
+        self.piz = piz
+        self.sync_type = "single_patient"
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Konvertiert Task zu Dictionary für JSON Response"""
+        result = super().to_dict()
+        result.update({
+            "piz": self.piz,
+            "sync_type": self.sync_type
+        })
+        return result
+
+
 def run_synchronization(task: SyncTask):
     """
     Führt die Synchronisierung in einem separaten Thread aus.
@@ -266,6 +284,166 @@ def run_synchronization(task: SyncTask):
         task.error = str(e)
         task.end_time = datetime.now()
         logger.error(f"Fehler bei Synchronisierung für Task {task.task_id}: {str(e)}")
+    
+    finally:
+        # Task aus aktiven Syncs entfernen nach 5 Minuten
+        def cleanup():
+            import time
+            time.sleep(300)  # 5 Minuten warten
+            with sync_lock:
+                if task.task_id in active_syncs:
+                    del active_syncs[task.task_id]
+        
+        cleanup_thread = threading.Thread(target=cleanup)
+        cleanup_thread.daemon = True
+        cleanup_thread.start()
+
+
+def run_single_patient_synchronization(task: SinglePatientSyncTask):
+    """
+    Führt die Single-Patient-Synchronisierung in einem separaten Thread aus.
+    """
+    try:
+        task.status = "running"
+        task.start_time = datetime.now()
+        logger.info(f"Starte Single-Patient-Synchronisierung für Task {task.task_id}: PIZ={task.piz}, Datum={task.date_str}")
+        
+        # Konvertiere Datum für SQLHK (DD.MM.YYYY)
+        date_parts = task.date_str.split('-')
+        sqlhk_date = f"{date_parts[2]}.{date_parts[1]}.{date_parts[0]}"
+        
+        # 1. ALLE CallDoc Termine des Tages abrufen (wichtig für korrekte Funktionalität)
+        logger.info(f"Rufe ALLE CallDoc Termine ab für {task.date_str}")
+        calldoc_client = CallDocInterface(
+            from_date=task.date_str,
+            to_date=task.date_str
+        )
+        
+        response = calldoc_client.appointment_search(
+            appointment_type_id=task.appointment_type_id
+        )
+        
+        if 'error' in response:
+            raise Exception(f"CallDoc API Fehler: {response}")
+        
+        all_appointments = response.get('data', [])
+        
+        # Filter nach appointment_type
+        filtered_appointments = [
+            a for a in all_appointments 
+            if a.get('appointment_type') == task.appointment_type_id
+        ]
+        
+        # Filter nach Status (aktive Termine)
+        active_appointments = [
+            a for a in filtered_appointments 
+            if a.get('status') != 'canceled'
+        ]
+        
+        # Filtere nach target_piz (der eigentliche Single-Patient-Filter)
+        patient_appointments = []
+        for app in active_appointments:
+            app_piz = app.get("piz")
+            if str(app_piz) == str(task.piz):
+                patient_appointments.append(app)
+        
+        logger.info(f"CallDoc: {len(all_appointments)} total, {len(filtered_appointments)} gefiltert, {len(active_appointments)} aktiv, {len(patient_appointments)} für PIZ {task.piz}")
+        
+        if not patient_appointments:
+            logger.warning(f"Keine Termine für PIZ {task.piz} am {task.date_str} gefunden")
+            task.result = {
+                "message": f"Keine Termine für PIZ {task.piz} gefunden",
+                "calldoc": {
+                    "total_appointments": len(all_appointments),
+                    "filtered_appointments": len(filtered_appointments),
+                    "active_appointments": len(active_appointments),
+                    "patient_appointments": len(patient_appointments)
+                }
+            }
+            task.status = "completed"
+            task.end_time = datetime.now()
+            return
+        
+        # Patientendaten anreichern
+        logger.info("Reichere Patient-Termine mit Patientendaten an...")
+        for appointment in patient_appointments:
+            piz = appointment.get("piz")
+            if piz:
+                try:
+                    patient_response = calldoc_client.get_patient_by_piz(piz)
+                    if patient_response and not patient_response.get("error"):
+                        patients_list = patient_response.get("patients", [])
+                        if patients_list and len(patients_list) > 0 and patients_list[0] is not None:
+                            patient_data = patients_list[0]
+                            if isinstance(patient_data, dict):
+                                appointment["patient"] = patient_data
+                                logger.info(f"Patient gefunden: {patient_data.get('surname')}, {patient_data.get('name')}")
+                except Exception as e:
+                    logger.warning(f"Fehler beim Laden der Patientendaten für PIZ {piz}: {str(e)}")
+        
+        # 2. SQLHK Untersuchungen abrufen (nur für Vergleich)
+        logger.info(f"Rufe SQLHK Untersuchungen ab für {sqlhk_date}")
+        mssql_client = MsSqlApiClient()
+        sqlhk_untersuchungen = mssql_client.get_untersuchungen_by_date(sqlhk_date)
+        
+        logger.info(f"SQLHK: {len(sqlhk_untersuchungen)} Untersuchungen gefunden")
+        
+        # 3. Patienten synchronisieren (nur der eine Patient)
+        logger.info(f"Starte Patienten-Synchronisierung für PIZ {task.piz}...")
+        patient_sync = PatientSynchronizer()
+        patient_result = patient_sync.sync_patients_from_appointments(patient_appointments)
+        
+        # 4. Untersuchungen synchronisieren (SINGLE-PATIENT-MODUS aktiviert!)
+        logger.info(f"Starte Untersuchungs-Synchronisierung für PIZ {task.piz} (Single-Patient-Modus)...")
+        
+        untersuchung_sync = UntersuchungSynchronizer()
+        untersuchung_result = untersuchung_sync.synchronize_appointments(
+            patient_appointments,  # Nur die Termine des einen Patienten
+            sqlhk_untersuchungen,  # Alle Untersuchungen des Tages (für Vergleich)
+            single_patient_mode=True,  # WICHTIG: Verhindert Löschung anderer Patienten
+            target_piz=task.piz        # PIZ für zusätzliche Validierung
+        )
+        
+        # Ergebnis zusammenstellen
+        task.result = {
+            "piz": task.piz,
+            "single_patient_mode": True,
+            "calldoc": {
+                "total_appointments": len(all_appointments),
+                "filtered_appointments": len(filtered_appointments),
+                "active_appointments": len(active_appointments),
+                "patient_appointments": len(patient_appointments)
+            },
+            "sqlhk": {
+                "existing_untersuchungen": len(sqlhk_untersuchungen)
+            },
+            "patient_sync": {
+                "successful": patient_result.get("successful", 0),
+                "failed": patient_result.get("failed", 0),
+                "inserted": patient_result.get("inserted", 0),
+                "updated": patient_result.get("updated", 0)
+            },
+            "untersuchung_sync": {
+                "inserted": untersuchung_result.get("inserted", 0),
+                "updated": untersuchung_result.get("updated", 0),
+                "deleted": untersuchung_result.get("deleted", 0),  # Sollte 0 sein im Single-Patient-Modus
+                "failed": untersuchung_result.get("failed", 0)
+            },
+            "summary": {
+                "patient_processed": len(patient_appointments),
+                "safety_note": "Andere Patienten wurden nicht berührt (Single-Patient-Modus)"
+            }
+        }
+        
+        task.status = "completed"
+        task.end_time = datetime.now()
+        logger.info(f"Single-Patient-Synchronisierung abgeschlossen für Task {task.task_id}")
+        
+    except Exception as e:
+        task.status = "failed"
+        task.error = str(e)
+        task.end_time = datetime.now()
+        logger.error(f"Fehler bei Single-Patient-Synchronisierung für Task {task.task_id}: {str(e)}")
     
     finally:
         # Task aus aktiven Syncs entfernen nach 5 Minuten
@@ -427,6 +605,93 @@ def cancel_sync(task_id):
         "message": "Cancellation requested",
         "task_id": task_id
     })
+
+
+@app.route('/api/sync/patient', methods=['POST'])
+def sync_single_patient():
+    """
+    Synchronisiert einen einzelnen Patienten anhand der M1Ziffer (PIZ).
+    
+    Request Body:
+    {
+        "date": "2025-08-20",           # Format: YYYY-MM-DD
+        "piz": "12345",                 # M1Ziffer des Patienten
+        "appointment_type_id": 24       # Optional, default: 24 (Herzkatheteruntersuchung)
+    }
+    """
+    try:
+        data = request.json
+        
+        # Validierung
+        if not data or 'date' not in data or 'piz' not in data:
+            return jsonify({
+                "error": "Missing required fields: date, piz",
+                "example": {
+                    "date": "2025-08-20",
+                    "piz": "12345",
+                    "appointment_type_id": 24
+                }
+            }), 400
+        
+        date_str = data['date']
+        piz = str(data['piz'])
+        appointment_type_id = data.get('appointment_type_id', 24)
+        
+        # Datum validieren
+        try:
+            datetime.strptime(date_str, '%Y-%m-%d')
+        except ValueError:
+            return jsonify({
+                "error": "Invalid date format. Use YYYY-MM-DD"
+            }), 400
+        
+        # PIZ validieren
+        if not piz or piz.strip() == "":
+            return jsonify({
+                "error": "PIZ cannot be empty"
+            }), 400
+        
+        # Task ID generieren
+        task_id = f"patient_sync_{piz}_{date_str}_{appointment_type_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        
+        # Prüfen ob bereits eine Sync für diesen Patienten an diesem Tag läuft
+        with sync_lock:
+            running_tasks = [
+                t for t in active_syncs.values() 
+                if hasattr(t, 'piz') and t.piz == piz and t.date_str == date_str and t.status == "running"
+            ]
+            if running_tasks:
+                return jsonify({
+                    "error": "Patient synchronization already running for this date",
+                    "task_id": running_tasks[0].task_id
+                }), 409
+            
+            # Neue Task erstellen
+            task = SinglePatientSyncTask(task_id, date_str, piz, appointment_type_id)
+            active_syncs[task_id] = task
+        
+        # Synchronisierung in separatem Thread starten
+        thread = threading.Thread(
+            target=run_single_patient_synchronization,
+            args=(task,)
+        )
+        thread.daemon = True
+        thread.start()
+        task.thread = thread
+        
+        return jsonify({
+            "message": "Single patient synchronization started",
+            "task_id": task_id,
+            "piz": piz,
+            "date": date_str,
+            "status_url": f"/api/sync/status/{task_id}"
+        }), 202
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Starten der Patient-Synchronisierung: {str(e)}")
+        return jsonify({
+            "error": str(e)
+        }), 500
 
 
 # Server starten
