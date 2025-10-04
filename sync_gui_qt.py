@@ -303,7 +303,11 @@ class SyncApp(QMainWindow):
         self.title = 'CallDoc-SQLHK Synchronisierung'
         self.sync_worker = None
         self.sync_results = {}
+        self.api_server_thread = None
+        self.api_server = None
+        self.api_server_running = False
         self.initUI()
+        self.start_api_server_background()
         
     def initUI(self):
         """
@@ -667,6 +671,86 @@ class SyncApp(QMainWindow):
             )
         except Exception as e:
             QMessageBox.critical(self, "API Test", f"Fehler: {str(e)}")
+    
+    def start_api_server_background(self):
+        """
+        Startet den API-Server im Hintergrund.
+        API läuft auf Port 5555 und ermöglicht Single-Patient Synchronisation.
+        """
+        try:
+            import threading
+            from werkzeug.serving import make_server
+            from sync_api_server import app
+            
+            # Der Server muss im Thread laufen, aber wir können noch nicht loggen
+            # da die GUI noch nicht vollständig initialisiert ist
+            def run_api():
+                try:
+                    self.api_server_running = True
+                    print("API Server wird auf Port 5555 gestartet...")
+                    
+                    # Verwende Werkzeug's make_server für nicht-blockierenden Server
+                    server = make_server('0.0.0.0', 5555, app, threaded=True)
+                    self.api_server = server
+                    
+                    print("API Server läuft auf http://localhost:5555")
+                    # serve_forever blockiert, aber läuft in eigenem Thread
+                    server.serve_forever()
+                    
+                except Exception as e:
+                    self.api_server_running = False
+                    print(f"API Server Fehler: {str(e)}")
+            
+            # Starte API in separatem Thread
+            self.api_server_thread = threading.Thread(target=run_api)
+            self.api_server_thread.daemon = True  # Thread stirbt mit GUI
+            self.api_server_thread.start()
+            
+            # Kurz warten und Status prüfen
+            import time
+            time.sleep(2)
+            
+            # Prüfe ob Server wirklich läuft
+            import requests
+            try:
+                response = requests.get("http://localhost:5555/health", timeout=1)
+                if response.status_code == 200:
+                    print("✅ API Server läuft auf http://localhost:5555")
+                    print("Single-Patient API verfügbar: POST /api/sync/patient")
+                    # Später in GUI loggen wenn append_log verfügbar
+                    if hasattr(self, 'log_text'):
+                        self.append_log("✅ API Server läuft auf http://localhost:5555")
+                        self.append_log("Single-Patient API verfügbar: POST /api/sync/patient")
+            except:
+                print("⚠️ API Server startet noch...")
+            
+        except Exception as e:
+            print(f"Fehler beim Starten des API-Servers: {str(e)}")
+    
+    def closeEvent(self, event):
+        """
+        Wird aufgerufen wenn das Fenster geschlossen wird.
+        Stoppt den API-Server sauber.
+        """
+        if self.api_server_thread and self.api_server_thread.is_alive():
+            if hasattr(self, 'log_text'):
+                self.append_log("Stoppe API Server...")
+            else:
+                print("Stoppe API Server...")
+            # Stoppe den Werkzeug-Server
+            if hasattr(self, 'api_server'):
+                try:
+                    self.api_server.shutdown()
+                except:
+                    pass
+            # Thread ist daemon=True, wird automatisch beendet
+        
+        # Stoppe laufende Synchronisation wenn vorhanden
+        if self.sync_worker and self.sync_worker.isRunning():
+            self.sync_worker.stop()
+            self.sync_worker.wait()
+        
+        event.accept()
     
     def export_logs(self):
         """

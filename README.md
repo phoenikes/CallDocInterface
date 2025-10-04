@@ -21,13 +21,16 @@ Bidirektionales Synchronisationssystem zwischen CallDoc Terminverwaltung und SQL
 - **Thread-sichere** Ausführung mit Fortschrittsanzeige
 
 ### 2. REST API Server (sync_api_server.py)
-- Läuft auf Port 5555
-- Ermöglicht automatisierte Synchronisation ohne GUI
+- Läuft automatisch auf Port 5555 beim Start der GUI
+- Ermöglicht automatisierte Synchronisation via HTTP/REST
+- **NEU: Single-Patient Synchronisation** für gezielte Einzelpatient-Updates
 - Endpoints:
+  - `POST /api/sync/patient` - **NEU:** Synchronisiert einzelnen Patienten via M1Ziffer
   - `POST /api/sync` - Startet Synchronisation für bestimmtes Datum
-  - `GET /api/sync/status/{task_id}` - Status-Abfrage
-  - `GET /api/sync/active` - Zeigt alle aktiven Syncs
-  - `GET /health` - Health Check
+  - `GET /api/sync/status/{task_id}` - Status-Abfrage mit Echtzeit-Fortschritt
+  - `GET /api/sync/active` - Zeigt alle aktiven Synchronisierungen
+  - `GET /health` - Health Check für Monitoring
+- Vollständige Dokumentation: siehe [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
 
 ### 3. Datenbank-Synchronisierung
 - **Tagesweise Synchronisierung:** Abgleich der CallDoc-Termine mit der SQLHK-Datenbank
@@ -45,9 +48,13 @@ Bidirektionales Synchronisationssystem zwischen CallDoc Terminverwaltung und SQL
 ## Wichtige Dateien & Klassen
 
 ### GUI & API Komponenten
-- **sync_gui_qt.py**: Moderne PyQt5 GUI-Anwendung mit Dashboard
-- **sync_api_server.py**: Flask REST API Server für Automatisierung
+- **sync_gui_qt.py**: Moderne PyQt5 GUI-Anwendung mit Dashboard und integrierter API
+- **sync_api_server.py**: Flask REST API Server (startet automatisch mit GUI)
+- **single_patient_sync.py**: NEU - Unabhängige Single-Patient Synchronisation
 - **api_documentation_dialog.py**: Integrierte API-Dokumentation in GUI
+- **API_DOCUMENTATION.md**: Vollständige API-Dokumentation für externe Programme
+- **API_QUICK_REFERENCE.md**: Kompakte API-Übersicht mit Beispielen
+- **API_EXAMPLES.md**: Getestete, funktionierende Beispiele mit echten Daten (04.10.2025)
 - **CallDocSync.spec**: PyInstaller Build-Konfiguration
 - **sync_app.ico**: Anwendungs-Icon
 
@@ -69,25 +76,34 @@ Bidirektionales Synchronisationssystem zwischen CallDoc Terminverwaltung und SQL
 
 ### Schnellstart - Desktop Shortcut
 1. **Doppelklick** auf "CallDoc-SQLHK Sync" auf dem Desktop
-2. **Datum wählen** oder Heute/Morgen Button nutzen
-3. **Synchronisieren** klicken
-4. **Fortschritt** im Protokoll verfolgen
+2. **API startet automatisch** auf Port 5555
+3. **Datum wählen** oder Heute/Morgen Button nutzen
+4. **Synchronisieren** klicken
+5. **Fortschritt** im Protokoll verfolgen
 
-### GUI-Anwendung
+### GUI-Anwendung (mit integrierter API)
 ```powershell
-# Direkt starten
+# Direkt starten (API läuft automatisch mit)
 python sync_gui_qt.py
 
-# Oder über die EXE
-C:\Users\administrator.PRAXIS\dist\CallDocSync.exe
+# Oder über die EXE (API integriert)
+CallDocSyncWithAPI.exe
 ```
 
-### REST API Server
-```powershell
-# API Server starten
-python sync_api_server.py
+### REST API Nutzung (läuft automatisch)
 
-# Synchronisation triggern (PowerShell)
+#### NEU: Single-Patient Synchronisation
+```powershell
+# PowerShell - Einzelnen Patienten synchronisieren
+Invoke-RestMethod -Uri "http://localhost:5555/api/sync/patient" `
+  -Method POST `
+  -Body (@{piz="1698369"; date="2025-10-06"} | ConvertTo-Json) `
+  -ContentType "application/json"
+```
+
+#### Vollständige Synchronisation
+```powershell
+# PowerShell - Alle Patienten eines Tages
 Invoke-RestMethod -Uri "http://localhost:5555/api/sync" `
   -Method POST `
   -Body '{"date":"2025-08-20","appointment_type_id":24}' `

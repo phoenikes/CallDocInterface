@@ -24,6 +24,7 @@ from calldoc_interface import CallDocInterface
 from mssql_api_client import MsSqlApiClient
 from untersuchung_synchronizer import UntersuchungSynchronizer
 from patient_synchronizer import PatientSynchronizer
+from single_patient_sync import SinglePatientSynchronizer
 
 # Konfiguration laden
 config_file = 'sync_api_config.json'
@@ -284,6 +285,54 @@ def run_synchronization(task: SyncTask):
         task.error = str(e)
         task.end_time = datetime.now()
         logger.error(f"Fehler bei Synchronisierung für Task {task.task_id}: {str(e)}")
+    
+    finally:
+        # Task aus aktiven Syncs entfernen nach 5 Minuten
+        def cleanup():
+            import time
+            time.sleep(300)  # 5 Minuten warten
+            with sync_lock:
+                if task.task_id in active_syncs:
+                    del active_syncs[task.task_id]
+        
+        cleanup_thread = threading.Thread(target=cleanup)
+        cleanup_thread.daemon = True
+        cleanup_thread.start()
+
+
+def run_single_patient_synchronization_new(task: SinglePatientSyncTask):
+    """
+    NEUE Implementierung: Führt Single-Patient Synchronisierung mit separater Logik aus.
+    Nutzt die komplett unabhängige SinglePatientSynchronizer Klasse.
+    """
+    try:
+        task.status = "running"
+        task.start_time = datetime.now()
+        logger.info(f"Starte Single-Patient Sync für Task {task.task_id}: PIZ={task.piz}, Datum={task.date_str}")
+        
+        # Verwende die NEUE, unabhängige Implementierung
+        synchronizer = SinglePatientSynchronizer()
+        result = synchronizer.sync_single_patient(
+            piz=task.piz,
+            date_str=task.date_str,
+            appointment_type_id=task.appointment_type_id
+        )
+        
+        task.result = result
+        task.status = "completed" if result.get("success") else "failed"
+        task.end_time = datetime.now()
+        
+        if result.get("success"):
+            logger.info(f"Single-Patient Sync erfolgreich für Task {task.task_id}")
+        else:
+            logger.error(f"Single-Patient Sync fehlgeschlagen für Task {task.task_id}: {result.get('message')}")
+            task.error = result.get("message")
+        
+    except Exception as e:
+        task.status = "failed"
+        task.error = str(e)
+        task.end_time = datetime.now()
+        logger.error(f"Fehler bei Single-Patient Sync für Task {task.task_id}: {str(e)}")
     
     finally:
         # Task aus aktiven Syncs entfernen nach 5 Minuten
@@ -671,8 +720,9 @@ def sync_single_patient():
             active_syncs[task_id] = task
         
         # Synchronisierung in separatem Thread starten
+        # WICHTIG: Verwende die NEUE Implementierung!
         thread = threading.Thread(
-            target=run_single_patient_synchronization,
+            target=run_single_patient_synchronization_new,
             args=(task,)
         )
         thread.daemon = True

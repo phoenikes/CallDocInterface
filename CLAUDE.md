@@ -13,11 +13,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
-### Current Version: 2.0
+### Current Version: 3.0 (with Single-Patient API)
 - **GUI Application**: Modern PyQt5 interface with real-time dashboard
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
-- **Desktop Integration**: Standalone EXE with desktop shortcut
-- **Last Updated**: 19.08.2025
+- **Single-Patient Sync**: NEW - Targeted synchronization via M1Ziffer
+- **Desktop Integration**: Standalone EXE with integrated API
+- **Last Updated**: 04.10.2025
 
 ## Architecture & Data Flow
 
@@ -53,9 +54,17 @@ CallDocInterface ←→ Synchronizers ←→ MsSqlApiClient (192.168.1.67:7007)
 # Create icon
 python create_simple_icon.py
 
-# Build EXE
-pyinstaller CallDocSync.spec --noconfirm
-# Output: dist/CallDocSync.exe
+# Build EXE with integrated API
+pyinstaller --onefile --windowed \
+  --name CallDocSyncWithAPI \
+  --collect-all PyQt5 --collect-all matplotlib \
+  --collect-all numpy --collect-all requests \
+  --exclude-module PyQt6 \
+  --add-data "single_patient_sync.py;." \
+  --add-data "sync_api_server.py;." \
+  sync_gui_qt.py
+
+# Output: dist/CallDocSyncWithAPI.exe
 
 # Create desktop shortcut
 python create_shortcut.py
@@ -70,13 +79,18 @@ python sync_gui_qt.py
 
 ### Run REST API Server
 ```bash
-# Start API server
-python sync_api_server.py
+# API starts automatically with GUI:
+python sync_gui_qt.py
 
-# Trigger sync via API
+# Single-Patient Sync (NEW!)
+curl -X POST http://localhost:5555/api/sync/patient \
+  -H "Content-Type: application/json" \
+  -d '{"piz": "1698369", "date": "2025-10-06"}'
+
+# Full-Day Sync
 curl -X POST http://localhost:5555/api/sync \
   -H "Content-Type: application/json" \
-  -d '{"date": "2025-08-20", "appointment_type_id": 24}'
+  -d '{"date": "2025-10-06", "appointment_type_id": 24}'
 ```
 
 ### Command-Line Synchronization
