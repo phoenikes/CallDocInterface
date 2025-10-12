@@ -18,7 +18,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
 - **Single-Patient Sync**: NEW - Targeted synchronization via M1Ziffer
 - **Desktop Integration**: Standalone EXE with integrated API
-- **Last Updated**: 04.10.2025
+- **Last Updated**: 12.10.2025
+- **Latest Build**: CallDocSync.exe (86 MB) - Successfully tested and deployed
 
 ## Architecture & Data Flow
 

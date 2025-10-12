@@ -1,0 +1,107 @@
+# -*- mode: python ; coding: utf-8 -*-
+
+block_cipher = None
+
+a = Analysis(
+    ['sync_gui_qt.py'],
+    pathex=['C:\\Users\\administrator.PRAXIS\\PycharmProjects\\calldocinterface'],
+    binaries=[],
+    datas=[
+        ('sync_app.ico', '.'),
+        ('api_documentation_dialog.py', '.'),
+        ('sync_api_server.py', '.'),
+        ('calldoc_interface.py', '.'),
+        ('mssql_api_client.py', '.'),
+        ('untersuchung_synchronizer.py', '.'),
+        ('patient_synchronizer.py', '.'),
+        ('calldoc_sqlhk_synchronizer.py', '.'),
+        ('constants.py', '.'),
+        ('appointment_types_mapping.py', '.'),
+        ('CLAUDE.md', '.'),
+    ],
+    hiddenimports=[
+        'flask',
+        'flask_cors',
+        'requests',
+        'matplotlib',
+        'matplotlib.backends.backend_qt5agg',
+        'PyQt5',
+        'PyQt5.QtCore',
+        'PyQt5.QtGui',
+        'PyQt5.QtWidgets',
+        'PIL',
+        'PIL.Image',
+        'werkzeug',
+        'werkzeug.serving',
+        'jinja2',
+        'click',
+        'itsdangerous',
+        'markupsafe',
+        'pyodbc',
+        'api_documentation_dialog',
+        'sync_api_server',
+        'numpy',
+        'pandas',
+    ],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[
+        'tkinter',
+        'test',
+        'unittest',
+        'torch',
+        'tensorflow',
+        'transformers',
+        'sklearn',
+        'scikit-learn',
+        'scipy',
+        'sqlalchemy',
+        'pydantic',
+        'pytest',
+        'IPython',
+        'jupyter',
+        'notebook',
+    ],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher,
+    noarchive=False,
+)
+
+pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    [],
+    name='CallDocSync',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,  # Kein Konsolenfenster
+    disable_windowed_traceback=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+    icon='sync_app.ico',
+    version_file=None,
+)
+
+# Für die Distribution mit separaten Dateien (optional)
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='CallDocSync_Distribution'
+)
