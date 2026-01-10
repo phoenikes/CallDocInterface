@@ -227,14 +227,22 @@ def run_synchronization(task: SyncTask):
         # 2. SQLHK Untersuchungen abrufen
         logger.info(f"Rufe SQLHK Untersuchungen ab für {sqlhk_date}")
         mssql_client = MsSqlApiClient()
-        sqlhk_untersuchungen = mssql_client.get_untersuchungen_by_date(sqlhk_date)
-        
+        sqlhk_result = mssql_client.get_untersuchungen_by_date(sqlhk_date)
+
+        # Extrahiere die Liste aus dem Dictionary-Ergebnis
+        if isinstance(sqlhk_result, dict) and 'rows' in sqlhk_result:
+            sqlhk_untersuchungen = sqlhk_result.get('rows', [])
+        elif isinstance(sqlhk_result, list):
+            sqlhk_untersuchungen = sqlhk_result
+        else:
+            sqlhk_untersuchungen = []
+
         logger.info(f"SQLHK: {len(sqlhk_untersuchungen)} Untersuchungen gefunden")
         
         # 3. Patienten synchronisieren
         logger.info("Starte Patienten-Synchronisierung...")
         patient_sync = PatientSynchronizer()
-        patient_result = patient_sync.sync_patients_from_appointments(active_appointments)
+        patient_result = patient_sync.synchronize_patients_from_appointments(active_appointments)
         
         # 4. Untersuchungen synchronisieren
         logger.info("Starte Untersuchungs-Synchronisierung...")

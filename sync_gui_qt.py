@@ -24,7 +24,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QFileDialog, QTableWidget, QTableWidgetItem,
                             QSplitter, QFrame, QDateEdit, QStatusBar,
                             QMenuBar, QMenu, QDialog, QDialogButtonBox, QAction)
-from PyQt5.QtCore import QDate, pyqtSlot, Qt, QThread, pyqtSignal
+from PyQt5.QtCore import QDate, pyqtSlot, Qt, QThread, pyqtSignal, QTimer, QTime
 from PyQt5.QtGui import QFont, QIcon
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -306,8 +306,17 @@ class SyncApp(QMainWindow):
         self.api_server_thread = None
         self.api_server = None
         self.api_server_running = False
+
+        # Auto-Sync Scheduler
+        self.auto_sync_enabled = False
+        self.auto_sync_time = QTime(7, 0)  # 07:00 Uhr
+        self.scheduler_timer = QTimer(self)
+        self.scheduler_timer.timeout.connect(self.check_scheduled_sync)
+
         self.initUI()
+        self.load_scheduler_settings()
         self.start_api_server_background()
+        self.start_scheduler()
         
     def initUI(self):
         """
@@ -388,7 +397,41 @@ class SyncApp(QMainWindow):
         self.delete_logic_cb.setChecked(True)
         self.delete_logic_cb.setToolTip("Löscht Untersuchungen, die keinem aktiven Termin mehr zugeordnet sind")
         params_layout.addWidget(self.delete_logic_cb)
-        
+
+        # Trennlinie
+        separator = QFrame()
+        separator.setFrameShape(QFrame.HLine)
+        separator.setFrameShadow(QFrame.Sunken)
+        params_layout.addWidget(separator)
+
+        # Auto-Sync Einstellungen
+        auto_sync_label = QLabel("Automatische Synchronisierung:")
+        auto_sync_label.setStyleSheet("font-weight: bold; margin-top: 5px;")
+        params_layout.addWidget(auto_sync_label)
+
+        # Auto-Sync Checkbox
+        self.auto_sync_cb = QCheckBox("Taeglich automatisch synchronisieren")
+        self.auto_sync_cb.setChecked(False)
+        self.auto_sync_cb.stateChanged.connect(self.on_auto_sync_changed)
+        self.auto_sync_cb.setToolTip("Synchronisiert jeden Tag automatisch zur eingestellten Uhrzeit")
+        params_layout.addWidget(self.auto_sync_cb)
+
+        # Zeit-Auswahl
+        time_layout = QHBoxLayout()
+        time_layout.addWidget(QLabel("Uhrzeit:"))
+        from PyQt5.QtWidgets import QTimeEdit
+        self.auto_sync_time_edit = QTimeEdit(QTime(7, 0))
+        self.auto_sync_time_edit.setDisplayFormat("HH:mm")
+        self.auto_sync_time_edit.timeChanged.connect(self.on_auto_sync_time_changed)
+        time_layout.addWidget(self.auto_sync_time_edit)
+        time_layout.addStretch()
+        params_layout.addLayout(time_layout)
+
+        # Status-Anzeige
+        self.auto_sync_status_label = QLabel("Auto-Sync: Deaktiviert")
+        self.auto_sync_status_label.setStyleSheet("color: gray; font-style: italic;")
+        params_layout.addWidget(self.auto_sync_status_label)
+
         params_group.setLayout(params_layout)
         
         top_layout.addWidget(calendar_group)
@@ -927,6 +970,163 @@ class SyncApp(QMainWindow):
         except Exception as e:
             self.statusBar().showMessage(f"Fehler beim Öffnen der Log-Datei: {str(e)}")
             QMessageBox.warning(self, "Fehler", f"Die Log-Datei konnte nicht geöffnet werden: {str(e)}")
+
+    # =========================================================================
+    # AUTO-SYNC SCHEDULER METHODEN
+    # =========================================================================
+
+    def start_scheduler(self):
+        """
+        Startet den Scheduler-Timer der jede Minute prueft.
+        """
+        # Timer prueft jede Minute ob Sync-Zeit erreicht
+        self.scheduler_timer.start(60000)  # 60 Sekunden
+        self.last_auto_sync_date = None
+        logger.info("Scheduler gestartet - prueft jede Minute")
+
+    def check_scheduled_sync(self):
+        """
+        Wird jede Minute aufgerufen und prueft ob Auto-Sync ausgefuehrt werden soll.
+        """
+        if not self.auto_sync_enabled:
+            return
+
+        current_time = QTime.currentTime()
+        current_date = QDate.currentDate()
+
+        # Pruefe ob aktuelle Zeit im Fenster der Sync-Zeit liegt (+-1 Minute)
+        sync_time = self.auto_sync_time
+        time_diff = abs(current_time.secsTo(sync_time))
+
+        # Sync ausfuehren wenn:
+        # 1. Zeit stimmt (innerhalb 60 Sekunden)
+        # 2. Heute noch nicht synchronisiert wurde
+        if time_diff < 60 and self.last_auto_sync_date != current_date:
+            self.last_auto_sync_date = current_date
+            logger.info(f"Auto-Sync gestartet um {current_time.toString('HH:mm')}")
+            self.run_auto_sync()
+
+    def run_auto_sync(self):
+        """
+        Fuehrt die automatische Synchronisierung fuer heute aus.
+        """
+        # Setze Datum auf heute
+        today = QDate.currentDate()
+        self.date_edit.setDate(today)
+
+        # Log-Eintrag
+        self.append_log(f"\n{'='*50}")
+        self.append_log(f"AUTO-SYNC gestartet um {datetime.now().strftime('%H:%M:%S')}")
+        self.append_log(f"Synchronisiere Termine fuer {today.toString('yyyy-MM-dd')}")
+        self.append_log(f"{'='*50}\n")
+
+        # Starte Synchronisierung
+        self.start_sync()
+
+        # Status aktualisieren
+        self.update_auto_sync_status()
+
+    def on_auto_sync_changed(self, state):
+        """
+        Wird aufgerufen wenn Auto-Sync Checkbox geaendert wird.
+        """
+        self.auto_sync_enabled = (state == Qt.Checked)
+        self.save_scheduler_settings()
+        self.update_auto_sync_status()
+
+        if self.auto_sync_enabled:
+            logger.info(f"Auto-Sync aktiviert - taeglich um {self.auto_sync_time.toString('HH:mm')}")
+            self.append_log(f"Auto-Sync aktiviert - taeglich um {self.auto_sync_time.toString('HH:mm')}")
+        else:
+            logger.info("Auto-Sync deaktiviert")
+            self.append_log("Auto-Sync deaktiviert")
+
+    def on_auto_sync_time_changed(self, time):
+        """
+        Wird aufgerufen wenn die Sync-Zeit geaendert wird.
+        """
+        self.auto_sync_time = time
+        self.save_scheduler_settings()
+        self.update_auto_sync_status()
+
+        if self.auto_sync_enabled:
+            logger.info(f"Auto-Sync Zeit geaendert auf {time.toString('HH:mm')}")
+
+    def update_auto_sync_status(self):
+        """
+        Aktualisiert die Status-Anzeige fuer Auto-Sync.
+        """
+        if self.auto_sync_enabled:
+            time_str = self.auto_sync_time.toString('HH:mm')
+            if self.last_auto_sync_date == QDate.currentDate():
+                status = f"Auto-Sync: Aktiv (naechster Sync morgen um {time_str})"
+                self.auto_sync_status_label.setStyleSheet("color: blue; font-style: italic;")
+            else:
+                status = f"Auto-Sync: Aktiv (naechster Sync heute um {time_str})"
+                self.auto_sync_status_label.setStyleSheet("color: green; font-style: italic;")
+        else:
+            status = "Auto-Sync: Deaktiviert"
+            self.auto_sync_status_label.setStyleSheet("color: gray; font-style: italic;")
+
+        self.auto_sync_status_label.setText(status)
+
+    def save_scheduler_settings(self):
+        """
+        Speichert die Scheduler-Einstellungen in eine JSON-Datei.
+        """
+        settings = {
+            "auto_sync_enabled": self.auto_sync_enabled,
+            "auto_sync_time": self.auto_sync_time.toString("HH:mm")
+        }
+
+        try:
+            with open("auto_sync_settings.json", "w", encoding="utf-8") as f:
+                json.dump(settings, f, indent=2)
+            logger.info("Scheduler-Einstellungen gespeichert")
+        except Exception as e:
+            logger.error(f"Fehler beim Speichern der Scheduler-Einstellungen: {e}")
+
+    def load_scheduler_settings(self):
+        """
+        Laedt die Scheduler-Einstellungen aus der JSON-Datei.
+        """
+        try:
+            if os.path.exists("auto_sync_settings.json"):
+                with open("auto_sync_settings.json", "r", encoding="utf-8") as f:
+                    settings = json.load(f)
+
+                self.auto_sync_enabled = settings.get("auto_sync_enabled", False)
+                time_str = settings.get("auto_sync_time", "07:00")
+                self.auto_sync_time = QTime.fromString(time_str, "HH:mm")
+
+                # UI aktualisieren
+                self.auto_sync_cb.setChecked(self.auto_sync_enabled)
+                self.auto_sync_time_edit.setTime(self.auto_sync_time)
+
+                logger.info(f"Scheduler-Einstellungen geladen: enabled={self.auto_sync_enabled}, time={time_str}")
+        except Exception as e:
+            logger.error(f"Fehler beim Laden der Scheduler-Einstellungen: {e}")
+
+    def closeEvent(self, event):
+        """
+        Wird beim Schliessen des Fensters aufgerufen.
+        Speichert Einstellungen und stoppt Timer.
+        """
+        # Scheduler stoppen
+        self.scheduler_timer.stop()
+
+        # Einstellungen speichern
+        self.save_scheduler_settings()
+
+        # API Server stoppen falls laufend
+        if self.api_server_running:
+            self.stop_api_server()
+
+        # Sync Worker stoppen falls laufend
+        if self.sync_worker and self.sync_worker.isRunning():
+            self.sync_worker.stop()
+
+        event.accept()
 
 
 def main():
