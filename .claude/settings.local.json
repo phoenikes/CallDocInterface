@@ -12,7 +12,16 @@
       "Bash(wmic:*)",
       "Bash(start python sync_gui_qt.py)",
       "Bash(start cmd /c:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(timeout /t 5 /nobreak)",
+      "Bash(curl:*)",
+      "Bash(taskkill:*)",
+      "Bash(dir /O-D /B \"C:\\\\Users\\\\administrator.PRAXIS\\\\PycharmProjects\\\\calldocinterface\\\\sync_gui_202601*.log\")",
+      "Bash(ls:*)",
+      "Bash(pyinstaller:*)",
+      "Bash(dir:*)",
+      "Bash(start \"\" \"dist\\\\CallDocSync.exe\")",
+      "Bash(start python \"C:\\\\Users\\\\administrator.PRAXIS\\\\PycharmProjects\\\\calldocinterface\\\\sync_gui_qt.py\")"
     ],
     "deny": []
   }

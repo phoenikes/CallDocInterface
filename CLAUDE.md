@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
-### Current Version: 2.0.4 (10.01.2026)
+### Current Version: 2.0.5 (10.01.2026)
 - **GUI Application**: Modern PyQt5 interface with real-time dashboard
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
 - **Single-Patient Sync**: Targeted synchronization via M1Ziffer
@@ -458,6 +458,7 @@ Die .con Dateien befinden sich in `M:\M1\PROJECT\KBV\` (118 Dateien).
 | 3113 (Ort) | Stadt | Wohnort |
 | 3107+3109 | Strasse | Strasse mit Hausnummer |
 | 3110 (Geschlecht) | Geschlecht | M→1, W→2 |
+| **3119** | **Versichertennr** | **KVNR (10-stellig, z.B. Q361326624)** |
 | **4111** | **Krankenkasse** | **9-stellige Kostentraegerkennung (IK)** |
 | **4121** | **Krankenkassestatus** | **Gebuehrenordnung (1=GKV, 2=PKV)** |
 
@@ -537,6 +538,11 @@ Zeigt alle Herzkatheter-Standorte aus der SQLHK Datenbank.
 | Braunschweig | 61 | Ja |
 
 ## Version History
+
+### Version 2.0.5 (10.01.2026)
+- KVDT-Enricher: Versichertennr (KVNR) aus Feld 3119 hinzugefuegt
+- Alle GKV-Patienten erhalten jetzt automatisch ihre KVNR
+- PKV-Patienten sind nicht in KVDT (wie erwartet)
 
 ### Version 2.0.4 (10.01.2026)
 - Live-Ueberwachung mit Hash-basierter Aenderungserkennung

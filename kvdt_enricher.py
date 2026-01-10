@@ -7,12 +7,13 @@ zu aktualisieren.
 
 Angereicherte Felder:
 - PLZ, Ort, Strasse (Adressdaten)
-- Krankenkasse (Versicherungsname)
+- Krankenkasse (9-stellige IK-Nummer aus Feld 4111)
+- Krankenkassestatus (Gebuehrenordnung aus Feld 4121: 1=GKV, 2=PKV)
+- Versichertennr (KVNR aus Feld 3119)
 - Geschlecht (M/W -> 1/2)
-- ggf. korrigierte Namen (Vor-/Nachname)
 
 Autor: Claude Code
-Version: 1.1
+Version: 1.2
 """
 
 import sys
@@ -214,6 +215,11 @@ class KVDTEnricher:
         if gebuehrenordnung and gebuehrenordnung.isdigit():
             sqlhk_data["Krankenkassestatus"] = int(gebuehrenordnung)
 
+        # Versichertennr - KVNR (Feld 3119: Krankenversichertennummer)
+        kvnr = patient_data.get("kvnr")
+        if kvnr and kvnr.strip():
+            sqlhk_data["Versichertennr"] = kvnr.strip()
+
         return sqlhk_data
 
     def update_patient_in_sqlhk(self, m1ziffer: str, update_data: Dict) -> bool:
@@ -234,7 +240,7 @@ class KVDTEnricher:
         try:
             # Baue UPDATE Statement
             # Nur bekannte SQLHK-Felder verwenden
-            valid_fields = ["PLZ", "Stadt", "Strasse", "Geschlecht", "Krankenkasse", "Krankenkassestatus"]
+            valid_fields = ["PLZ", "Stadt", "Strasse", "Geschlecht", "Krankenkasse", "Krankenkassestatus", "Versichertennr"]
             set_clauses = []
 
             for field in valid_fields:
