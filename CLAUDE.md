@@ -13,13 +13,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
-### Current Version: 3.0 (with Single-Patient API)
+### Current Version: 2.0.4 (10.01.2026)
 - **GUI Application**: Modern PyQt5 interface with real-time dashboard
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
-- **Single-Patient Sync**: NEW - Targeted synchronization via M1Ziffer
+- **Single-Patient Sync**: Targeted synchronization via M1Ziffer
+- **Live-Ueberwachung**: Automatische Aenderungserkennung mit Hash-Vergleich
+- **KVDT-Datenanreicherung**: Patientendaten aus .con Dateien
 - **Desktop Integration**: Standalone EXE with integrated API
-- **Last Updated**: 12.10.2025
-- **Latest Build**: CallDocSync.exe (86 MB) - Successfully tested and deployed
+- **Last Updated**: 10.01.2026
+- **Latest Build**: CallDocSync.exe (89.8 MB)
 
 ## Architecture & Data Flow
 
@@ -41,7 +43,7 @@ CallDocInterface ←→ Synchronizers ←→ MsSqlApiClient (192.168.1.67:7007)
 2. **Patient Enrichment**: Appointments enriched with patient data from CallDoc
 3. **Comparison**: Match CallDoc appointments with SQLHK Untersuchungen via PatientID
 4. **Synchronization**: Execute INSERT/UPDATE/DELETE operations to align both systems
-5. **Validation**: M1-Ziffer enrichment and data validation
+5. **KVDT-Datenanreicherung**: Patientendaten aus .con Dateien (PLZ, Stadt, Strasse, Krankenkasse, Geschlecht)
 
 ### Smart Status Filtering
 - Future dates → filter by "created" status only
@@ -437,3 +439,120 @@ curl -X POST http://localhost:5555/api/sync ^
 - `create_simple_icon.py` - Icon generator
 - `create_shortcut.py` - Desktop shortcut creator
 - `test_api_simple.py` - API health check
+
+### KVDT Integration
+- `kvdt_enricher.py` - Patientendaten aus .con Dateien anreichern
+- SKILLS_CENTRAL/kvdt - KVDT Parser Modul
+
+## KVDT-Datenanreicherung (NEU - 10.01.2026)
+
+### Funktionsweise
+Nach der Synchronisation werden Patientendaten automatisch aus KVDT .con Dateien angereichert.
+Die .con Dateien befinden sich in `M:\M1\PROJECT\KBV\` (118 Dateien).
+
+### Angereicherte Felder (KVDT → SQLHK Patient)
+
+| KVDT-Feld | SQLHK-Feld | Beschreibung |
+|-----------|------------|--------------|
+| 3112 (PLZ) | PLZ | Postleitzahl (Integer) |
+| 3113 (Ort) | Stadt | Wohnort |
+| 3107+3109 | Strasse | Strasse mit Hausnummer |
+| 3110 (Geschlecht) | Geschlecht | M→1, W→2 |
+| **4111** | **Krankenkasse** | **9-stellige Kostentraegerkennung (IK)** |
+| **4121** | **Krankenkassestatus** | **Gebuehrenordnung (1=GKV, 2=PKV)** |
+
+### WICHTIG: Krankenkassen-Felder
+- **Krankenkasse**: Ist ein INTEGER-Feld mit der 9-stelligen IK-Nummer (z.B. 108310400 für AOK Bayern)
+- **Krankenkassestatus**: Gebührenordnung aus Feld 4121 (1=GKV, 2=PKV)
+- Die IK-Nummer kommt aus KVDT-Feld 4111 (Kostentraegerkennung), NICHT aus 4131
+
+### Datumskonvertierung
+- KVDT: JJJJMMTT (z.B. "19720804")
+- SQLHK: TT.MM.JJJJ (z.B. "04.08.1972")
+- Automatische Konvertierung in `kvdt_enricher._convert_date_kvdt_to_sqlhk()`
+
+### Test-Befehl
+```python
+from kvdt_enricher import KVDTEnricher
+enricher = KVDTEnricher()
+result = enricher.enrich_patient('1729414')
+print(result)
+```
+
+## Live-Ueberwachung / Change Detection (NEU - 10.01.2026)
+
+### Funktionsweise
+Die Live-Ueberwachung prueft in regelmaessigen Intervallen, ob sich Termine in CallDoc geaendert haben.
+Bei erkannten Aenderungen wird automatisch ein Sync gestartet.
+
+### Features
+- **Hash-basierte Erkennung**: Vergleicht Termin-IDs + Status + Patient-IDs
+- **Nur aktueller Tag**: Ueberwacht nur Termine des heutigen Tages
+- **Einstellbares Intervall**: 1-60 Minuten (Default: 2 Minuten)
+- **Automatischer Sync**: Bei Aenderung wird sofort synchronisiert
+
+### GUI-Einstellungen
+```
+☑ Aenderungen automatisch erkennen
+Intervall: [2] Min  (1-60)
+Status: Live-Sync: Aktiv (naechster Check: 21:10:00)
+```
+
+### Einstellungen speichern
+Die Einstellungen werden in `auto_sync_settings.json` gespeichert:
+```json
+{
+  "auto_sync_enabled": true,
+  "auto_sync_time": "10:25",
+  "live_sync_enabled": true,
+  "live_sync_interval": 2
+}
+```
+
+### Hash-Berechnung
+Der Hash wird aus folgenden Daten berechnet:
+- Termin-ID
+- Status (created, confirmed, cancelled, etc.)
+- Patient-ID
+
+Bei Aenderung des Hash wird automatisch synchronisiert.
+
+## Standorte-Verwaltung (NEU - 09.01.2026)
+
+### Menu: Einstellungen → Standorte
+Zeigt alle Herzkatheter-Standorte aus der SQLHK Datenbank.
+
+### Felder
+- **HerzkatheterID**: Interne ID
+- **HerzkatheterName**: Name des Standorts
+- **room_id**: Zuordnung zu CallDoc Raum
+- **Aktiv**: Ob der Standort aktiv ist
+
+### Aktuelle Standorte
+| Name | room_id | Aktiv |
+|------|---------|-------|
+| Rummelsberg 1 | 18 | Ja |
+| Rummelsberg 2 | 19 | Ja |
+| Offenbach | 54 | Ja |
+| Braunschweig | 61 | Ja |
+
+## Version History
+
+### Version 2.0.4 (10.01.2026)
+- Live-Ueberwachung mit Hash-basierter Aenderungserkennung
+- KVDT-Enricher Fix: Krankenkasse = 9-stellige IK-Nummer (Feld 4111)
+- KVDT-Enricher Fix: Krankenkassestatus = Gebuehrenordnung (Feld 4121)
+- Neues Feld kassen_ik im KVDT-Parser
+
+### Version 2.0.3 (10.01.2026)
+- KVDT-Datenanreicherung nach Sync
+- Integration SKILLS_CENTRAL KVDT Parser
+- Automatische Datumskonvertierung JJJJMMTT → TT.MM.JJJJ
+
+### Version 2.0.2 (09.01.2026)
+- Standorte-Verwaltung Dialog
+- API-Endpoint Fix (/api/execute_sql)
+
+### Version 2.0.1 (09.01.2026)
+- Auto-Sync Scheduler
+- API-Dokumentation Dialog
