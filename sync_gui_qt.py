@@ -265,12 +265,46 @@ class SyncWorker(QThread):
             with open(result_filename, "w", encoding="utf-8") as f:
                 json.dump(result, f, indent=4, ensure_ascii=False)
             
+            # 5. KVDT-Datenanreicherung (optional)
+            self.log_signal.emit("5. KVDT-Datenanreicherung starten...")
+            self.update_signal.emit("Reichere Patientendaten aus KVDT an...", {"progress": 85})
+
+            try:
+                # M1Ziffern aus den Terminen extrahieren
+                m1ziffern = []
+                for apt in appointments:
+                    piz = apt.get("piz")
+                    if piz and piz not in m1ziffern:
+                        m1ziffern.append(piz)
+
+                if m1ziffern:
+                    self.log_signal.emit(f"  {len(m1ziffern)} Patienten zur KVDT-Anreicherung")
+
+                    from kvdt_enricher import KVDTEnricher
+                    enricher = KVDTEnricher()
+
+                    enrichment_stats = enricher.enrich_patients(m1ziffern)
+
+                    self.log_signal.emit("KVDT-Anreicherung abgeschlossen:")
+                    self.log_signal.emit(f"  - In KVDT gefunden: {enrichment_stats.get('found', 0)}")
+                    self.log_signal.emit(f"  - Angereichert: {enrichment_stats.get('enriched', 0)}")
+                    self.log_signal.emit(f"  - Nicht gefunden: {enrichment_stats.get('not_found', 0)}")
+
+                    result["kvdt_enrichment"] = enrichment_stats
+                else:
+                    self.log_signal.emit("  Keine Patienten zur KVDT-Anreicherung")
+
+            except ImportError as e:
+                self.log_signal.emit(f"  KVDT-Modul nicht verfuegbar: {e}")
+            except Exception as e:
+                self.log_signal.emit(f"  KVDT-Anreicherung fehlgeschlagen: {e}")
+
             self.log_signal.emit(f"Synchronisierung für {self.date_str} abgeschlossen")
             self.update_signal.emit("Synchronisierung abgeschlossen", {"progress": 100})
-            
+
             # Füge die Patientenstatistik zum Ergebnis hinzu
             result.update({"patient_stats": patient_stats})
-            
+
             # Signal mit dem Ergebnis senden
             self.finished_signal.emit(result)
             
