@@ -12,7 +12,7 @@ Angereicherte Felder:
 - ggf. korrigierte Namen (Vor-/Nachname)
 
 Autor: Claude Code
-Version: 1.0
+Version: 1.1
 """
 
 import sys
@@ -21,10 +21,31 @@ import logging
 from datetime import datetime
 from typing import List, Dict, Optional, Tuple
 
-# SKILLS_CENTRAL fuer KVDT-Parser
-sys.path.append(r"C:\Users\administrator.PRAXIS\PycharmProjects\SKILLS_CENTRAL")
+# SKILLS_CENTRAL fuer KVDT-Parser (nur wenn nicht als EXE gepackt)
+SKILLS_CENTRAL_PATH = r"C:\Users\administrator.PRAXIS\PycharmProjects\SKILLS_CENTRAL"
+if os.path.exists(SKILLS_CENTRAL_PATH) and SKILLS_CENTRAL_PATH not in sys.path:
+    sys.path.append(SKILLS_CENTRAL_PATH)
 
 from mssql_api_client import MsSqlApiClient
+
+# Flag ob KVDT-Modul verfuegbar ist
+KVDT_AVAILABLE = False
+KVDTADTParser = None
+
+def _init_kvdt_module():
+    """Versucht das KVDT-Modul zu laden."""
+    global KVDT_AVAILABLE, KVDTADTParser
+    try:
+        from kvdt import KVDTADTParser as Parser
+        KVDTADTParser = Parser
+        KVDT_AVAILABLE = True
+        return True
+    except ImportError:
+        KVDT_AVAILABLE = False
+        return False
+
+# Versuche KVDT beim Import zu laden
+_init_kvdt_module()
 
 logger = logging.getLogger(__name__)
 
@@ -116,12 +137,15 @@ class KVDTEnricher:
         Returns:
             Dictionary mit Patientendaten oder None wenn nicht gefunden
         """
+        if not KVDT_AVAILABLE:
+            logger.warning("KVDT-Modul nicht verfuegbar")
+            return None
+
         if not self.con_files:
             logger.warning("Keine .con Dateien verfuegbar")
             return None
 
         try:
-            from kvdt import KVDTADTParser
             parser = KVDTADTParser()
 
             result = parser.search_in_multiple_files(self.con_files, m1ziffer)
@@ -136,9 +160,6 @@ class KVDTEnricher:
 
             return None
 
-        except ImportError as e:
-            logger.error(f"KVDT-Modul nicht verfuegbar: {e}")
-            return None
         except Exception as e:
             logger.error(f"Fehler bei KVDT-Suche fuer {m1ziffer}: {e}")
             return None
@@ -183,20 +204,15 @@ class KVDTEnricher:
             if geschlecht > 0:  # Nur wenn bekannt
                 sqlhk_data["Geschlecht"] = geschlecht
 
-        # Krankenkasse
-        if insurance_data.get("krankenkasse"):
-            sqlhk_data["Krankenkasse"] = insurance_data["krankenkasse"]
+        # Krankenkasse - direkt die 9-stellige Kostentraegerkennung (Feld 4111)
+        kassen_ik = insurance_data.get("kassen_ik")
+        if kassen_ik and kassen_ik.isdigit():
+            sqlhk_data["Krankenkasse"] = int(kassen_ik)  # 9-stellige IK-Nummer als Integer
 
-        # IK-Nummer der Krankenkasse
-        if insurance_data.get("ik_nummer"):
-            sqlhk_data["IKNummer"] = insurance_data["ik_nummer"]
-
-        # Optional: Namen korrigieren falls in KVDT anders
-        # (Nur wenn wir sicher sind, dass KVDT korrekt ist)
-        if patient_data.get("nachname"):
-            sqlhk_data["Nachname_KVDT"] = patient_data["nachname"]
-        if patient_data.get("vorname"):
-            sqlhk_data["Vorname_KVDT"] = patient_data["vorname"]
+        # Krankenkassestatus - Gebührenordnung (Feld 4121: 1=GKV, 2=PKV, etc.)
+        gebuehrenordnung = insurance_data.get("gebuehrenordnung")
+        if gebuehrenordnung and gebuehrenordnung.isdigit():
+            sqlhk_data["Krankenkassestatus"] = int(gebuehrenordnung)
 
         return sqlhk_data
 
@@ -218,7 +234,7 @@ class KVDTEnricher:
         try:
             # Baue UPDATE Statement
             # Nur bekannte SQLHK-Felder verwenden
-            valid_fields = ["PLZ", "Stadt", "Strasse", "Geschlecht", "Krankenkasse"]
+            valid_fields = ["PLZ", "Stadt", "Strasse", "Geschlecht", "Krankenkasse", "Krankenkassestatus"]
             set_clauses = []
 
             for field in valid_fields:

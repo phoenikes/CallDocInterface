@@ -348,6 +348,15 @@ class SyncApp(QMainWindow):
         self.scheduler_timer = QTimer(self)
         self.scheduler_timer.timeout.connect(self.check_scheduled_sync)
 
+        # Live-Sync (Change Detection)
+        self.live_sync_enabled = False
+        self.live_sync_interval = 2  # Default: 2 Minuten
+        self.live_sync_timer = QTimer(self)
+        self.live_sync_timer.timeout.connect(self.check_for_changes)
+        self.last_appointments_hash = None  # Hash der letzten Termin-Abfrage
+        self.last_check_time = None  # Zeitpunkt der letzten Prüfung
+        self.live_sync_checking = False  # Flag um parallele Checks zu verhindern
+
         self.initUI()
         self.load_scheduler_settings()
         self.start_api_server_background()
@@ -466,6 +475,43 @@ class SyncApp(QMainWindow):
         self.auto_sync_status_label = QLabel("Auto-Sync: Deaktiviert")
         self.auto_sync_status_label.setStyleSheet("color: gray; font-style: italic;")
         params_layout.addWidget(self.auto_sync_status_label)
+
+        # Separator
+        separator2 = QFrame()
+        separator2.setFrameShape(QFrame.HLine)
+        separator2.setFrameShadow(QFrame.Sunken)
+        params_layout.addWidget(separator2)
+
+        # Live-Überwachung Einstellungen
+        live_sync_label = QLabel("Live-Ueberwachung (heute):")
+        live_sync_label.setStyleSheet("font-weight: bold; margin-top: 5px;")
+        params_layout.addWidget(live_sync_label)
+
+        # Live-Sync Checkbox
+        self.live_sync_cb = QCheckBox("Aenderungen automatisch erkennen")
+        self.live_sync_cb.setChecked(False)
+        self.live_sync_cb.stateChanged.connect(self.on_live_sync_changed)
+        self.live_sync_cb.setToolTip("Prueft regelmaessig auf Aenderungen in CallDoc und synchronisiert automatisch")
+        params_layout.addWidget(self.live_sync_cb)
+
+        # Intervall-Auswahl
+        from PyQt5.QtWidgets import QSpinBox
+        interval_layout = QHBoxLayout()
+        interval_layout.addWidget(QLabel("Intervall:"))
+        self.live_sync_interval_spin = QSpinBox()
+        self.live_sync_interval_spin.setMinimum(1)
+        self.live_sync_interval_spin.setMaximum(60)
+        self.live_sync_interval_spin.setValue(2)  # Default: 2 Minuten
+        self.live_sync_interval_spin.setSuffix(" Min")
+        self.live_sync_interval_spin.valueChanged.connect(self.on_live_sync_interval_changed)
+        interval_layout.addWidget(self.live_sync_interval_spin)
+        interval_layout.addStretch()
+        params_layout.addLayout(interval_layout)
+
+        # Live-Sync Status-Anzeige
+        self.live_sync_status_label = QLabel("Live-Sync: Deaktiviert")
+        self.live_sync_status_label.setStyleSheet("color: gray; font-style: italic;")
+        params_layout.addWidget(self.live_sync_status_label)
 
         params_group.setLayout(params_layout)
         
@@ -1122,13 +1168,194 @@ class SyncApp(QMainWindow):
 
         self.auto_sync_status_label.setText(status)
 
+    # ============================================================
+    # Live-Sync (Change Detection) Methoden
+    # ============================================================
+
+    def on_live_sync_changed(self, state):
+        """
+        Wird aufgerufen wenn Live-Sync Checkbox geaendert wird.
+        """
+        self.live_sync_enabled = (state == Qt.Checked)
+        self.save_scheduler_settings()
+
+        if self.live_sync_enabled:
+            self.start_live_sync()
+            logger.info(f"Live-Sync aktiviert - Pruefung alle {self.live_sync_interval} Minuten")
+            self.append_log(f"Live-Ueberwachung aktiviert - Pruefung alle {self.live_sync_interval} Minuten")
+        else:
+            self.stop_live_sync()
+            logger.info("Live-Sync deaktiviert")
+            self.append_log("Live-Ueberwachung deaktiviert")
+
+    def on_live_sync_interval_changed(self, value):
+        """
+        Wird aufgerufen wenn das Intervall geaendert wird.
+        """
+        self.live_sync_interval = value
+        self.save_scheduler_settings()
+
+        if self.live_sync_enabled:
+            # Timer mit neuem Intervall neu starten
+            self.live_sync_timer.stop()
+            self.live_sync_timer.start(self.live_sync_interval * 60 * 1000)
+            logger.info(f"Live-Sync Intervall geaendert auf {value} Minuten")
+
+    def start_live_sync(self):
+        """
+        Startet die Live-Ueberwachung.
+        """
+        # Initialen Hash erstellen
+        self.last_appointments_hash = self.calculate_appointments_hash()
+        self.last_check_time = datetime.now()
+
+        # Timer starten
+        interval_ms = self.live_sync_interval * 60 * 1000  # Minuten zu Millisekunden
+        self.live_sync_timer.start(interval_ms)
+
+        self.update_live_sync_status()
+        logger.info(f"Live-Sync Timer gestartet (alle {self.live_sync_interval} Minuten)")
+
+    def stop_live_sync(self):
+        """
+        Stoppt die Live-Ueberwachung.
+        """
+        self.live_sync_timer.stop()
+        self.last_appointments_hash = None
+        self.update_live_sync_status()
+        logger.info("Live-Sync Timer gestoppt")
+
+    def calculate_appointments_hash(self):
+        """
+        Berechnet einen Hash ueber alle Termine des aktuellen Tages.
+        Der Hash basiert auf Termin-IDs und Status, um Aenderungen zu erkennen.
+        """
+        try:
+            today = datetime.now().strftime("%Y-%m-%d")
+            calldoc_client = CallDocInterface(from_date=today, to_date=today)
+
+            # Termine abrufen (nur Herzkatheter = Type 24)
+            result = calldoc_client.appointment_search(appointment_type_id=24)
+            appointments = result.get("data", []) if isinstance(result, dict) else result
+
+            if not appointments:
+                return "empty_0"
+
+            # Hash-String aus Termin-IDs und Status erstellen
+            hash_parts = []
+            for apt in sorted(appointments, key=lambda x: x.get("id", 0)):
+                apt_id = apt.get("id", "")
+                status = apt.get("status", "")
+                patient_id = apt.get("patient", {}).get("id", "") if isinstance(apt.get("patient"), dict) else apt.get("patient", "")
+                hash_parts.append(f"{apt_id}:{status}:{patient_id}")
+
+            hash_string = "|".join(hash_parts)
+
+            # Einfacher Hash (Anzahl + erster Teil des Strings)
+            import hashlib
+            hash_value = hashlib.md5(hash_string.encode()).hexdigest()[:16]
+
+            return f"{len(appointments)}_{hash_value}"
+
+        except Exception as e:
+            logger.error(f"Fehler beim Berechnen des Termin-Hash: {e}")
+            return None
+
+    def check_for_changes(self):
+        """
+        Prueft auf Aenderungen in CallDoc und startet ggf. einen Sync.
+        """
+        # Verhindere parallele Checks
+        if self.live_sync_checking:
+            return
+
+        # Nicht pruefen wenn gerade ein Sync laeuft
+        if self.sync_worker and self.sync_worker.isRunning():
+            logger.info("Live-Sync Check uebersprungen - Sync laeuft bereits")
+            return
+
+        self.live_sync_checking = True
+        self.last_check_time = datetime.now()
+
+        try:
+            current_hash = self.calculate_appointments_hash()
+
+            if current_hash is None:
+                logger.warning("Live-Sync: Konnte Hash nicht berechnen")
+                self.update_live_sync_status("Fehler bei Pruefung")
+                return
+
+            if self.last_appointments_hash is None:
+                # Erster Check - nur speichern
+                self.last_appointments_hash = current_hash
+                self.update_live_sync_status("Keine Aenderungen")
+                logger.info(f"Live-Sync: Initialer Hash gespeichert ({current_hash})")
+                return
+
+            if current_hash != self.last_appointments_hash:
+                # Aenderung erkannt!
+                old_count = self.last_appointments_hash.split("_")[0] if self.last_appointments_hash else "?"
+                new_count = current_hash.split("_")[0]
+
+                logger.info(f"Live-Sync: Aenderung erkannt! Alt: {old_count} Termine, Neu: {new_count} Termine")
+                self.append_log(f"\n{'='*50}")
+                self.append_log(f"LIVE-SYNC: Aenderung erkannt um {datetime.now().strftime('%H:%M:%S')}")
+                self.append_log(f"Vorher: {old_count} Termine, Jetzt: {new_count} Termine")
+                self.append_log(f"Starte automatische Synchronisierung...")
+                self.append_log(f"{'='*50}\n")
+
+                # Hash aktualisieren
+                self.last_appointments_hash = current_hash
+
+                # Sync starten
+                self.update_live_sync_status("Aenderung erkannt - Sync laeuft...")
+                self.start_sync()
+            else:
+                # Keine Aenderung
+                self.update_live_sync_status("Keine Aenderungen")
+                logger.debug(f"Live-Sync: Keine Aenderung ({current_hash})")
+
+        except Exception as e:
+            logger.error(f"Fehler beim Live-Sync Check: {e}")
+            self.update_live_sync_status(f"Fehler: {str(e)[:30]}")
+
+        finally:
+            self.live_sync_checking = False
+
+    def update_live_sync_status(self, extra_info=None):
+        """
+        Aktualisiert die Status-Anzeige fuer Live-Sync.
+        """
+        if self.live_sync_enabled:
+            if self.last_check_time:
+                last_check_str = self.last_check_time.strftime("%H:%M:%S")
+                next_check = self.last_check_time + timedelta(minutes=self.live_sync_interval)
+                next_check_str = next_check.strftime("%H:%M:%S")
+
+                if extra_info:
+                    status = f"Live-Sync: {extra_info} (letzter Check: {last_check_str})"
+                else:
+                    status = f"Live-Sync: Aktiv (naechster Check: {next_check_str})"
+
+                self.live_sync_status_label.setStyleSheet("color: green; font-style: italic;")
+            else:
+                status = f"Live-Sync: Aktiv (alle {self.live_sync_interval} Min)"
+                self.live_sync_status_label.setStyleSheet("color: green; font-style: italic;")
+        else:
+            status = "Live-Sync: Deaktiviert"
+            self.live_sync_status_label.setStyleSheet("color: gray; font-style: italic;")
+
+        self.live_sync_status_label.setText(status)
+
     def save_scheduler_settings(self):
         """
         Speichert die Scheduler-Einstellungen in eine JSON-Datei.
         """
         settings = {
             "auto_sync_enabled": self.auto_sync_enabled,
-            "auto_sync_time": self.auto_sync_time.toString("HH:mm")
+            "auto_sync_time": self.auto_sync_time.toString("HH:mm"),
+            "live_sync_enabled": self.live_sync_enabled,
+            "live_sync_interval": self.live_sync_interval
         }
 
         try:
@@ -1147,15 +1374,28 @@ class SyncApp(QMainWindow):
                 with open("auto_sync_settings.json", "r", encoding="utf-8") as f:
                     settings = json.load(f)
 
+                # Auto-Sync Einstellungen
                 self.auto_sync_enabled = settings.get("auto_sync_enabled", False)
                 time_str = settings.get("auto_sync_time", "07:00")
                 self.auto_sync_time = QTime.fromString(time_str, "HH:mm")
 
-                # UI aktualisieren
+                # Live-Sync Einstellungen
+                self.live_sync_enabled = settings.get("live_sync_enabled", False)
+                self.live_sync_interval = settings.get("live_sync_interval", 2)
+
+                # UI aktualisieren - Auto-Sync
                 self.auto_sync_cb.setChecked(self.auto_sync_enabled)
                 self.auto_sync_time_edit.setTime(self.auto_sync_time)
 
-                logger.info(f"Scheduler-Einstellungen geladen: enabled={self.auto_sync_enabled}, time={time_str}")
+                # UI aktualisieren - Live-Sync
+                self.live_sync_cb.setChecked(self.live_sync_enabled)
+                self.live_sync_interval_spin.setValue(self.live_sync_interval)
+
+                # Live-Sync starten falls aktiviert
+                if self.live_sync_enabled:
+                    self.start_live_sync()
+
+                logger.info(f"Scheduler-Einstellungen geladen: auto_sync={self.auto_sync_enabled}, live_sync={self.live_sync_enabled}, interval={self.live_sync_interval}min")
         except Exception as e:
             logger.error(f"Fehler beim Laden der Scheduler-Einstellungen: {e}")
 
@@ -1164,8 +1404,9 @@ class SyncApp(QMainWindow):
         Wird beim Schliessen des Fensters aufgerufen.
         Speichert Einstellungen und stoppt Timer.
         """
-        # Scheduler stoppen
+        # Timer stoppen
         self.scheduler_timer.stop()
+        self.live_sync_timer.stop()
 
         # Einstellungen speichern
         self.save_scheduler_settings()

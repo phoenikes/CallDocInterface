@@ -17,7 +17,11 @@ a = Analysis(
         ('calldoc_sqlhk_synchronizer.py', '.'),
         ('constants.py', '.'),
         ('appointment_types_mapping.py', '.'),
+        ('kvdt_enricher.py', '.'),
+        ('standorte_dialog.py', '.'),
         ('CLAUDE.md', '.'),
+        # SKILLS_CENTRAL KVDT Modul
+        ('C:\\Users\\administrator.PRAXIS\\PycharmProjects\\SKILLS_CENTRAL\\kvdt', 'kvdt'),
     ],
     hiddenimports=[
         'flask',
@@ -42,6 +46,10 @@ a = Analysis(
         'sync_api_server',
         'numpy',
         'pandas',
+        'kvdt_enricher',
+        'standorte_dialog',
+        'kvdt',
+        'kvdt.adt_parser',
     ],
     hookspath=[],
     hooksconfig={},

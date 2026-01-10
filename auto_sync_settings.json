@@ -1,4 +1,6 @@
 {
   "auto_sync_enabled": true,
-  "auto_sync_time": "10:25"
+  "auto_sync_time": "10:25",
+  "live_sync_enabled": true,
+  "live_sync_interval": 2
 }
