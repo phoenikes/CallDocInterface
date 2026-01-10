@@ -310,6 +310,7 @@ class SyncApp(QMainWindow):
         # Auto-Sync Scheduler
         self.auto_sync_enabled = False
         self.auto_sync_time = QTime(7, 0)  # 07:00 Uhr
+        self.last_auto_sync_date = None  # Datum des letzten Auto-Syncs
         self.scheduler_timer = QTimer(self)
         self.scheduler_timer.timeout.connect(self.check_scheduled_sync)
 
@@ -623,7 +624,16 @@ class SyncApp(QMainWindow):
         api_test_action = QAction('API testen', self)
         api_test_action.triggered.connect(self.test_api)
         api_menu.addAction(api_test_action)
-        
+
+        # Standorte-Menü
+        standorte_menu = menubar.addMenu('Standorte')
+
+        # Herzkatheter-Standorte verwalten
+        standorte_action = QAction('Herzkatheter-Standorte verwalten', self)
+        standorte_action.setShortcut('Ctrl+H')
+        standorte_action.triggered.connect(self.show_standorte_dialog)
+        standorte_menu.addAction(standorte_action)
+
         # Hilfe-Menü
         help_menu = menubar.addMenu('Hilfe')
         
@@ -643,7 +653,15 @@ class SyncApp(QMainWindow):
         from api_documentation_dialog import APIDocumentationDialog
         dialog = APIDocumentationDialog(self, self.api_server_running)
         dialog.exec_()
-    
+
+    def show_standorte_dialog(self):
+        """
+        Zeigt den Dialog zur Verwaltung der Herzkatheter-Standorte.
+        """
+        from standorte_dialog import StandorteDialog
+        dialog = StandorteDialog(self)
+        dialog.exec_()
+
     def start_api_server(self):
         """
         Startet den API Server in einem separaten Thread.
@@ -1058,7 +1076,7 @@ class SyncApp(QMainWindow):
         """
         if self.auto_sync_enabled:
             time_str = self.auto_sync_time.toString('HH:mm')
-            if self.last_auto_sync_date == QDate.currentDate():
+            if self.last_auto_sync_date is not None and self.last_auto_sync_date == QDate.currentDate():
                 status = f"Auto-Sync: Aktiv (naechster Sync morgen um {time_str})"
                 self.auto_sync_status_label.setStyleSheet("color: blue; font-style: italic;")
             else:

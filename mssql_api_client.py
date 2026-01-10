@@ -65,9 +65,9 @@ class MsSqlApiClient:
             Ergebnis der Abfrage als Dictionary
         """
         try:
-            url = f"{self.base_url}/tools/execute_sql"
+            url = f"{self.base_url}/api/execute_sql"
             payload = {
-                "sql": query,
+                "query": query,
                 "database": database
             }
             
@@ -80,14 +80,19 @@ class MsSqlApiClient:
             
             response = requests.post(url, json=payload, headers=self.headers)
             response.raise_for_status()
-            
+
             result = response.json()
-            
-            # Extrahiere das eigentliche Ergebnis aus dem MCP-Format
+
+            # API gibt direkt das Ergebnis zurueck
+            # Pruefe auf MCP-Format (altes Format) oder direktes Format (neues Format)
             if "content" in result and len(result["content"]) > 0:
+                # Altes MCP-Format
                 content_text = result["content"][0].get("text", "{}")
                 return json.loads(content_text)
-            
+            elif "rows" in result or "success" in result or "error" in result:
+                # Neues direktes Format
+                return result
+
             return {"error": "Unerwartetes Antwortformat", "success": False}
             
         except requests.RequestException as e:
