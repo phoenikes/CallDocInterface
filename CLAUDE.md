@@ -13,15 +13,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
-### Current Version: 2.0.5 (10.01.2026)
+### Current Version: 2.1.0 (12.01.2026)
 - **GUI Application**: Modern PyQt5 interface with real-time dashboard
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
 - **Single-Patient Sync**: Targeted synchronization via M1Ziffer
 - **Live-Ueberwachung**: Automatische Aenderungserkennung mit Hash-Vergleich
 - **KVDT-Datenanreicherung**: Patientendaten aus .con Dateien
+- **PatientResolver**: Automatische Patientenaufloesung via PIZ, KVNR oder Name+Geburtsdatum
+- **Slack-Integration**: Sync-Ergebnisse mit Patientendetails an Slack-Channel
 - **Desktop Integration**: Standalone EXE with integrated API
-- **Last Updated**: 10.01.2026
-- **Latest Build**: CallDocSync.exe (89.8 MB)
+- **Last Updated**: 12.01.2026
+- **Latest Build**: CallDocSync.exe (86 MB)
 
 ## Architecture & Data Flow
 
@@ -268,6 +270,7 @@ pyinstaller CallDocSync.spec --noconfirm --clean
 ### Lokales Deployment
 - **Lokale EXE**: `C:\Users\administrator.PRAXIS\PycharmProjects\calldocinterface\dist\CallDocSync.exe`
 - **Desktop-Shortcut**: Erstellt mit `create_shortcut.py`
+- **WICHTIG**: `slack_config.json` muss im gleichen Ordner wie die EXE liegen!
 
 ### Netzwerk-Deployment (22.09.2025)
 - **Netzlaufwerk**: `P:\MCP\Calldocinterface\`
@@ -537,7 +540,87 @@ Zeigt alle Herzkatheter-Standorte aus der SQLHK Datenbank.
 | Offenbach | 54 | Ja |
 | Braunschweig | 61 | Ja |
 
+## Slack-Integration (NEU - 12.01.2026)
+
+### Konfiguration
+Die Slack-Benachrichtigungen werden ueber `slack_config.json` konfiguriert:
+```json
+{
+  "channel": "#cathlab",
+  "enabled": true,
+  "bot_token": "xoxb-..."
+}
+```
+
+**WICHTIG**: Diese Datei muss im gleichen Ordner wie die EXE liegen!
+
+### GUI-Elemente
+- **Checkbox "Slack:"**: Aktiviert/deaktiviert Benachrichtigungen
+- **Channel-Eingabefeld**: Slack-Channel (Default: #cathlab)
+
+### Nachrichtenformat
+Bei jedem Sync werden Details zu eingefuegten, aktualisierten und geloeschten Patienten gesendet:
+```
+`1698369` *Mueller, Hans* (15.03.1965) - Dr. Sandrock @ Rummelsberg 1
+```
+
+### Untersucher-Mapping (slack_notifier.py)
+| ID | Name |
+|----|------|
+| 1 | Dr. Sandrock |
+| 2 | Dr. Papageorgiou |
+| 12 | Dr. Koch |
+| 13 | Dr. Pannu |
+| 19 | Dr. Schaeffer |
+
+### Standort-Mapping (slack_notifier.py)
+| ID | Name |
+|----|------|
+| 1 | Rummelsberg 1 |
+| 2 | Rummelsberg 2 |
+| 3 | Offenbach |
+| 6 | Braunschweig |
+
+## PatientResolver (NEU - 12.01.2026)
+
+### Funktionsweise
+Der PatientResolver loest Patienten automatisch auf, auch wenn keine PIZ vorhanden ist:
+
+1. **PIZ-Suche**: Direkte Suche via M1Ziffer in SQLHK
+2. **KVNR-Fallback**: Suche der KVNR in KVDT .con Dateien → M1Ziffer
+3. **Name+Geburtsdatum**: Suche nach Nachname, Vorname und Geburtsdatum
+4. **Neuanlage**: Wenn nicht gefunden, wird Patient in SQLHK angelegt
+
+### Duplikat-Vermeidung
+Vor der Neuanlage wird SQLHK nach Name+Geburtsdatum durchsucht, um Duplikate zu verhindern.
+
+### Verwendung
+```python
+from patient_resolver import PatientResolver
+resolver = PatientResolver(mssql_client)
+result = resolver.resolve_patient(appointment)
+# result = {"patient_id": 12345, "m1ziffer": "1698369", "source": "piz"}
+```
+
 ## Version History
+
+### Version 2.1.0 (12.01.2026)
+- **PatientResolver**: Neue Komponente fuer automatische Patientenaufloesung
+  - Suche via PIZ (M1Ziffer)
+  - Fallback: KVNR-Suche in KVDT .con Dateien
+  - Fallback: Name + Geburtsdatum Suche
+  - Automatische Neuanlage wenn Patient nicht gefunden
+  - Duplikat-Vermeidung: Prueft SQLHK vor Neuanlage
+- **Slack-Integration**: Sync-Ergebnisse an konfigurierbaren Channel
+  - Detaillierte Benachrichtigungen mit M1Ziffer, Name, Geburtsdatum
+  - Untersucher und Standort werden aufgeloest
+  - GUI: Checkbox + Eingabefeld fuer Channel
+  - Token in slack_config.json (muss neben EXE liegen)
+- **Statistik-Fix**: Korrekte Zaehlung durch eindeutige PatientIDs
+- **Neue Dateien**:
+  - `patient_resolver.py` - PatientResolver Klasse
+  - `slack_notifier.py` - Slack-Benachrichtigungen
+  - `slack_config.json` - Slack-Konfiguration (Channel, Token)
 
 ### Version 2.0.5 (10.01.2026)
 - KVDT-Enricher: Versichertennr (KVNR) aus Feld 3119 hinzugefuegt
