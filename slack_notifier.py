@@ -37,7 +37,6 @@ STANDORT_NAMEN = {
 UNTERSUCHER_NAMEN = {
     1: "Dr. Sandrock",
     2: "Dr. Papageorgiou",
-    12: "Dr. Koch",
     3: "Dr. Deubner",
     4: "Dr. Gasplmayr",
     5: "Dr. Klopf",
@@ -47,6 +46,9 @@ UNTERSUCHER_NAMEN = {
     9: "Dr. Doschat",
     10: "Dr. Lindemann",
     11: "Dr. Neumann",
+    12: "Dr. Koch",
+    13: "Dr. Pannu",
+    19: "Dr. Schaeffer",
 }
 
 
