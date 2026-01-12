@@ -18,12 +18,13 @@ import logging
 from datetime import datetime, timedelta
 import threading
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
-                            QHBoxLayout, QCalendarWidget, QGroupBox, 
+                            QHBoxLayout, QCalendarWidget, QGroupBox,
                             QPushButton, QTabWidget, QTextEdit, QLabel,
                             QComboBox, QCheckBox, QProgressBar, QMessageBox,
                             QFileDialog, QTableWidget, QTableWidgetItem,
                             QSplitter, QFrame, QDateEdit, QStatusBar,
-                            QMenuBar, QMenu, QDialog, QDialogButtonBox, QAction)
+                            QMenuBar, QMenu, QDialog, QDialogButtonBox, QAction,
+                            QLineEdit)
 from PyQt5.QtCore import QDate, pyqtSlot, Qt, QThread, pyqtSignal, QTimer, QTime
 from PyQt5.QtGui import QFont, QIcon
 import matplotlib.pyplot as plt
@@ -37,6 +38,7 @@ from patient_synchronizer import PatientSynchronizer
 from untersuchung_synchronizer import UntersuchungSynchronizer
 from appointment_patient_enricher import AppointmentPatientEnricher
 from constants import APPOINTMENT_TYPES
+from slack_notifier import send_sync_to_slack, get_slack_notifier
 
 # Konfiguriere das Logging
 log_filename = f"sync_gui_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
@@ -271,11 +273,17 @@ class SyncWorker(QThread):
 
             try:
                 # M1Ziffern aus den Terminen extrahieren
+                # Beruecksichtige sowohl originale PIZ als auch via PatientResolver aufgeloeste
                 m1ziffern = []
                 for apt in appointments:
+                    # Original PIZ
                     piz = apt.get("piz")
                     if piz and piz not in m1ziffern:
                         m1ziffern.append(piz)
+                    # Via PatientResolver aufgeloeste PIZ
+                    resolved_piz = apt.get("resolved_piz")
+                    if resolved_piz and resolved_piz not in m1ziffern:
+                        m1ziffern.append(resolved_piz)
 
                 if m1ziffern:
                     self.log_signal.emit(f"  {len(m1ziffern)} Patienten zur KVDT-Anreicherung")
@@ -513,6 +521,30 @@ class SyncApp(QMainWindow):
         self.live_sync_status_label.setStyleSheet("color: gray; font-style: italic;")
         params_layout.addWidget(self.live_sync_status_label)
 
+        # Separator
+        params_layout.addSpacing(10)
+
+        # Slack-Benachrichtigungen: Checkbox + Channel-Eingabe in einer Zeile
+        slack_layout = QHBoxLayout()
+
+        self.slack_notify_cb = QCheckBox("Slack:")
+        self.slack_notify_cb.setChecked(self._load_slack_enabled())
+        self.slack_notify_cb.stateChanged.connect(self._on_slack_notify_changed)
+        self.slack_notify_cb.setToolTip("Sendet Sync-Ergebnisse an den Slack-Channel")
+        slack_layout.addWidget(self.slack_notify_cb)
+
+        # Channel-Eingabefeld
+        self.slack_channel_edit = QLineEdit()
+        self.slack_channel_edit.setText(self._load_slack_channel())
+        self.slack_channel_edit.setPlaceholderText("#channel")
+        self.slack_channel_edit.setMaximumWidth(120)
+        self.slack_channel_edit.setToolTip("Slack-Channel (z.B. #chathlab)")
+        self.slack_channel_edit.editingFinished.connect(self._on_slack_channel_changed)
+        slack_layout.addWidget(self.slack_channel_edit)
+
+        slack_layout.addStretch()
+        params_layout.addLayout(slack_layout)
+
         params_group.setLayout(params_layout)
         
         top_layout.addWidget(calendar_group)
@@ -705,14 +737,21 @@ class SyncApp(QMainWindow):
         api_test_action.triggered.connect(self.test_api)
         api_menu.addAction(api_test_action)
 
-        # Standorte-Menü
-        standorte_menu = menubar.addMenu('Standorte')
+        # Einstellungen-Menü
+        settings_menu = menubar.addMenu('Einstellungen')
 
-        # Herzkatheter-Standorte verwalten
+        # Slack Webhook konfigurieren
+        slack_action = QAction('Slack Benachrichtigungen...', self)
+        slack_action.triggered.connect(self.show_slack_settings)
+        settings_menu.addAction(slack_action)
+
+        settings_menu.addSeparator()
+
+        # Standorte-Menü (als Untermenu)
         standorte_action = QAction('Herzkatheter-Standorte verwalten', self)
         standorte_action.setShortcut('Ctrl+H')
         standorte_action.triggered.connect(self.show_standorte_dialog)
-        standorte_menu.addAction(standorte_action)
+        settings_menu.addAction(standorte_action)
 
         # Hilfe-Menü
         help_menu = menubar.addMenu('Hilfe')
@@ -733,6 +772,56 @@ class SyncApp(QMainWindow):
         from api_documentation_dialog import APIDocumentationDialog
         dialog = APIDocumentationDialog(self, self.api_server_running)
         dialog.exec_()
+
+    def show_slack_settings(self):
+        """
+        Zeigt den Dialog zur Konfiguration der Slack-Benachrichtigungen.
+        """
+        notifier = get_slack_notifier()
+
+        # Channels laden
+        channels = notifier.get_channels()
+        if not channels:
+            QMessageBox.warning(
+                self,
+                "Slack Fehler",
+                "Konnte keine Slack-Channels laden.\n\n"
+                "Bitte pruefen Sie die Bot-Token Konfiguration."
+            )
+            return
+
+        # Channel-Namen als Liste
+        channel_names = [f"#{ch['name']}" for ch in channels]
+
+        # Aktuellen Channel finden
+        current_channel = notifier.channel or "#allgemein"
+        try:
+            current_index = channel_names.index(current_channel)
+        except ValueError:
+            current_index = 0
+
+        # Dialog anzeigen
+        from PyQt5.QtWidgets import QInputDialog
+        channel, ok = QInputDialog.getItem(
+            self,
+            "Slack Channel",
+            "Slack Channel fuer Sync-Benachrichtigungen auswaehlen:",
+            channel_names,
+            current_index,
+            False  # nicht editierbar
+        )
+
+        if ok and channel:
+            notifier.save_config(channel=channel)
+            # Checkbox aktivieren
+            if hasattr(self, 'slack_notify_cb'):
+                self.slack_notify_cb.setChecked(True)
+            QMessageBox.information(
+                self,
+                "Slack konfiguriert",
+                f"Sync-Ergebnisse werden an {channel} gesendet."
+            )
+            logger.info(f"Slack Channel konfiguriert: {channel}")
 
     def show_standorte_dialog(self):
         """
@@ -984,7 +1073,137 @@ class SyncApp(QMainWindow):
             self.statusBar().showMessage('Synchronisierung erfolgreich abgeschlossen')
         else:
             self.statusBar().showMessage(f'Synchronisierung mit Fehlern: {result.get("error", "Unbekannter Fehler")}')
-    
+
+        # Slack-Benachrichtigung senden
+        self._send_slack_notification(result)
+
+    def _load_slack_enabled(self) -> bool:
+        """Laedt Slack-Aktivierungsstatus aus Config."""
+        try:
+            with open("slack_config.json", "r") as f:
+                config = json.load(f)
+                return config.get("enabled", True)
+        except:
+            return False
+
+    def _load_slack_channel(self) -> str:
+        """Laedt Slack-Channel aus Config."""
+        try:
+            with open("slack_config.json", "r") as f:
+                config = json.load(f)
+                return config.get("channel", "#chathlab")
+        except:
+            return "#chathlab"
+
+    def _on_slack_notify_changed(self, state):
+        """Wird aufgerufen wenn Slack-Checkbox geaendert wird."""
+        enabled = state == Qt.Checked
+        try:
+            config = {}
+            try:
+                with open("slack_config.json", "r") as f:
+                    config = json.load(f)
+            except:
+                pass
+
+            config["enabled"] = enabled
+
+            with open("slack_config.json", "w") as f:
+                json.dump(config, f, indent=2)
+
+            logger.info(f"Slack-Benachrichtigungen {'aktiviert' if enabled else 'deaktiviert'}")
+        except Exception as e:
+            logger.error(f"Fehler beim Speichern der Slack-Einstellung: {e}")
+
+    def _on_slack_channel_changed(self):
+        """Wird aufgerufen wenn Slack-Channel geaendert wird."""
+        channel = self.slack_channel_edit.text().strip()
+        if not channel:
+            channel = "#chathlab"
+            self.slack_channel_edit.setText(channel)
+
+        # Channel muss mit # beginnen
+        if not channel.startswith("#"):
+            channel = "#" + channel
+            self.slack_channel_edit.setText(channel)
+
+        try:
+            config = {}
+            try:
+                with open("slack_config.json", "r") as f:
+                    config = json.load(f)
+            except:
+                pass
+
+            config["channel"] = channel
+
+            with open("slack_config.json", "w") as f:
+                json.dump(config, f, indent=2)
+
+            logger.info(f"Slack-Channel geaendert auf: {channel}")
+        except Exception as e:
+            logger.error(f"Fehler beim Speichern des Slack-Channels: {e}")
+
+    def _send_slack_notification(self, result):
+        """
+        Sendet Sync-Ergebnis an Slack (wenn konfiguriert und aktiviert).
+        """
+        try:
+            # Prüfe ob Slack-Checkbox aktiviert ist
+            if hasattr(self, 'slack_notify_cb') and not self.slack_notify_cb.isChecked():
+                logger.debug("Slack-Benachrichtigung deaktiviert (Checkbox)")
+                return
+
+            # Channel aus dem Eingabefeld holen
+            channel = "#chathlab"
+            if hasattr(self, 'slack_channel_edit'):
+                channel = self.slack_channel_edit.text().strip() or "#chathlab"
+
+            notifier = get_slack_notifier()
+            notifier.channel = channel  # Channel aus GUI uebernehmen
+
+            if not notifier.is_configured():
+                logger.debug("Slack nicht konfiguriert - keine Benachrichtigung")
+                return
+
+            # Datum aus dem Calendar holen
+            date_str = self.calendar.selectedDate().toString("dd.MM.yyyy")
+
+            # Statistiken extrahieren
+            inserted = result.get("inserted", 0)
+            updated = result.get("updated", 0)
+            deleted = result.get("deleted", 0)
+            errors = result.get("errors", 0)
+
+            # Patienten-Details aus Result extrahieren
+            # Format: {"inserted": [...], "updated": [...], "deleted": [...]}
+            # Jedes Element: {"name": str, "dob": str, "m1ziffer": str, "untersucher_id": int, "standort_id": int}
+            patient_details = {
+                "inserted": result.get("inserted_details", []),
+                "updated": result.get("updated_details", []),
+                "deleted": result.get("deleted_details", [])
+            }
+
+            # Nur senden wenn es Aenderungen gab
+            if inserted > 0 or updated > 0 or deleted > 0 or errors > 0:
+                success = notifier.send_sync_result(
+                    date_str=date_str,
+                    inserted=inserted,
+                    updated=updated,
+                    deleted=deleted,
+                    errors=errors,
+                    patient_details=patient_details
+                )
+                if success:
+                    logger.info(f"Slack-Benachrichtigung gesendet an {channel} fuer {date_str}")
+                else:
+                    logger.warning(f"Slack-Benachrichtigung an {channel} fehlgeschlagen")
+            else:
+                logger.debug("Keine Aenderungen - keine Slack-Benachrichtigung")
+
+        except Exception as e:
+            logger.error(f"Fehler bei Slack-Benachrichtigung: {e}")
+
     def update_results_table(self, result):
         """
         Aktualisiert die Ergebnistabelle.

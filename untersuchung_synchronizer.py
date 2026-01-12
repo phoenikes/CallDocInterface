@@ -16,6 +16,14 @@ from typing import Dict, List, Any, Optional, Tuple
 from calldoc_interface import CallDocInterface
 from mssql_api_client import MsSqlApiClient, JSONEncoder
 
+# PatientResolver fuer KVNR/Name-basierte Patientensuche
+try:
+    from patient_resolver import PatientResolver
+    PATIENT_RESOLVER_AVAILABLE = True
+except ImportError:
+    PATIENT_RESOLVER_AVAILABLE = False
+    PatientResolver = None
+
 # Logger konfigurieren
 logging.basicConfig(
     level=logging.INFO,
@@ -33,19 +41,27 @@ class UntersuchungSynchronizer:
     um beide Systeme zu synchronisieren.
     """
     
-    def __init__(self, calldoc_interface: Optional[CallDocInterface] = None, 
-                 mssql_client: Optional[MsSqlApiClient] = None):
+    def __init__(self, calldoc_interface: Optional[CallDocInterface] = None,
+                 mssql_client: Optional[MsSqlApiClient] = None,
+                 patient_resolver: Optional["PatientResolver"] = None):
         """
         Initialisiert den UntersuchungSynchronizer.
-        
+
         Args:
             calldoc_interface: Instanz der CallDocInterface-Klasse (optional)
             mssql_client: Instanz der MsSqlApiClient-Klasse (optional)
+            patient_resolver: Instanz des PatientResolver fuer KVNR/Name-Suche (optional)
         """
         self.calldoc_interface = calldoc_interface
         self.mssql_client = mssql_client or MsSqlApiClient()
         self.appointment_type_mapping = {}  # Mapping von CallDoc-Termintypen zu Untersuchungsarten
         self.patient_cache = {}  # Cache für Patientendaten
+
+        # PatientResolver fuer erweiterte Patientensuche (KVNR, Name+Geb.datum)
+        self.patient_resolver = patient_resolver
+        if PATIENT_RESOLVER_AVAILABLE and patient_resolver is None:
+            self.patient_resolver = PatientResolver()
+            logger.info("PatientResolver initialisiert (KVNR/Name-Fallback aktiv)")
         
         # Statistik für die Synchronisierung
         self.stats = {
@@ -220,12 +236,12 @@ class UntersuchungSynchronizer:
         # PatientID ermitteln
         piz = appointment.get("piz")
         appointment_id = appointment.get("id")
-        
+
         # Direkte Zuordnungen für bekannte Termine
         direct_mappings = {
             244092: 12938  # Bekannte Zuordnung für Termin 244092
         }
-        
+
         if appointment_id in direct_mappings:
             logger.info(f"Direkte Zuordnung für heydokid {appointment_id} -> PatientID {direct_mappings[appointment_id]}")
             untersuchung["PatientID"] = direct_mappings[appointment_id]
@@ -234,11 +250,22 @@ class UntersuchungSynchronizer:
             patient_id = self._get_patient_id_by_piz(piz)
             if patient_id:
                 untersuchung["PatientID"] = patient_id
-        
-        # Wenn keine PatientID gefunden wurde, Standard-PatientID verwenden
+
+        # Wenn keine PatientID gefunden wurde, versuche PatientResolver (KVNR/Name-Fallback)
+        if "PatientID" not in untersuchung and self.patient_resolver:
+            logger.info(f"Keine PIZ fuer Termin {appointment_id}, versuche PatientResolver...")
+            resolved = self.patient_resolver.resolve_patient(appointment)
+            if resolved and resolved.get("patient_id"):
+                untersuchung["PatientID"] = resolved["patient_id"]
+                logger.info(f"PatientResolver: Termin {appointment_id} -> PatientID {resolved['patient_id']} via {resolved['method']}")
+                # Speichere die aufgeloeste PIZ im Termin fuer spaetere Verwendung
+                if resolved.get("m1ziffer"):
+                    appointment["resolved_piz"] = resolved["m1ziffer"]
+
+        # Wenn immer noch keine PatientID gefunden, verwende Fallback
         if "PatientID" not in untersuchung:
-            untersuchung["PatientID"] = 1  # Standard-PatientID (Sandrock, Markus - existiert definitiv)
-            logger.warning(f"Keine PatientID für Termin {appointment_id} gefunden, verwende Standard-PatientID 1")
+            untersuchung["PatientID"] = 1  # Standard-PatientID (Sandrock, Markus)
+            logger.warning(f"Keine PatientID fuer Termin {appointment_id} gefunden, verwende Standard-PatientID 1")
         
         # HINWEIS: Die Felder termin_id, heydokid und Untersuchungtype existieren in der DB,
         # werden aber von der apimsdata.exe NICHT unterstützt/gefunden.
@@ -665,6 +692,15 @@ class UntersuchungSynchronizer:
                     if result.get("success", False):
                         self.stats["inserted"] += 1
                         self.stats["success"] += 1
+                        # Detail fuer Slack sammeln
+                        m1ziffer = appointment.get('resolved_piz') or appointment.get('piz', '')
+                        self.stats["inserted_details"].append({
+                            "name": f"{appointment.get('surname', '')}, {appointment.get('name', '')}",
+                            "dob": appointment.get('date_of_birth', ''),
+                            "m1ziffer": m1ziffer,
+                            "untersucher_id": untersuchung_data.get('UntersucherAbrechnungID'),
+                            "standort_id": untersuchung_data.get('HerzkatheterID')
+                        })
                         logger.info(f"Untersuchung für Termin {appointment_id} erfolgreich eingefügt")
                     else:
                         self.stats["errors"] += 1
@@ -711,7 +747,11 @@ class UntersuchungSynchronizer:
             "updated": 0,
             "deleted": 0,
             "errors": 0,
-            "success": 0
+            "success": 0,
+            # Details fuer Slack-Benachrichtigung
+            "inserted_details": [],
+            "updated_details": [],
+            "deleted_details": []
         }
         
         logger.info(f"Starte Synchronisierung: {len(appointments)} CallDoc-Termine, {len(untersuchungen)} SQLHK-Untersuchungen")
@@ -888,6 +928,15 @@ class UntersuchungSynchronizer:
             if result.get("success", False):
                 self.stats["updated"] += 1
                 self.stats["success"] += 1
+                # Detail fuer Slack sammeln
+                m1ziffer = appointment.get('resolved_piz') or appointment.get('piz', '')
+                self.stats["updated_details"].append({
+                    "name": f"{appointment.get('surname', '')}, {appointment.get('name', '')}",
+                    "dob": appointment.get('date_of_birth', ''),
+                    "m1ziffer": m1ziffer,
+                    "untersucher_id": untersuchung_data.get('UntersucherAbrechnungID'),
+                    "standort_id": untersuchung_data.get('HerzkatheterID')
+                })
                 logger.info(f"Untersuchung {untersuchung_id} für Termin {appointment.get('id')} erfolgreich aktualisiert")
             else:
                 self.stats["errors"] += 1
@@ -932,6 +981,14 @@ class UntersuchungSynchronizer:
             
             if result.get("success", False):
                 self.stats["deleted"] += 1
+                # Detail fuer Slack sammeln
+                self.stats["deleted_details"].append({
+                    "name": f"{untersuchung.get('Nachname', '')}, {untersuchung.get('Vorname', '')}",
+                    "dob": untersuchung.get('Geburtsdatum', ''),
+                    "m1ziffer": untersuchung.get('M1Ziffer', ''),
+                    "untersucher_id": untersuchung.get('UntersucherAbrechnungID'),
+                    "standort_id": untersuchung.get('HerzkatheterID')
+                })
                 logger.info(f"Untersuchung {untersuchung_id} erfolgreich gelöscht")
                 return True
             else:
