@@ -108,3 +108,32 @@
 - 8 mit PIZ (funktioniert)
 - 4 mit KVNR ohne PIZ (M1Ziffer gefunden via .con)
 - 4 ohne KVNR (neue Patienten)
+
+---
+
+## Changelog
+
+### Version 2.1.1 (21.01.2026)
+
+#### Aenderungen:
+1. **constants.py - Vollstaendiges Aerzte-Mapping**
+   - Alle 26 Aerzte aus SQLHK Untersucherabrechnung hinzugefuegt
+   - Korrigierte employee_ids (z.B. NEUMANN: 29 -> 81)
+   - Korrigierte Schreibweisen (STEFAN -> STEPHAN, TILLMANS -> TILLMANNS)
+   - Neue Aerzte 2026: Poesch (10081), Vukaninovic (10082), Platschek (10091), Mohammed (10097)
+   - Entfernt (nicht in DB): GASPLMAYR, KLOPF, GAWEHN
+
+2. **CallDocSync.spec - Neue Module**
+   - patient_resolver.py hinzugefuegt
+   - slack_notifier.py hinzugefuegt
+   - slack_config.json hinzugefuegt
+   - slack_sdk zu hiddenimports hinzugefuegt
+
+3. **Neuer Build**
+   - CallDocSync.exe (86 MB)
+   - Deployed auf P:\MCP\Calldocinterface\
+
+#### Getestet:
+- 51 Herzkatheter-Termine am 21.01.2026
+- employee_id 10097 (Dr. Mohammed): 8 Termine in Offenbach korrekt erkannt
+- Mapping funktioniert fuer alle aktiven Aerzte

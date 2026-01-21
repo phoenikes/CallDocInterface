@@ -56,28 +56,37 @@ APPOINTMENT_TYPES = {
     "HERZKATHETER RUMMELSBERG": 25
 }
 
-# Konstanten für die Ärzte
+# Konstanten für die Ärzte (CallDoc employee_id)
+# Mapping zu SQLHK UntersucherAbrechnungID erfolgt über DB-Tabelle Untersucherabrechnung
 DOCTORS = {
-    "SANDROCK": 18,
-    "DEUBNER": 19,
-    "GASPLMAYR": 20,
-    "KLOPF": 21,
-    "WEICHSEL": 22,
-    "GAWEHN": 24,
-    "DUCKHEIM": 25,
-    "DOSCHAT": 26,
-    "PAPAGEORGIOU": 27,
-    "LINDEMANN": 28,
-    "NEUMANN": 29,
-    "ANGER": 30,
-    "BLAZEK": 31,
-    "STEFAN": 32,
-    "REGENFUS": 33,
-    "PANNU":49,
-    "KOCH": 50,
-    "SCHÄFFER": 52,
-    "TILLMANS": 56
-
+    # Praxis-Ärzte
+    "SANDROCK": 18,           # SQLHK ID 1
+    "DEUBNER": 19,            # SQLHK ID 7
+    "WEICHSEL": 22,           # SQLHK ID 5
+    "DUCKHEIM": 25,           # SQLHK ID 6
+    "DOSCHAT": 26,            # SQLHK ID 20
+    "PAPAGEORGIOU": 27,       # SQLHK ID 2
+    "LINDEMANN": 28,          # SQLHK ID 23
+    "ANGER": 30,              # SQLHK ID 11
+    "BLAZEK": 31,             # SQLHK ID 24
+    "STEPHAN": 32,            # SQLHK ID 16
+    "REGENFUS": 33,           # SQLHK ID 21
+    "KNOPP": 34,              # SQLHK ID 4
+    "BÖTZL": 36,              # SQLHK ID 3
+    "MEKKALA": 38,            # SQLHK ID 14
+    "PANNU": 49,              # SQLHK ID 13
+    "KOCH": 50,               # SQLHK ID 12
+    "STIEFEL": 51,            # SQLHK ID 17
+    "SCHÄFFER": 52,           # SQLHK ID 19
+    "TILLMANNS": 56,          # SQLHK ID 22
+    "GREINWALD": 57,          # SQLHK ID 28
+    "GÖTZ": 66,               # SQLHK ID 15
+    "NEUMANN": 81,            # SQLHK ID 25
+    # Neue Ärzte (2026)
+    "POESCH": 10081,          # SQLHK ID 30
+    "VUKANINOVIC": 10082,     # SQLHK ID 29
+    "PLATSCHEK": 10091,       # SQLHK ID 31
+    "MOHAMMED": 10097,        # SQLHK ID 32
 }
 
 # Konstanten für Räume
