@@ -110,10 +110,16 @@ signal.signal(signal.SIGINT, signal_handler)
 class SyncTask:
     """Repräsentiert eine Synchronisierungs-Aufgabe"""
     
-    def __init__(self, task_id: str, date_str: str, appointment_type_id: int = None):
+    def __init__(self, task_id: str, date_str: str, appointment_type_id=None):
         self.task_id = task_id
         self.date_str = date_str
-        self.appointment_type_id = appointment_type_id or config['sync'].get('default_appointment_type', 24)
+        # Unterstuetzt int, list oder None -> immer Liste
+        if isinstance(appointment_type_id, list):
+            self.appointment_type_ids = appointment_type_id
+        elif appointment_type_id is not None:
+            self.appointment_type_ids = [appointment_type_id]
+        else:
+            self.appointment_type_ids = config['sync'].get('default_appointment_types', [24, 25])
         self.status = "pending"
         self.start_time = None
         self.end_time = None
@@ -127,7 +133,7 @@ class SyncTask:
         return {
             "task_id": self.task_id,
             "date": self.date_str,
-            "appointment_type_id": self.appointment_type_id,
+            "appointment_type_ids": self.appointment_type_ids,
             "status": self.status,
             "start_time": self.start_time.isoformat() if self.start_time else None,
             "end_time": self.end_time.isoformat() if self.end_time else None,
@@ -162,41 +168,39 @@ def run_synchronization(task: SyncTask):
     try:
         task.status = "running"
         task.start_time = datetime.now()
-        logger.info(f"Starte Synchronisierung für Task {task.task_id}: Datum={task.date_str}, Type={task.appointment_type_id}")
-        
+        logger.info(f"Starte Synchronisierung für Task {task.task_id}: Datum={task.date_str}, Types={task.appointment_type_ids}")
+
         # Konvertiere Datum für SQLHK (DD.MM.YYYY)
         date_parts = task.date_str.split('-')
         sqlhk_date = f"{date_parts[2]}.{date_parts[1]}.{date_parts[0]}"
-        
-        # 1. CallDoc Termine abrufen
-        logger.info(f"Rufe CallDoc Termine ab für {task.date_str}")
+
+        # 1. CallDoc Termine abrufen (unterstuetzt mehrere Typen)
+        logger.info(f"Rufe CallDoc Termine ab für {task.date_str}, Typen: {task.appointment_type_ids}")
         calldoc_client = CallDocInterface(
             from_date=task.date_str,
             to_date=task.date_str
         )
-        
-        response = calldoc_client.appointment_search(
-            appointment_type_id=task.appointment_type_id
-        )
-        
-        if 'error' in response:
-            raise Exception(f"CallDoc API Fehler: {response}")
-        
-        appointments = response.get('data', [])
-        
-        # Filter nach appointment_type (mit dem Fix!)
-        filtered_appointments = [
-            a for a in appointments 
-            if a.get('appointment_type') == task.appointment_type_id
-        ]
-        
+
+        filtered_appointments = []
+        total_raw = 0
+        for type_id in task.appointment_type_ids:
+            response = calldoc_client.appointment_search(appointment_type_id=type_id)
+            if 'error' in response:
+                logger.warning(f"CallDoc API Fehler fuer Type {type_id}: {response}")
+                continue
+            apts = response.get('data', [])
+            total_raw += len(apts)
+            # Client-side Filter nach Typ
+            apts = [a for a in apts if a.get('appointment_type') == type_id]
+            filtered_appointments.extend(apts)
+
         # Filter nach Status (aktive Termine)
         active_appointments = [
-            a for a in filtered_appointments 
+            a for a in filtered_appointments
             if a.get('status') != 'canceled'
         ]
-        
-        logger.info(f"CallDoc: {len(appointments)} total, {len(filtered_appointments)} gefiltert, {len(active_appointments)} aktiv")
+
+        logger.info(f"CallDoc: {total_raw} total, {len(filtered_appointments)} gefiltert, {len(active_appointments)} aktiv")
         
         # Patientendaten anreichern
         logger.info("Reichere Termine mit Patientendaten an...")
@@ -548,13 +552,14 @@ def trigger_sync():
                 "error": "Missing required field: date",
                 "example": {
                     "date": "2025-08-20",
-                    "appointment_type_id": 24
+                    "appointment_type_id": [24, 25]
                 }
             }), 400
-        
+
         date_str = data['date']
-        appointment_type_id = data.get('appointment_type_id', 24)
-        
+        # Unterstuetzt int, list oder default [24, 25]
+        appointment_type_id = data.get('appointment_type_id', [24, 25])
+
         # Datum validieren
         try:
             datetime.strptime(date_str, '%Y-%m-%d')
@@ -562,9 +567,9 @@ def trigger_sync():
             return jsonify({
                 "error": "Invalid date format. Use YYYY-MM-DD"
             }), 400
-        
+
         # Task ID generieren
-        task_id = f"sync_{date_str}_{appointment_type_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        task_id = f"sync_{date_str}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
         
         # Prüfen ob bereits eine Sync für dieses Datum läuft
         with sync_lock:

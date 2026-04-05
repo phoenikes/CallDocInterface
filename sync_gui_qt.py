@@ -65,7 +65,13 @@ class SyncWorker(QThread):
     def __init__(self, date_str, appointment_type_id=None, smart_status_filter=True):
         super().__init__()
         self.date_str = date_str
-        self.appointment_type_id = appointment_type_id
+        # appointment_type_id kann int, list oder None sein
+        if isinstance(appointment_type_id, list):
+            self.appointment_type_ids = appointment_type_id
+        elif appointment_type_id is not None:
+            self.appointment_type_ids = [appointment_type_id]
+        else:
+            self.appointment_type_ids = None
         self.smart_status_filter = smart_status_filter
         self.running = True
         
@@ -102,32 +108,38 @@ class SyncWorker(QThread):
             self.log_signal.emit("1. CallDoc-Termine abrufen")
             self.update_signal.emit("Rufe CallDoc-Termine ab...", {"progress": 10})
             
-            # Parameter für die Terminsuche
-            search_params = {
-                "from_date": self.date_str,
-                "to_date": self.date_str
-            }
-            if self.appointment_type_id:
-                search_params["appointment_type_id"] = self.appointment_type_id
-            
-            # Termine abrufen
-            self.log_signal.emit(f"Rufe Termine für Datum {self.date_str} ab mit Parametern: {search_params}")
-            response = calldoc_client.appointment_search(**search_params)
-            self.log_signal.emit(f"API-Antwort erhalten: {type(response)}")
-            
-            # Überprüfe die Struktur der Antwort
-            if isinstance(response, dict):
-                self.log_signal.emit(f"API-Antwort Schlüssel: {response.keys()}")
-                appointments = response.get("data", [])
+            # Termine abrufen - unterstuetzt mehrere Termintypen
+            appointments = []
+            if self.appointment_type_ids:
+                self.log_signal.emit(f"Rufe Termine fuer {self.date_str} ab, Typen: {self.appointment_type_ids}")
+                for type_id in self.appointment_type_ids:
+                    response = calldoc_client.appointment_search(
+                        appointment_type_id=type_id,
+                        from_date=self.date_str,
+                        to_date=self.date_str
+                    )
+                    if isinstance(response, dict):
+                        apts = response.get("data", [])
+                        # Client-side Filter nach Typ (API filtert nicht immer zuverlaessig)
+                        apts = [a for a in apts if a.get("appointment_type") == type_id]
+                        self.log_signal.emit(f"  Type {type_id}: {len(apts)} Termine")
+                        appointments.extend(apts)
             else:
-                self.log_signal.emit(f"Unerwartetes Antwortformat: {type(response)}")
-                appointments = []
-            
+                self.log_signal.emit(f"Rufe alle Termine fuer {self.date_str} ab")
+                response = calldoc_client.appointment_search(
+                    from_date=self.date_str,
+                    to_date=self.date_str
+                )
+                if isinstance(response, dict):
+                    appointments = response.get("data", [])
+
+            self.log_signal.emit(f"Gesamt: {len(appointments)} Termine abgerufen")
+
             if not appointments:
                 self.log_signal.emit(f"Keine CallDoc-Termine für {self.date_str} gefunden.")
                 self.finished_signal.emit({"success": False, "error": "Keine Termine gefunden"})
                 return
-            
+
             # Filtere nach Datum
             self.log_signal.emit(f"Filtere Termine nach Datum: {self.date_str}")
             filtered_appointments = []
@@ -135,16 +147,9 @@ class SyncWorker(QThread):
                 scheduled_date = appointment.get("scheduled_for_datetime", "")
                 if scheduled_date and self.date_str in scheduled_date:
                     filtered_appointments.append(appointment)
-                    
+
             self.log_signal.emit(f"Nach Datumsfilterung: {len(filtered_appointments)} von {len(appointments)} Terminen übrig")
             appointments = filtered_appointments
-            
-            # Filtere nach Termintyp, falls angegeben
-            if self.appointment_type_id:
-                before_count = len(appointments)
-                # API gibt "appointment_type" zurück, nicht "appointment_type_id"
-                appointments = [a for a in appointments if a.get("appointment_type") == self.appointment_type_id]
-                self.log_signal.emit(f"Nach Typfilterung: {len(appointments)} von {before_count} Terminen übrig")
             
             # Filtere nach Status, falls aktiviert
             if self.smart_status_filter:
@@ -430,10 +435,12 @@ class SyncApp(QMainWindow):
         type_layout.addWidget(QLabel("Termintyp:"))
         self.type_combo = QComboBox()
         self.type_combo.addItem("Alle Typen", None)
+        self.type_combo.addItem("HK Diagnostik + Ablation", [24, 25])
         self.type_combo.addItem("Herzkatheteruntersuchung", APPOINTMENT_TYPES["HERZKATHETERUNTERSUCHUNG"])
+        self.type_combo.addItem("Ablation", APPOINTMENT_TYPES["ABLATION"])
         self.type_combo.addItem("Herzultraschall", APPOINTMENT_TYPES["HERZULTRASCHALL"])
         self.type_combo.addItem("Kardiologische Untersuchung", APPOINTMENT_TYPES["KARDIOLOGISCHE_UNTERSUCHUNG"])
-        # Standardmäßig Herzkatheteruntersuchung auswählen (Index 1)
+        # Standardmäßig HK Diagnostik + Ablation auswählen (Index 1)
         self.type_combo.setCurrentIndex(1)
         type_layout.addWidget(self.type_combo)
         params_layout.addLayout(type_layout)
@@ -1595,24 +1602,19 @@ class SyncApp(QMainWindow):
 
                 # Auto-Sync Einstellungen
                 self.auto_sync_enabled = settings.get("auto_sync_enabled", False)
-                time_str = settings.get("auto_sync_time", "07:00")
-                self.auto_sync_time = QTime.fromString(time_str, "HH:mm")
+                self.auto_sync_time = QTime(7, 0)  # Immer 07:00 als Default
 
-                # Live-Sync Einstellungen
-                self.live_sync_enabled = settings.get("live_sync_enabled", False)
+                # Live-Sync: immer deaktiviert starten
+                self.live_sync_enabled = False
                 self.live_sync_interval = settings.get("live_sync_interval", 2)
 
                 # UI aktualisieren - Auto-Sync
                 self.auto_sync_cb.setChecked(self.auto_sync_enabled)
                 self.auto_sync_time_edit.setTime(self.auto_sync_time)
 
-                # UI aktualisieren - Live-Sync
-                self.live_sync_cb.setChecked(self.live_sync_enabled)
+                # UI aktualisieren - Live-Sync (immer aus)
+                self.live_sync_cb.setChecked(False)
                 self.live_sync_interval_spin.setValue(self.live_sync_interval)
-
-                # Live-Sync starten falls aktiviert
-                if self.live_sync_enabled:
-                    self.start_live_sync()
 
                 logger.info(f"Scheduler-Einstellungen geladen: auto_sync={self.auto_sync_enabled}, live_sync={self.live_sync_enabled}, interval={self.live_sync_interval}min")
         except Exception as e:

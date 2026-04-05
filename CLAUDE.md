@@ -13,17 +13,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
-### Current Version: 2.1.0 (12.01.2026)
+### Current Version: 2.2.0 (05.04.2026)
 - **GUI Application**: Modern PyQt5 interface with real-time dashboard
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
+- **Multi-Type Sync**: Kombinierter Import von Diagnostik (Type 24) + Ablation (Type 25)
+- **Ablation-Support**: Eigene Geschaeftslogik (Zuweiser Duckheim, HK Rummelsberg 2 fix)
 - **Single-Patient Sync**: Targeted synchronization via M1Ziffer
-- **Live-Ueberwachung**: Automatische Aenderungserkennung mit Hash-Vergleich
 - **KVDT-Datenanreicherung**: Patientendaten aus .con Dateien
 - **PatientResolver**: Automatische Patientenaufloesung via PIZ, KVNR oder Name+Geburtsdatum
 - **Slack-Integration**: Sync-Ergebnisse mit Patientendetails an Slack-Channel
 - **Desktop Integration**: Standalone EXE with integrated API
-- **Last Updated**: 12.01.2026
-- **Latest Build**: CallDocSync.exe (86 MB)
+- **Last Updated**: 05.04.2026
+- **Latest Build**: CallDocSync.exe (66 MB)
 
 ## Architecture & Data Flow
 
@@ -208,8 +209,16 @@ python vergleich_calldoc_sqlhk.py
 ## Important Business Logic
 
 ### Appointment Type Mapping
-- CallDoc appointment_type_id ↔ SQLHK UntersuchungartID via Untersuchungart.ExterneID
-- Default: Type 24 (HERZKATHETERUNTERSUCHUNG) for cardiac catheterization
+- CallDoc appointment_type ↔ SQLHK UntersuchungartID via JSON_VALUE(appointment_type, '$."1"')
+- Type 24 (Herzkatheteruntersuchung) → UntersuchungartID 1 (KV Diagnostik ambulant)
+- Type 25 (Ablation) → UntersuchungartID 8 (Ablation)
+- Default GUI-Auswahl: "HK Diagnostik + Ablation" ([24, 25])
+
+### Ablation-Sonderlogik (ab 07.04.2026)
+- Standort: NUR Rummelsberg 2 (HerzkatheterID 2, room_id 19)
+- Zuweiser: IMMER Duckheim (ZuweiserID 7)
+- Untersucher: dynamisch aus CallDoc employee (meist Duckheim)
+- Rest: identisch zu Diagnostik
 
 ### Date Format Conversion
 - CallDoc: YYYY-MM-DD
@@ -603,6 +612,20 @@ result = resolver.resolve_patient(appointment)
 ```
 
 ## Version History
+
+### Version 2.2.0 (05.04.2026)
+- **Ablation-Integration**: Neuer Termintyp 25 (Ablation) wird synchronisiert
+  - DB-Fix: Untersuchungart ID 8 korrekt auf CallDoc Type 25 gemappt
+  - Sonderlogik: ZuweiserID=7 (Duckheim), HerzkatheterID=2 (Rummelsberg 2) fix
+  - ID 2 (KV Intervention ambulant) aus CallDoc-Mapping entfernt
+- **Multi-Type Sync**: GUI und API unterstuetzen mehrere Termintypen gleichzeitig
+  - Neuer Dropdown: "HK Diagnostik + Ablation" als Default (Types [24, 25])
+  - SyncWorker: Mehrere API-Calls werden zusammengefuehrt
+  - REST API: appointment_type_id akzeptiert int oder list, Default [24, 25]
+- **constants.py**: "HERZKATHETER RUMMELSBERG" korrigiert zu "ABLATION"
+- **Startup-Defaults**: Auto-Sync immer 07:00, Live-Ueberwachung immer deaktiviert
+- **Neuer Build**: CallDocSync.exe (66 MB)
+- **Aktive Standorte**: Rummelsberg 1+2, Offenbach, Braunschweig, Saarbruecken (ab 22.04.), Regensburg
 
 ### Version 2.1.0 (12.01.2026)
 - **PatientResolver**: Neue Komponente fuer automatische Patientenaufloesung

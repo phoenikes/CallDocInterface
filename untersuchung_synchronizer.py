@@ -182,12 +182,12 @@ class UntersuchungSynchronizer:
             # Zeit wird nicht in der Datenbank gespeichert, da kein entsprechendes Feld existiert
         
         # Standard-Werte für Pflichtfelder
-        untersuchung["ZuweiserID"] = 2  # Standard-Zuweiser
+        untersuchung["ZuweiserID"] = 2  # Standard-Zuweiser (Sandrock)
         untersuchung["Roentgen"] = 1
         untersuchung["Herzteam"] = 1
         untersuchung["Materialpreis"] = 0
         untersuchung["DRGID"] = 1
-        
+
         # UntersuchungartID dynamisch ermitteln anhand der appointment_type
         # API hat sich geändert: appointment_type_id -> appointment_type
         appointment_type_id = appointment.get("appointment_type")
@@ -202,21 +202,26 @@ class UntersuchungSynchronizer:
         else:
             untersuchung["UntersuchungartID"] = 1  # Standard-Untersuchungsart
             logger.warning("Keine appointment_type im Termin vorhanden, verwende Standard-UntersuchungartID 1")
-        
-        # HerzkatheterID dynamisch ermitteln anhand der room
-        # API hat sich geändert: room_id -> room
-        room_id = appointment.get("room")
-        if room_id:
-            herzkatheter_id = self._get_herzkatheter_id_by_room_id(room_id)
-            if herzkatheter_id:
-                untersuchung["HerzkatheterID"] = herzkatheter_id
-                logger.info(f"HerzkatheterID {herzkatheter_id} für room {room_id} gefunden")
+
+        # Ablation-Sonderlogik: feste Werte fuer Zuweiser und Herzkatheter
+        if appointment_type_id == 25:
+            untersuchung["ZuweiserID"] = 7  # Ablation: Zuweiser immer Duckheim
+            untersuchung["HerzkatheterID"] = 2  # Ablation: immer Rummelsberg 2
+            logger.info(f"Ablation erkannt: ZuweiserID=7 (Duckheim), HerzkatheterID=2 (Rummelsberg 2)")
+        else:
+            # HerzkatheterID dynamisch ermitteln anhand der room (nur fuer Nicht-Ablation)
+            room_id = appointment.get("room")
+            if room_id:
+                herzkatheter_id = self._get_herzkatheter_id_by_room_id(room_id)
+                if herzkatheter_id:
+                    untersuchung["HerzkatheterID"] = herzkatheter_id
+                    logger.info(f"HerzkatheterID {herzkatheter_id} für room {room_id} gefunden")
+                else:
+                    untersuchung["HerzkatheterID"] = 1  # Standard-Herzkatheter
+                    logger.warning(f"Verwende Standard-HerzkatheterID 1, da keine für room {room_id} gefunden wurde")
             else:
                 untersuchung["HerzkatheterID"] = 1  # Standard-Herzkatheter
-                logger.warning(f"Verwende Standard-HerzkatheterID 1, da keine für room {room_id} gefunden wurde")
-        else:
-            untersuchung["HerzkatheterID"] = 1  # Standard-Herzkatheter
-            logger.warning("Keine room im Termin vorhanden, verwende Standard-HerzkatheterID 1")  # Standard-DRG
+                logger.warning("Keine room im Termin vorhanden, verwende Standard-HerzkatheterID 1")
         
         # UntersucherAbrechnungID basierend auf employee ermitteln
         # API hat sich geändert: employee_id -> employee

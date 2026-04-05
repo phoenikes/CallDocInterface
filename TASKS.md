@@ -113,6 +113,39 @@
 
 ## Changelog
 
+### Version 2.2.0 (05.04.2026)
+
+#### Aenderungen:
+1. **DB-Fix: Untersuchungart-Tabelle**
+   - ID 2 (KV Intervention ambulant): appointment_type auf NULL (kein CallDoc-Mapping)
+   - ID 8 (Ablation): appointment_type von {"1":31} auf {"1":25} (= CallDoc Ablation)
+
+2. **constants.py**
+   - "HERZKATHETER RUMMELSBERG": 25 -> "ABLATION": 25
+
+3. **untersuchung_synchronizer.py - Ablation-Sonderlogik**
+   - appointment_type == 25: ZuweiserID=7 (Duckheim), HerzkatheterID=2 (Rummelsberg 2) fix
+   - Diagnostik (alle anderen): bestehendes Verhalten unveraendert
+
+4. **sync_gui_qt.py - Multi-Type Support**
+   - Neuer Dropdown: "HK Diagnostik + Ablation" ([24, 25]) als Default
+   - SyncWorker: appointment_type_ids als Liste, mehrere API-Calls zusammengefuehrt
+   - Startup: Auto-Sync immer 07:00, Live-Ueberwachung immer deaktiviert
+
+5. **sync_api_server.py - Multi-Type Support**
+   - SyncTask: appointment_type_ids als Liste
+   - POST /api/sync: appointment_type_id akzeptiert int oder list, Default [24, 25]
+
+6. **Neuer Build**
+   - CallDocSync.exe (66 MB)
+
+#### Getestet:
+- Dry-Run Test: 15/15 Mappings korrekt (12 Diagnostik + 3 Ablation)
+- GUI-Sync am 07.04.2026: 15 Untersuchungen korrekt in SQLHK
+- Ablation: ZuweiserID=7, HerzkatheterID=2, UntersuchungartID=8 - alles korrekt
+- Diagnostik: Unveraendert (ZuweiserID=2, HK dynamisch per room)
+- EXE startet sauber, Live-Sync deaktiviert, Auto-Sync 07:00
+
 ### Version 2.1.1 (21.01.2026)
 
 #### Aenderungen:
