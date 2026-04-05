@@ -23,13 +23,26 @@ nul
 screenshot_*.png
 *.ps1
 
-# JSON Data (export results)
+# JSON Data (export/debug results)
 calldoc_termine_*.json
 sqlhk_untersuchungen_*.json
 sync_result_*.json
+patient_sync_results_*.json
+patient_*.json
+api_untersuchungen_*.json
+api_response.json
+debug_*.json
+untersuchungen_*.json
+termine_*.json
+2025-*.json
+2026-*.json
 
 # GUI State
 .gui_state.json
+auto_sync_settings.json
+
+# Archive (alte Debug-Dateien)
+_archive/
 
 # Build artifacts
 build/
@@ -63,4 +76,7 @@ sync_gui_with_api.py
 
 # Icons (generated)
 sync_app.ico
-sync_app.pngslack_config.json
+sync_app.png
+
+# Slack config (Token)
+slack_config.json
