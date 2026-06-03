@@ -113,6 +113,42 @@
 
 ## Changelog
 
+### Version 2.3.0 (03.06.2026)
+
+#### Kontext:
+Beim Abgleich der Aerzte-IDs fiel auf, dass CallDoc keine dedizierte Mitarbeiter-Liste
+hat - die Stammdaten lagen verstreut. Loesung: die (vorher unbekannten) CallDoc-Endpunkte
+`/doctors/`, `/rooms/`, `/appointment-types/` gefunden und als GUI-Dialoge nutzbar gemacht.
+
+#### Aenderungen:
+1. **Neues GUI-Menue "CallDoc"** mit 3 modalen Dialogen
+   - Aerzte anzeigen (Ctrl+D), Raeume anzeigen (Ctrl+R), Untersuchungsarten anzeigen (Ctrl+T)
+   - Live-Abruf aus CallDoc + Spalten "in constants.py" / "in SQLHK" + Suche/Filter/Hervorhebung
+   - Neue Dateien: aerzte_dialog.py, raeume_dialog.py, untersuchungsarten_dialog.py
+   - CLI-Tool: list_doctors_from_calldoc.py
+
+2. **constants.py - Mapping vervollstaendigt**
+   - DOCTORS (30): + Chen (10103), Degenhardt (10104), Tegtmayer (10105), Gerhards (10116)
+   - ROOMS (7 HK-Labore): + Regensburg (188), Augsburg (189)
+
+3. **CallDocSync.spec**: 3 Dialog-Module zu datas + hiddenimports
+
+4. **Nachgezogenes v2.2.1** (war nie committet): Saarbruecken room_id 147, total_raw-Fix, single_patient_sync im Build
+
+5. **Build + Deploy**: CallDocSync.exe (93 MB) -> lokal + P:\MCP\Calldocinterface\
+   - Commit f809d70 nach github phoenikes/CallDocInterface gepusht
+
+#### Getestet:
+- CallDoc /doctors/ liefert 95 Eintraege (94 Doctor), /rooms/ 211, /appointment-types/ 99
+- Smoke-Test EXE: startet sauber, Scheduler laeuft, neue Menues vorhanden
+- Deployment P: bestaetigt (alle Runtime-Dateien vorhanden: exe, Start.bat, slack_config.json, ico)
+
+#### Offen (bewusst nicht gemacht):
+- SQLHK Untersucherabrechnung.employee_id fuer Gerhards (10116) + Tegtmayer (10105) ist NULL
+  -> ihre Termine laufen im Sandrock-Fallback, bis ein DB-UPDATE gesetzt wird
+- Merke fuer Arzt-Anlage: Untersucher (Login) / Untersucherabrechnung (Abrechnung) / Zuweiser
+  sind 3 unabhaengige Tabellen; factorial_id Pflicht (Kostenstelle), Default 6507
+
 ### Version 2.2.1 (21.04.2026)
 
 #### Problem:

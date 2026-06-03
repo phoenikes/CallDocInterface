@@ -13,9 +13,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
-### Current Version: 2.2.1 (21.04.2026)
+### Current Version: 2.3.0 (03.06.2026)
 - **GUI Application**: Modern PyQt5 interface with real-time dashboard
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
+- **CallDoc-Stammdaten-Dialoge (NEU)**: Menue "CallDoc" mit 3 modalen Dialogen (Aerzte/Raeume/Untersuchungsarten) - live aus CallDoc + Abgleich gegen constants.py/SQLHK
 - **Multi-Type Sync**: Kombinierter Import von Diagnostik (Type 24) + Ablation (Type 25)
 - **Ablation-Support**: Eigene Geschaeftslogik (Zuweiser Duckheim, HK Rummelsberg 2 fix)
 - **Single-Patient Sync**: Targeted synchronization via M1Ziffer
@@ -23,8 +24,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **PatientResolver**: Automatische Patientenaufloesung via PIZ, KVNR oder Name+Geburtsdatum
 - **Slack-Integration**: Sync-Ergebnisse mit Patientendetails an Slack-Channel
 - **Desktop Integration**: Standalone EXE with integrated API
-- **Last Updated**: 21.04.2026
-- **Latest Build**: CallDocSync.exe (89 MB)
+- **Last Updated**: 03.06.2026
+- **Latest Build**: CallDocSync.exe (93 MB)
 
 ## Architecture & Data Flow
 
@@ -166,6 +167,10 @@ python vergleich_calldoc_sqlhk.py
 ### CallDoc API (192.168.1.76:8001)
 - `GET /api/v1/frontend/appointment_search/` - Search appointments
 - `GET /api/v1/frontend/patient_search/` - Search patients by PIZ
+- `GET /api/v1/frontend/doctors/` - **Stammdaten aller Aerzte/Mitarbeiter** (id, title, role, first_name, last_name) - KEIN Auth noetig
+- `GET /api/v1/frontend/rooms/` - **Stammdaten aller Raeume** (id, room_name, comment, location, location_name)
+- `GET /api/v1/frontend/appointment-types/` - **Stammdaten aller Termin-/Untersuchungsarten** (id, type, macro_type, generate_meeting)
+- **WICHTIG**: Appointment-Objekte liefern beim Arzt NUR die `employee`-ID, KEINEN Namen. Namen kommen ausschliesslich aus `/doctors/` oder SQLHK Untersucherabrechnung. Die Felder `employee_first_name`/`employee_last_name` (alter Code in appointment_search.py) existieren in der API-Antwort NICHT (mehr).
 
 ### SQLHK API (192.168.1.67:7007)
 - `GET /api/untersuchung` - Fetch Untersuchungen by date
@@ -614,7 +619,54 @@ result = resolver.resolve_patient(appointment)
 # result = {"patient_id": 12345, "m1ziffer": "1698369", "source": "piz"}
 ```
 
+## CallDoc-Stammdaten-Dialoge (NEU - 03.06.2026)
+
+### Menue "CallDoc" in der GUI
+Drei modale Dialoge (exec_() - blockierend, Ablauf wartet bis Schliessen), die Stammdaten
+live aus der CallDoc-API ziehen und gegen constants.py + SQLHK abgleichen:
+
+| Menuepunkt | Shortcut | Endpunkt | Datei |
+|------------|----------|----------|-------|
+| Aerzte anzeigen | Ctrl+D | `/doctors/` | `aerzte_dialog.py` |
+| Raeume anzeigen | Ctrl+R | `/rooms/` | `raeume_dialog.py` |
+| Untersuchungsarten anzeigen | Ctrl+T | `/appointment-types/` | `untersuchungsarten_dialog.py` |
+
+### Gemeinsame Features je Dialog
+- **Live-Abruf** aus CallDoc (Aktualisieren-Button), Suchfeld, Filter-Checkboxen
+- **Mapping-Spalten**: "in constants.py" (JA/-) + "in SQLHK" (Live-Abfrage via MsSqlApiClient)
+- **Hervorhebung**: nicht-gemappte Aerzte gelb; sync-relevante HK-Raeume / SQLHK-Typen gruen
+- **Best-effort SQLHK**: Dialog funktioniert auch wenn SQLHK nicht erreichbar (Spalte zeigt dann "-")
+
+### SQLHK-Mapping-Quellen (fuer "in SQLHK"-Spalte)
+- Aerzte: `Untersucherabrechnung.employee_id` -> UntersucherAbrechnungID
+- Raeume: `Herzkatheter.room_id` -> HerzkatheterName (= HK-Labor)
+- Untersuchungsarten: `Untersuchungart` via `JSON_VALUE(appointment_type, '$."1"')` -> UntersuchungartID
+
+### Nutzen
+Schneller Soll-Ist-Abgleich: zeigt sofort, welche CallDoc-Aerzte/Raeume/Typen noch nicht
+in constants.py oder SQLHK gemappt sind. Damit wurde das Mapping in v2.3.0 vervollstaendigt.
+
+### CLI-Variante
+`list_doctors_from_calldoc.py` - dieselbe Aerzte-Abfrage als Kommandozeilen-Tool.
+
 ## Version History
+
+### Version 2.3.0 (03.06.2026)
+- **CallDoc-Stammdaten-Dialoge**: Neues Menue "CallDoc" mit 3 modalen Dialogen (Aerzte/Raeume/Untersuchungsarten)
+  - Live-Abruf aus CallDoc `/doctors/`, `/rooms/`, `/appointment-types/` + Abgleich gegen constants.py/SQLHK
+  - Neue Dateien: `aerzte_dialog.py`, `raeume_dialog.py`, `untersuchungsarten_dialog.py`, `list_doctors_from_calldoc.py`
+- **constants.py - DOCTORS vervollstaendigt (30 Aerzte)**:
+  - Neu: Chen (10103), Degenhardt (10104), Tegtmayer (10105, CallDoc "Tegtmeyer"), Gerhards (10116)
+  - Deckungsgleich mit SQLHK Untersucherabrechnung
+- **constants.py - ROOMS vervollstaendigt (7 HK-Labore)**:
+  - Neu: HERZKATHETER_REGENSBURG (188), HERZKATHETER_AUGSBURG (189)
+- **API-Doku**: CallDoc-Stammdaten-Endpunkte dokumentiert; Klarstellung: Appointment-Objekte liefern beim Arzt nur `employee`-ID, keinen Namen
+- **CallDocSync.spec**: 3 neue Dialog-Module zu datas + hiddenimports
+- **Enthaelt nachgezogenes v2.2.1** (war nie committet): Saarbruecken room_id, total_raw-Fix, single_patient_sync im Build
+- **Commit**: `f809d70` (gepusht: github phoenikes/CallDocInterface)
+- **Neuer Build**: CallDocSync.exe (93 MB) -> lokal + P:\MCP\Calldocinterface\ (03.06.2026)
+- **OFFEN (bewusst nicht gemacht)**: Gerhards (10116) + Tegtmayer (10105) haben in SQLHK Untersucherabrechnung noch `employee_id`=NULL -> ihre Termine laufen im Sandrock-Fallback bis DB-UPDATE
+- **Hinweis Arzt-Anlage SQLHK**: Untersucher (Login) / Untersucherabrechnung (Abrechnung+employee_id) / Zuweiser (Zuweiser-Recht) sind 3 unabhaengige Tabellen; factorial_id (Kostenstelle) ist Pflicht, Default 6507
 
 ### Version 2.2.1 (21.04.2026)
 - **Saarbruecken room_id Fix**: room_id in Herzkatheter-Tabelle von 187 auf 147 korrigiert
