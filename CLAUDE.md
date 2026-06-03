@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 **CallDocInterface** - Bidirectional synchronization system between CallDoc appointment system and SQLHK medical database for managing cardiac catheterization appointments and patient data.
 
-### Current Version: 2.2.0 (05.04.2026)
+### Current Version: 2.2.1 (21.04.2026)
 - **GUI Application**: Modern PyQt5 interface with real-time dashboard
 - **REST API Server**: Automated synchronization via HTTP API (Port 5555)
 - **Multi-Type Sync**: Kombinierter Import von Diagnostik (Type 24) + Ablation (Type 25)
@@ -23,8 +23,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **PatientResolver**: Automatische Patientenaufloesung via PIZ, KVNR oder Name+Geburtsdatum
 - **Slack-Integration**: Sync-Ergebnisse mit Patientendetails an Slack-Channel
 - **Desktop Integration**: Standalone EXE with integrated API
-- **Last Updated**: 05.04.2026
-- **Latest Build**: CallDocSync.exe (66 MB)
+- **Last Updated**: 21.04.2026
+- **Latest Build**: CallDocSync.exe (89 MB)
 
 ## Architecture & Data Flow
 
@@ -542,12 +542,15 @@ Zeigt alle Herzkatheter-Standorte aus der SQLHK Datenbank.
 - **Aktiv**: Ob der Standort aktiv ist
 
 ### Aktuelle Standorte
-| Name | room_id | Aktiv |
-|------|---------|-------|
-| Rummelsberg 1 | 18 | Ja |
-| Rummelsberg 2 | 19 | Ja |
-| Offenbach | 54 | Ja |
-| Braunschweig | 61 | Ja |
+| Name | HerzkatheterID | room_id | Aktiv |
+|------|---------------|---------|-------|
+| Rummelsberg 1 | 1 | 18 | Ja |
+| Rummelsberg 2 | 2 | 19 | Ja |
+| Offenbach | 3 | 54 | Ja |
+| Braunschweig | 6 | 61 | Ja |
+| Saarbruecken | 7 | 147 | Ja |
+| Regensburg | 8 | 188 | Ja |
+| Augsburg | 9 | - | Ja |
 
 ## Slack-Integration (NEU - 12.01.2026)
 
@@ -612,6 +615,17 @@ result = resolver.resolve_patient(appointment)
 ```
 
 ## Version History
+
+### Version 2.2.1 (21.04.2026)
+- **Saarbruecken room_id Fix**: room_id in Herzkatheter-Tabelle von 187 auf 147 korrigiert
+  - Dr. Poesch (employee_id 10081) Termine landeten auf Rummelsberg 1 statt Saarbruecken
+  - Ursache: CallDoc Room 147 war nicht in SQLHK gemappt (DB hatte room_id=187)
+  - DB-Fix: `UPDATE Herzkatheter SET room_id = 147 WHERE HerzkatheterID = 7`
+- **sync_api_server.py Bug-Fix**: `len(appointments)` -> `total_raw` (NameError bei API-Sync)
+- **constants.py**: `HERZKATHETER_SAARBRUECKEN: 147` hinzugefuegt
+- **CallDocSync.spec**: `single_patient_sync.py` zu datas und hiddenimports hinzugefuegt
+- **Standorte-Tabelle aktualisiert**: 7 Standorte dokumentiert (inkl. Saarbruecken, Regensburg, Augsburg)
+- **Neuer Build**: CallDocSync.exe (89 MB) -> lokal + P:\MCP\Calldocinterface\
 
 ### Version 2.2.0 (05.04.2026)
 - **Ablation-Integration**: Neuer Termintyp 25 (Ablation) wird synchronisiert

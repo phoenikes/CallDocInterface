@@ -744,6 +744,27 @@ class SyncApp(QMainWindow):
         api_test_action.triggered.connect(self.test_api)
         api_menu.addAction(api_test_action)
 
+        # CallDoc-Menü
+        calldoc_menu = menubar.addMenu('CallDoc')
+
+        # Aerzte aus CallDoc anzeigen
+        aerzte_action = QAction('Ärzte anzeigen', self)
+        aerzte_action.setShortcut('Ctrl+D')
+        aerzte_action.triggered.connect(self.show_aerzte_dialog)
+        calldoc_menu.addAction(aerzte_action)
+
+        # Raeume aus CallDoc anzeigen
+        raeume_action = QAction('Räume anzeigen', self)
+        raeume_action.setShortcut('Ctrl+R')
+        raeume_action.triggered.connect(self.show_raeume_dialog)
+        calldoc_menu.addAction(raeume_action)
+
+        # Untersuchungsarten aus CallDoc anzeigen
+        arten_action = QAction('Untersuchungsarten anzeigen', self)
+        arten_action.setShortcut('Ctrl+T')
+        arten_action.triggered.connect(self.show_untersuchungsarten_dialog)
+        calldoc_menu.addAction(arten_action)
+
         # Einstellungen-Menü
         settings_menu = menubar.addMenu('Einstellungen')
 
@@ -836,6 +857,33 @@ class SyncApp(QMainWindow):
         """
         from standorte_dialog import StandorteDialog
         dialog = StandorteDialog(self)
+        dialog.exec_()
+
+    def show_aerzte_dialog(self):
+        """
+        Zeigt alle Aerzte aus CallDoc in einem modalen Dialog.
+        Der Ablauf wartet, bis der Dialog geschlossen wird.
+        """
+        from aerzte_dialog import AerzteDialog
+        dialog = AerzteDialog(self)
+        dialog.exec_()
+
+    def show_raeume_dialog(self):
+        """
+        Zeigt alle Raeume aus CallDoc in einem modalen Dialog.
+        Der Ablauf wartet, bis der Dialog geschlossen wird.
+        """
+        from raeume_dialog import RaeumeDialog
+        dialog = RaeumeDialog(self)
+        dialog.exec_()
+
+    def show_untersuchungsarten_dialog(self):
+        """
+        Zeigt alle Untersuchungsarten aus CallDoc in einem modalen Dialog.
+        Der Ablauf wartet, bis der Dialog geschlossen wird.
+        """
+        from untersuchungsarten_dialog import UntersuchungsartenDialog
+        dialog = UntersuchungsartenDialog(self)
         dialog.exec_()
 
     def start_api_server(self):

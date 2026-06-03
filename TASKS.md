@@ -113,6 +113,36 @@
 
 ## Changelog
 
+### Version 2.2.1 (21.04.2026)
+
+#### Problem:
+Dr. Poesch (employee_id 10081) Untersuchungen am Donnerstag 23.04.2026 landeten auf
+**Rummelsberg 1** statt auf **Saarbruecken**. Ursache: Falsche room_id in der
+Herzkatheter-Tabelle (187 statt 147).
+
+#### Aenderungen:
+1. **DB-Fix: Herzkatheter-Tabelle**
+   - Saarbruecken (HerzkatheterID 7): room_id von 187 auf 147 korrigiert
+   - CallDoc Room 147 = Saarbruecken HK-Labor
+
+2. **sync_api_server.py - Bug-Fix**
+   - Zeile 265: `len(appointments)` -> `total_raw` (NameError bei API-Sync behoben)
+
+3. **constants.py - Neuer Raum**
+   - `HERZKATHETER_SAARBRUECKEN: 147` hinzugefuegt
+
+4. **CallDocSync.spec - Fehlende Module**
+   - `single_patient_sync.py` zu datas und hiddenimports hinzugefuegt
+
+5. **Neuer Build**
+   - CallDocSync.exe (89 MB)
+   - Deployed auf P:\MCP\Calldocinterface\
+
+#### Getestet:
+- Donnerstag 23.04.2026: 42 aktive Termine synchronisiert (0 Fehler)
+- Dr. Poesch: 3 Patienten (Becker, Augustin, Mueller) korrekt auf Saarbruecken (HerzkatheterID 7)
+- Alle anderen Standorte unveraendert (Rummelsberg 1+2, Offenbach, Braunschweig)
+
 ### Version 2.2.0 (05.04.2026)
 
 #### Aenderungen:

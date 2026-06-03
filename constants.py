@@ -87,6 +87,10 @@ DOCTORS = {
     "VUKANINOVIC": 10082,     # SQLHK ID 29
     "PLATSCHEK": 10091,       # SQLHK ID 31
     "MOHAMMED": 10097,        # SQLHK ID 32
+    "CHEN": 10103,            # SQLHK ID 33
+    "DEGENHARDT": 10104,      # SQLHK ID 34
+    "TEGTMAYER": 10105,       # SQLHK ID 37 (CallDoc: "Tegtmeyer") - employee_id in SQLHK noch NULL!
+    "GERHARDS": 10116,        # SQLHK ID 35 - employee_id in SQLHK noch NULL!
 }
 
 # Konstanten für Räume
@@ -103,8 +107,11 @@ ROOMS = {
     "LABOR": 17,
     "HERZKATHETER_1": 18,
     "HERZKATHETER_2": 19,
-    "HERZKATHETER_3": 54,   
+    "HERZKATHETER_3": 54,
     "HERZKATHETER_4": 61,
+    "HERZKATHETER_SAARBRUECKEN": 147,
+    "HERZKATHETER_REGENSBURG": 188,
+    "HERZKATHETER_AUGSBURG": 189,
     "FUNKTION_1": 20,
     "FUNKTION_2": 21,
     "SPRECHZIMMER_1": 22

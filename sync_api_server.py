@@ -262,7 +262,7 @@ def run_synchronization(task: SyncTask):
         # Ergebnis zusammenstellen
         task.result = {
             "calldoc": {
-                "total_appointments": len(appointments),
+                "total_appointments": total_raw,
                 "filtered_appointments": len(filtered_appointments),
                 "active_appointments": len(active_appointments),
                 "canceled_appointments": len(filtered_appointments) - len(active_appointments)
