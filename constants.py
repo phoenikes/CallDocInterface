@@ -110,8 +110,12 @@ ROOMS = {
     "HERZKATHETER_3": 54,
     "HERZKATHETER_4": 61,
     "HERZKATHETER_SAARBRUECKEN": 147,
-    "HERZKATHETER_REGENSBURG": 188,
-    "HERZKATHETER_AUGSBURG": 189,
+    # WICHTIG (08.06.2026): Augsburg/Regensburg waren vertauscht!
+    # CallDoc-Raum 188 = "Herzkatheter 1" @ Augsburg (NICHT Regensburg!)
+    # CallDoc-Raum 189 = "A3" @ Saarbruecken (war faelschlich als Augsburg gemappt)
+    "HERZKATHETER_AUGSBURG": 188,
+    # Regensburg/Burglengenfeld aktuell entkoppelt (SQLHK room_id=NULL), echter HK-Raum noch zu klaeren (204/206)
+    "HERZKATHETER_REGENSBURG": None,
     "FUNKTION_1": 20,
     "FUNKTION_2": 21,
     "SPRECHZIMMER_1": 22

@@ -546,16 +546,28 @@ Zeigt alle Herzkatheter-Standorte aus der SQLHK Datenbank.
 - **room_id**: Zuordnung zu CallDoc Raum
 - **Aktiv**: Ob der Standort aktiv ist
 
-### Aktuelle Standorte
-| Name | HerzkatheterID | room_id | Aktiv |
-|------|---------------|---------|-------|
-| Rummelsberg 1 | 1 | 18 | Ja |
-| Rummelsberg 2 | 2 | 19 | Ja |
-| Offenbach | 3 | 54 | Ja |
-| Braunschweig | 6 | 61 | Ja |
-| Saarbruecken | 7 | 147 | Ja |
-| Regensburg | 8 | 188 | Ja |
-| Augsburg | 9 | - | Ja |
+### Aktuelle Standorte (room_id KORRIGIERT 08.06.2026)
+| Name | HerzkatheterID | room_id | CallDoc room_name | Aktiv |
+|------|---------------|---------|-------------------|-------|
+| Rummelsberg 1 | 1 | 18 | Herzkatheter 1 | Ja |
+| Rummelsberg 2 | 2 | 19 | Herzkatheter 2 | Ja |
+| Offenbach | 3 | 54 | HKL | Ja |
+| Braunschweig | 6 | 61 | Herzkatheter | Ja |
+| Saarbruecken | 7 | 147 | HKL | Ja |
+| Regensburg | 8 | NULL | Burglengenfeld 204/206 - zu klaeren | Ja |
+| Augsburg | 9 | 188 | Herzkatheter 1 @ Augsburg | Ja |
+
+### ⚠️ BUGFIX 08.06.2026: Augsburg/Regensburg room_id waren VERTAUSCHT
+Patient Fischer (PIZ 1861968) wurde nicht in Augsburg gespeichert. Ursache: SQLHK hatte
+Augsburg (ID 9) auf room_id=189 und Regensburg (ID 8) auf room_id=188. Laut CallDoc `/rooms/`
+ist aber **room 188 = "Herzkatheter 1" @ Augsburg** (alle Augsburg-HK-Termine laufen ueber 188)
+und room 189 = "A3" @ Saarbruecken (toter Verweis). Folge: alle Augsburg-Patienten landeten
+still unter Regensburg.
+- **Fix:** `UPDATE Herzkatheter SET room_id=188 WHERE HerzkatheterID=9` (Augsburg),
+  `UPDATE Herzkatheter SET room_id=NULL WHERE HerzkatheterID=8` (Regensburg entkoppelt, 0 HK-Termine)
+- **constants.py:** HERZKATHETER_AUGSBURG=188, HERZKATHETER_REGENSBURG=None
+- **WICHTIG:** room_id muss DB-weit eindeutig sein! Bevor Regensburg wieder aktiviert wird,
+  echten Burglengenfeld-HK-Raum (CallDoc 204 "Herzkatheter" oder 206 "HKL") via `/rooms/` verifizieren.
 
 ## Slack-Integration (NEU - 12.01.2026)
 
